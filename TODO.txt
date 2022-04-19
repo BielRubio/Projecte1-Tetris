@@ -1,0 +1,32 @@
+Prototype Tetris
+
+Loop jugable
+
+-Pantalla inicio -> Nivel jugable
+
+-Nivel jugable -> Ganar / Perder
+
+-Pantalla victoria / derrota -> Pantalla inicio
+
+
+Pantalla inicio
+
+-Animacion al empezar
+-Informacion del grupo (creditos)
+-Pantalla inicio (insertar moneda) 
+-Dificultad
+
+Nivel Jugable
+
+-Piezas -> Mover piezas (izquirda/derecha), Girar, bajar, tiles individuales.
+-Detectar linea / Score
+-Detectar derrota
+
+
+-BG
+-Animaciones BG (entre niveles)
+
+
+Pantalla victoria / derrota
+
+-BG

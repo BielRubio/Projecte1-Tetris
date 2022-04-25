@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 
-#include "SDL/include/SDL_render.h"
+#include "External_Libraries/SDL/include/SDL_render.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack(bool startEnabled) : Module(startEnabled)
 {

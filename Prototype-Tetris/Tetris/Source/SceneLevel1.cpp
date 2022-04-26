@@ -24,27 +24,14 @@ bool SceneLevel1::Start()
 
 	bool ret = true;
 
-	bgTexture = App->textures->Load("Assets/Sprites/background.png");
-	App->audio->PlayMusic("Assets/Music/stage1.ogg", 1.0f);
-
-	//Bottomside collider
-	App->collisions->AddCollider({ 0, 224, 3930, 16 }, Collider::Type::WALL);
-
-	//First two columns colliders
-	App->collisions->AddCollider({ 1375, 0, 111, 96 }, Collider::Type::WALL);
-	App->collisions->AddCollider({ 1375, 145, 111, 96 }, Collider::Type::WALL);
-
-
-	App->render->camera.x = 0;
-	App->render->camera.y = 0;
-
+	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
+	//App->audio->PlayMusic("Assets/Music/stage1.ogg", 1.0f);
 
 	return ret;
 }
 
 Update_Status SceneLevel1::Update()
 {
-	App->render->camera.x += 3;
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -60,9 +47,6 @@ Update_Status SceneLevel1::PostUpdate()
 
 bool SceneLevel1::CleanUp()
 {
-	App->player->Disable();
-
-	// TODO 5 (old): Remove All Memory Leaks - no solution here guys ;)
 
 	return true;
 }

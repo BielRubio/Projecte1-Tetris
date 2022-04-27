@@ -25,7 +25,7 @@ bool SceneIntro_1::Start()
 	bool ret = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/titlescreen_1.png");
-	//App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska", 1.0f);
+	/*App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska", 1.0f);*/
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;

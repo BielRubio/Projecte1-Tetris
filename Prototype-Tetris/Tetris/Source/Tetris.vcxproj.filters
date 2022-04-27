@@ -61,6 +61,9 @@
     <ClCompile Include="SceneIntro_2.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleTetromino.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -127,6 +130,9 @@
       <Filter>Sources Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="SceneIntro_2.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTetromino.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

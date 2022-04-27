@@ -63,8 +63,13 @@ public:
 
 	// Font score index
 	uint score = 000;
-	int scoreFont = -1;
-	char scoreText[10] = { "\0" };
+	int WhiteFont = -1;
+	char WhiteFontText[10] = { "\0" };
+	int BlueFont = 0;
+	char BlueFontText[10] = { "\0" };
+	int RedFont = 1;
+	char RedFontText[10] = { "\0" };
+
 
 };
 

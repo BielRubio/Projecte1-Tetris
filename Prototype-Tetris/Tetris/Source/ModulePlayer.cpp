@@ -60,7 +60,9 @@ bool ModulePlayer::Start()
 
 	// TODO 4: Try loading "rtype_font3.png" that has two rows to test if all calculations are correct
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
-	scoreFont = App->fonts->Load("Assets/Fonts/FontWhite.png", lookupTable, 1);
+	WhiteFont = App->fonts->Load("Assets/Fonts/FontWhite.png", lookupTable, 1);
+	BlueFont = App->fonts->Load("Assets/Fonts/FontBlue.png", lookupTable, 1);
+	RedFont = App->fonts->Load("Assets/Fonts/FontRed.png", lookupTable, 1);
 
 	return ret;
 }
@@ -128,14 +130,19 @@ Update_Status ModulePlayer::PostUpdate()
 	}
 
 	// Draw UI (score) --------------------------------------
-	sprintf_s(scoreText, 10, "%7d", score);
+	sprintf_s(WhiteFontText, 10, "%7d", score);
 
 	// TODO 3: Blit the text of the score in at the bottom of the screen
-	App->fonts->BlitText(58, 248, scoreFont, scoreText);
+	App->fonts->BlitText(58, 248, WhiteFont, WhiteFontText);
 
 	//App->fonts->BlitText(150, 248, scoreFont, "this is just a font test");
-	App->fonts->BlitText(0, 0, scoreFont, "this is just a font test");
-
+	App->fonts->BlitText(24, 215, RedFont, "score");
+	App->fonts->BlitText(10, 12, RedFont, "next");
+	App->fonts->BlitText(24, 224, RedFont, "lines");
+	App->fonts->BlitText(242, 55, WhiteFont, "stats");
+	App->fonts->BlitText(125, 185, BlueFont, "high score");
+	App->fonts->BlitText(125, 210, BlueFont, "round");
+	App->fonts->BlitText(125, 224, BlueFont, "credits");
 	return Update_Status::UPDATE_CONTINUE;
 }
 

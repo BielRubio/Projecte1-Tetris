@@ -43,8 +43,12 @@ bool SceneLevel1::Start()
 
 Update_Status SceneLevel1::Update()
 {
+<<<<<<< Updated upstream
 	currentAnimation->Update();
 
+=======
+	App->player->Enable();
+>>>>>>> Stashed changes
 	return Update_Status::UPDATE_CONTINUE;
 }
 

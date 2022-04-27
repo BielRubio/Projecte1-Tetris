@@ -6,6 +6,7 @@
 #include "ModuleAudio.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
+#include "ModulePlayer.h"
 
 SceneIntro_2::SceneIntro_2(bool startEnabled) : Module(startEnabled)
 {

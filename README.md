@@ -5,27 +5,27 @@
   
 ## Members
 
-Javier Valencia 
+**Javier Valencia**
 
 * Design
 * Github: [JaviVP](https://github.com/JaviVP)
 
-Biel Rubio
+**Biel Rubio**
 
 * Art
 * Github: [BielRubio](https://github.com/BielRubio)
 
-Sergi Rubio
+**Sergi Rubio**
 
 * Code
 * Github: [SergiRubio156](https://github.com/SergiRubio156)
 
-Nacho Moreno
+**Nacho Moreno**
 
 * Management/Q&A
 * Github: [NachoMoren](https://github.com/NachoMoren)
 
-Maksym Polupan
+**Maksym Polupan**
 
 * Code
 * Github: [Maksym203](https://github.com/Maksym203)

@@ -31,6 +31,9 @@ bool SceneDifficultyMenu::Start()
 	ARTexture = App->textures->Load("Assets/Sprites/ArrowR.png");
 	ALTexture = App->textures->Load("Assets/Sprites/ArrowL.png");
 
+	Select = App->audio->LoadFx("Assets/Fx/tetris_selected_difficulty.wav");
+	Switch = App->audio->LoadFx("Assets/Fx/tetris_select_difficulty.wav");
+
 	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
 	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
 	BlueFont = App->fonts->Load("Assets/Fonts/BLUE.png", lookupTable, 1);
@@ -42,18 +45,25 @@ bool SceneDifficultyMenu::Start()
 Update_Status SceneDifficultyMenu::Update()
 {
 	frameCount++;
-	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 100)
+	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 100 || SelectAux == true)
 	{
+		SecondFrameCount++;
+		SelectAux = true;
+		App->audio->PlayFx(Select);
+	}
+	if (SecondFrameCount >= 60) {
 		this->Disable();
 		App->sceneLevel_1->Enable();
 	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 2)
 	{
 		Selection++;
+		App->audio->PlayFx(Switch);
 	}
 	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 0)
 	{
 		Selection--;
+		App->audio->PlayFx(Switch);
 	}
 
 	return Update_Status::UPDATE_CONTINUE;

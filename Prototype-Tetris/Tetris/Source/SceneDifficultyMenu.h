@@ -33,9 +33,13 @@ public:
 	SDL_Texture* ARTexture = nullptr;
 	SDL_Texture* ALTexture = nullptr;
 
-	int frameCount = 0;
+	int frameCount = 0, SecondFrameCount = 0;;
+	//FX sounds
+	uint Select = 0;
+	uint Switch = 0;
 	//Selection state, 0 = Easy, 1 = Medium, 2 = Hard 
 	int Selection = 0;
+	bool SelectAux = false;
 	//Fonts
 	int WhiteFont = -1;
 	char WhiteFontText[10] = { "\0" };

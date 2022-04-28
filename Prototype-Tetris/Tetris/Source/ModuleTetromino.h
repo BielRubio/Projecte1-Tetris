@@ -35,9 +35,9 @@ public:
 
 public:
 	//Matrix containing the map
-	//needed 22 instead of 20 to make the block start properly
-	int map[20][10] = {0};
+	int map[23][10] = {0};
 
+	enum { xOffset = 32, yOffset = 40};
 	Animation idleAnim; 
 
 	iPoint position; 

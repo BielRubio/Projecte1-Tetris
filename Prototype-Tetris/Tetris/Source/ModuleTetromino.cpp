@@ -139,16 +139,16 @@ Update_Status ModuleTetromino::PostUpdate() {
 	SDL_Rect rect = idleAnim.GetCurrentFrame();
 	//Print the map
 	int type = 0;
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 23; i++) {
 		for (int j = 0; j < 10; j++){
 			if (map[i][j]==1) {
-				App->render->Blit(blocks, j*7,  i*7 , &rect);
+				App->render->Blit(blocks, xOffset + j*7, yOffset + i*7 , &rect);
 			}
 		}
 	}
 	//Print the block
 	for (int i = 0; i < 4; i++) {
-		App->render->Blit(blocks, block[i].x*7, block[i].y*7, &rect);
+		App->render->Blit(blocks, xOffset + block[i].x*7, yOffset + block[i].y*7, &rect);
 	}
 	
 	return Update_Status::UPDATE_CONTINUE;
@@ -166,7 +166,7 @@ void ModuleTetromino::nextTetromino() {
 
 bool ModuleTetromino::allowMovement() {
 	for (int i = 0; i < 4; i++) {
-		if (block[i].x < 0 || block[i].x >= 10 || block[i].y >= 20) {
+		if (block[i].x < 0 || block[i].x >= 10 || block[i].y >= 23) {
 			return false;
 		}
 		else if(map[block[i].y][block[i].x]){

@@ -39,7 +39,7 @@ Tetris is a puzzle video game created by the Russian scientist [Alexey Pajitnov]
 ## Controls
 
 Tetris controls are simple.
-To be able to control the pieces we will use **A**(move to the left), **D**(move to the right), **A** (Rotate the piece) and finally **S**(Lower the piece with greater speed). The functionality controls are F1 God_mode(View Colliders), F4 Game_Over(The game ends).
+To be able to control the pieces we will use **A**(move to the left), **D**(move to the right), **A** (Rotate the piece) and finally **S**(Lower the piece with greater speed). The functionality controls are **F1** God_mode(View Colliders), **F4** Game_Over(The game ends).
 
 
 

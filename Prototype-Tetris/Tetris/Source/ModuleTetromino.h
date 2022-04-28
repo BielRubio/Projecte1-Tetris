@@ -35,9 +35,9 @@ public:
 
 public:
 	//Matrix containing the map
-	int map[23][10] = {0};
+	int map[20][10] = {0};
 
-	enum { xOffset = 32, yOffset = 40};
+	enum { xOffset = 33, yOffset = 41};
 	Animation idleAnim; 
 
 	iPoint position; 

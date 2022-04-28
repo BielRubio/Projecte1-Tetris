@@ -30,7 +30,12 @@ public:
 public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
+	SDL_Texture* ARTexture = nullptr;
+	SDL_Texture* ALTexture = nullptr;
+
 	int frameCount = 0;
+	//Selection state, 0 = Easy, 1 = Medium, 2 = Hard 
+	int Selection = 0;
 	//Fonts
 	int WhiteFont = -1;
 	char WhiteFontText[10] = { "\0" };

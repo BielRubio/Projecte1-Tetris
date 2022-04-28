@@ -59,3 +59,10 @@ Update_Status SceneIntro_2::PostUpdate()
 
 	return Update_Status::UPDATE_CONTINUE;
 }
+
+bool SceneIntro_2::CleanUp()
+{
+	App->particles->Disable();
+
+	return true;
+}

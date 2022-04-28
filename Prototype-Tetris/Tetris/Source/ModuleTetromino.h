@@ -39,9 +39,9 @@ public:
 
 public:
 	//Matrix containing the map
-	//needed 22 instead of 20 to make the block start properly
 	int map[20][10] = {0};
 
+	enum { xOffset = 33, yOffset = 41};
 	Animation idleAnim; 
 
 	iPoint position; 
@@ -67,6 +67,8 @@ public:
 	bool rotate = false; 
 	//a variable that will move the tetromino
 	int move = 0; 
+	//Fx
+	uint Drop = 0;
 
 };
 

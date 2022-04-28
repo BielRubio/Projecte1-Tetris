@@ -40,15 +40,15 @@ Application::Application()
 	modules[9] =	sceneIntro_2 =  new SceneIntro_2(false);
 	modules[10] =   sceneDifficulty = new SceneDifficultyMenu(false);
 	modules[11] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
-	modules[12]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
-	//modules[14] =	functionality = new ModuleFunctionality(false);
-	modules[13] =	particles =		new ModuleParticles(true);	
+	modules[12] =	player =		new ModulePlayer(false);	//Player starts disabled
+	modules[13]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
+	modules[14] =	particles =		new ModuleParticles(true);	
 	
 
-	modules[14] =	collisions =	new ModuleCollisions(true);
-	modules[15] =	fade =			new ModuleFadeToBlack(true);
-	modules[16] =	fonts =			new ModuleFonts(true);
-	modules[17] =	render =		new ModuleRender(true);
+	modules[15] =	collisions =	new ModuleCollisions(true);
+	modules[16] =	fade =			new ModuleFadeToBlack(true);
+	modules[17] =	fonts =			new ModuleFonts(true);
+	modules[18] =	render =		new ModuleRender(true);
 }
 
 Application::~Application()

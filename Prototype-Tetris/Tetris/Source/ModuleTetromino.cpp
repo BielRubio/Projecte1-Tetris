@@ -44,6 +44,7 @@ bool ModuleTetromino::Start() {
 	LOG("Loading Tetrominoes_textures");
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
+	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 	nextTetromino();
 	bool ret = true; 
 
@@ -107,6 +108,14 @@ Update_Status ModuleTetromino::Update() {
 		for (int i = 0; i < 4; i++) {
 			block[i].y++;
 		}
+		if (allowMovement() == false)
+		{
+			for (int i = 0; i < 4; i++) {
+				map[cBlock[i].y][cBlock[i].x]=1;
+			}
+		App->audio->PlayFx(Drop);
+		nextTetromino();
+		}
 		frameCount = 0;
 	}
 	
@@ -141,7 +150,7 @@ Update_Status ModuleTetromino::PostUpdate() {
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 10; j++){
 			if (map[i][j]==1) {
-				App->render->Blit(blocks, j*7,  i*7 , &rect);
+				App->render->Blit(blocks, xOffset + j*8, yOffset + i*8 , &rect);
 			}
 		}
 	}

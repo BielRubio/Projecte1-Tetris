@@ -60,6 +60,8 @@ public:
 	bool rotate = false; 
 	//a variable that will move the tetromino
 	int move = 0; 
+	//Fx
+	uint Drop = 0;
 
 };
 

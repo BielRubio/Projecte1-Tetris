@@ -6,6 +6,8 @@
 #include "ModuleAudio.h"
 #include "ModuleCollisions.h"
 #include "ModulePlayer.h"
+#include "ModuleFonts.h"
+#include <stdio.h>
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -38,6 +40,12 @@ bool SceneLevel1::Start()
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 
+	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
+	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
+	BlueFont = App->fonts->Load("Assets/Fonts/BLUE.png", lookupTable, 1);
+	RedFont = App->fonts->Load("Assets/Fonts/RED.png", lookupTable, 1);
+
+
 	return ret;
 }
 
@@ -45,7 +53,6 @@ Update_Status SceneLevel1::Update()
 {
 	currentAnimation->Update();
 
-	App->player->Enable();
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -57,6 +64,21 @@ Update_Status SceneLevel1::PostUpdate()
 
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	App->render->Blit(curtainTexture, 128, 96, &rect);
+
+	// Draw UI (score) --------------------------------------
+	sprintf_s(WhiteFontText, 10, "%7d", score);
+
+	// TODO 3: Blit the text of the score in at the bottom of the screen
+	App->fonts->BlitText(58, 248, WhiteFont, WhiteFontText);
+
+	//App->fonts->BlitText(150, 248, scoreFont, "this is just a font test");
+	App->fonts->BlitText(24, 217, RedFont, "score");
+	App->fonts->BlitText(10, 12, RedFont, "next");
+	App->fonts->BlitText(24, 226, RedFont, "lines");
+	App->fonts->BlitText(245, 55, WhiteFont, "stats");
+	App->fonts->BlitText(125, 185, BlueFont, "high score");
+	App->fonts->BlitText(125, 210, BlueFont, "round");
+	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
 	return Update_Status::UPDATE_CONTINUE;
 }

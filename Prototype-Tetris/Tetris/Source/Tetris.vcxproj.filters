@@ -76,6 +76,9 @@
     <ClCompile Include="SceneMembers.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="SceneDifficultyMenu.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -157,6 +160,9 @@
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="SceneMembers.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneDifficultyMenu.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

@@ -77,6 +77,10 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="SceneDescription.h" />
+    <ClInclude Include="SceneDetails.h" />
+    <ClInclude Include="SceneLogo.h" />
+    <ClInclude Include="SceneMembers.h" />
     <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleCollisions.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
@@ -101,7 +105,11 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="SceneDescription.cpp" />
+    <ClCompile Include="SceneDetails.cpp" />
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="SceneLogo.cpp" />
+    <ClCompile Include="SceneMembers.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCollisions.cpp" />
     <ClCompile Include="ModuleFadeToBlack.cpp" />

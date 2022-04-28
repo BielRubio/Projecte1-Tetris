@@ -8,6 +8,8 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
+#include "SceneLevel1.h"
+
 SceneIntro_2::SceneIntro_2(bool startEnabled) : Module(startEnabled)
 {
 
@@ -35,7 +37,8 @@ Update_Status SceneIntro_2::Update()
 {
 	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 	{
-		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 90);
+		this->Disable();
+		App->sceneLevel_1->Enable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;

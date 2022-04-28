@@ -64,6 +64,18 @@
     <ClCompile Include="ModuleTetromino.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLogo.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneDescription.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneDetails.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMembers.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -133,6 +145,18 @@
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="ModuleTetromino.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLogo.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneDescription.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneDetails.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMembers.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

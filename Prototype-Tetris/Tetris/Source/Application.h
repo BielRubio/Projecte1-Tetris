@@ -3,7 +3,7 @@
 
 #include "Globals.h"
 
-#define NUM_MODULES 14
+#define NUM_MODULES 15
 
 class Module;
 class ModuleWindow;
@@ -20,6 +20,7 @@ class ModuleFadeToBlack;
 class ModuleFonts;
 class ModuleRender;
 class ModuleTetromino; 
+class SceneDifficultyMenu;
 
 class Application
 {
@@ -55,6 +56,7 @@ public:
 
 	SceneIntro_1* sceneIntro_1 = nullptr;
 	SceneIntro_2* sceneIntro_2 = nullptr;
+	SceneDifficultyMenu* difficulty = nullptr;
 	SceneLevel1* sceneLevel_1 = nullptr;
 
 	ModuleParticles* particles = nullptr;

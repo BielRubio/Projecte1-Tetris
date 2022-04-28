@@ -40,10 +40,10 @@ bool SceneLevel1::Start()
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 
-	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
-	WhiteFont = App->fonts->Load("Assets/Fonts/FontWhite.png", lookupTable, 1);
-	BlueFont = App->fonts->Load("Assets/Fonts/FontBlue.png", lookupTable, 1);
-	RedFont = App->fonts->Load("Assets/Fonts/FontRed.png", lookupTable, 1);
+	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
+	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
+	BlueFont = App->fonts->Load("Assets/Fonts/BLUE.png", lookupTable, 1);
+	RedFont = App->fonts->Load("Assets/Fonts/RED.png", lookupTable, 1);
 
 
 	return ret;
@@ -72,10 +72,10 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(58, 248, WhiteFont, WhiteFontText);
 
 	//App->fonts->BlitText(150, 248, scoreFont, "this is just a font test");
-	App->fonts->BlitText(24, 215, RedFont, "score");
+	App->fonts->BlitText(24, 217, RedFont, "score");
 	App->fonts->BlitText(10, 12, RedFont, "next");
-	App->fonts->BlitText(24, 224, RedFont, "lines");
-	App->fonts->BlitText(242, 55, WhiteFont, "stats");
+	App->fonts->BlitText(24, 226, RedFont, "lines");
+	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");

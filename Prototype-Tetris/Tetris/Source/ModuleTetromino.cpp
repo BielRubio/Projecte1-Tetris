@@ -131,10 +131,10 @@ void ModuleTetromino::nextTetromino() {
 
 bool ModuleTetromino::allowMovement() {
 	for (int i = 0; i < 4; i++) {
-		if (App->tetromino->block[i].x < 0 || App->tetromino->block[i].x >= 10 || App->tetromino->block[i].x >= 20) {
+		if (block[i].x < 0 || block[i].x >= 10 || block[i].x >= 20) {
 			return false;
 		}
-		else if(App->tetromino->map[App->tetromino->block[i].y][App->tetromino->block[i].x]){
+		else if(map[block[i].y][block[i].x]){
 			return false;
 		}
 	}

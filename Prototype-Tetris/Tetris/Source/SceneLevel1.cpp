@@ -7,6 +7,7 @@
 #include "ModuleCollisions.h"
 #include "ModulePlayer.h"
 #include "ModuleFonts.h"
+#include "ModuleTetromino.h"
 #include <stdio.h>
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
@@ -45,6 +46,8 @@ bool SceneLevel1::Start()
 	BlueFont = App->fonts->Load("Assets/Fonts/BLUE.png", lookupTable, 1);
 	RedFont = App->fonts->Load("Assets/Fonts/RED.png", lookupTable, 1);
 
+	App->tetromino->Enable();
+
 
 	return ret;
 }
@@ -79,6 +82,7 @@ Update_Status SceneLevel1::PostUpdate()
 
 bool SceneLevel1::CleanUp()
 {
+	App->tetromino->Disable();
 
 	return true;
 }

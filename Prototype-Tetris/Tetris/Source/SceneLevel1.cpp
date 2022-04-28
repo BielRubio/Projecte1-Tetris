@@ -5,7 +5,6 @@
 #include "ModuleRender.h"
 #include "ModuleAudio.h"
 #include "ModuleCollisions.h"
-#include "ModulePlayer.h"
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include <stdio.h>
@@ -38,6 +37,11 @@ bool SceneLevel1::Start()
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	currentAnimation = &curtainAnim;
+
+
+	App->collisions->AddCollider({ 20, 211, 3930, 16 }, Collider::Type::D_WALL);
+	App->collisions->AddCollider({ 0, 0, 25, 296 }, Collider::Type::L_WALL);
+	App->collisions->AddCollider({ 120, 0, 25, 296 }, Collider::Type::R_WALL);
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 

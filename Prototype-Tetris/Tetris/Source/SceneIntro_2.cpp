@@ -6,11 +6,9 @@
 #include "ModuleAudio.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-#include "ModulePlayer.h"
+
 #include "SceneDifficultyMenu.h"
 #include "ModuleParticles.h"
-
-#include "SceneLevel1.h"
 
 SceneIntro_2::SceneIntro_2(bool startEnabled) : Module(startEnabled)
 {
@@ -45,7 +43,8 @@ Update_Status SceneIntro_2::Update()
 {
 	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 	{
-		App->fade->FadeToBlack(this, (Module*)App->sceneDifficulty, 90);
+		this->Disable();
+		App->sceneDifficulty->Enable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;

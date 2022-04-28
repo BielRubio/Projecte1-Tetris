@@ -30,6 +30,14 @@ public:
 public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
+	int frameCount = 0;
+	//Fonts
+	int WhiteFont = -1;
+	char WhiteFontText[10] = { "\0" };
+	int BlueFont = 0;
+	char BlueFontText[10] = { "\0" };
+	int RedFont = 1;
+	char RedFontText[10] = { "\0" };
 };
 
 #endif

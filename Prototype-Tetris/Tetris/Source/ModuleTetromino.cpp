@@ -176,12 +176,3 @@ bool ModuleTetromino::allowMovement() {
 	}
 	return true;
 }
-
-void ModuleTetromino::setRectPos(SDL_Rect& rect, int x, int y, int w, int h) {
-	rect = { x, y, w, h };
-}
-
-void ModuleTetromino::moveRectPos(SDL_Rect& rect, int x, int y) {
-	rect.x += x;
-	rect.y += y;
-}

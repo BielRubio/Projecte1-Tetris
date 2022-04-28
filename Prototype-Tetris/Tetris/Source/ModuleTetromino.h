@@ -33,11 +33,6 @@ public:
 	//Called every time a tetromino is moved, in order to authorize the movement
 	bool allowMovement();
 
-	void setRectPos(SDL_Rect& rect, int x = 0, int y = 0, int w = 36, int h = 36);
-
-	void moveRectPos(SDL_Rect& rect, int x, int y);
-
-
 public:
 	//Matrix containing the map
 	//needed 22 instead of 20 to make the block start properly

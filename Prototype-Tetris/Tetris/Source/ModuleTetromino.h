@@ -32,10 +32,18 @@ public:
 	void nextTetromino();
 	//Called every time a tetromino is moved, in order to authorize the movement
 	bool allowMovement();
+
+	void setRectPos(SDL_Rect& rect, int x = 0, int y = 0, int w = 36, int h = 36);
+
+	void moveRectPos(SDL_Rect& rect, int x, int y);
+
+
 public:
 	//Matrix containing the map
 	//needed 22 instead of 20 to make the block start properly
-	int map[10][20] = {0};
+	int map[20][10] = {0};
+
+	Animation idleAnim; 
 
 	iPoint position; 
 
@@ -57,10 +65,7 @@ public:
 	bool rotate = false; 
 	//a variable that will move the tetromino
 	int move = 0; 
-	//time variables
-	uint runTime = 0;
-	uint lastTickTime = 0;
-	uint timeDiff = 0;
+
 };
 
 #endif //__MODULE_TETROMINO_H__

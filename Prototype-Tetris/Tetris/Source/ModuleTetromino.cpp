@@ -10,6 +10,7 @@
 #include "ModuleFonts.h"
 
 #include "../External_Libraries/SDL/include/SDL_timer.h"
+#include "SDL/include/SDL_render.h"
 #include <stdio.h>
 
 /* Printing positions
@@ -30,7 +31,7 @@ const int ModuleTetromino::tetrominoes[7][4]{
 //Load animations
 ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 {
-
+	idleAnim.PushBack({113, 1, 7, 7});
 }
 
 
@@ -41,16 +42,18 @@ ModuleTetromino::~ModuleTetromino()
 
 //Load the textures
 bool ModuleTetromino::Start() {
+	LOG("Loading Tetrominoes_textures");
+	
+	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
+	nextTetromino();
 	bool ret = true; 
-
+	
 	return ret; 
 }
 
 Update_Status ModuleTetromino::Update() {
 
-	runTime = SDL_GetTicks();
-	timeDiff = runTime - lastTickTime;
-	lastTickTime = runTime;
+	
 
 	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN) {
 		move = -1;
@@ -60,6 +63,9 @@ Update_Status ModuleTetromino::Update() {
 	}
 	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN) {
 		rotate = true;
+	}
+	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
+		frameCount += 10;
 	}
 	
 	//current tetromino copy in case a movement is not allowed
@@ -73,14 +79,14 @@ Update_Status ModuleTetromino::Update() {
 			block[i].x += move; 
 		}
 	}
-	//Rotate
-	if (rotate != 0) {
+	//Rotate (revisar)
+	if (rotate == true) {
 		Point p = block[2]; //We store the center of the rotation
 		for (int i = 0; i < 4; i++) {
 			int x = block[i].x - p.y;
 			int y = block[i].y - p.x;
 			block[i].x = p.x - x;
-			block[i].y = p.y - y;
+			block[i].y = p.y + y;
 		}
 		if (allowMovement() == false) {
 			for (int i = 0; i < 4; i++) {
@@ -88,8 +94,9 @@ Update_Status ModuleTetromino::Update() {
 			}
 		}
 	}
-	//falling
-	if (timeDiff > 300) {
+	//Falling
+	frameCount++;
+	if (frameCount >= 50) {
 		for (int i = 0; i < 4; i++) {
 			cBlock[i] = block[i];
 		}
@@ -99,13 +106,28 @@ Update_Status ModuleTetromino::Update() {
 		if (allowMovement() == false)
 		{
 			for (int i = 0; i < 4; i++) {
-				//actualizacion del map (falta pintar los bloques)
-				map[cBlock[i].y][cBlock[i].x];
+				map[cBlock[i].y][cBlock[i].x]=1;
 			}
-			nextTetromino();
+		nextTetromino();
 		}
-		timeDiff = 0;
+		frameCount = 0;
 	}
+	//Check lines
+	int k = 19;
+	for (int i = k; i > 0; i--) {
+		int count = 0; 
+		for (int j = 0; j < 10; j++) {
+			if (map[i][j]==1) {
+				count++;
+			}
+			map[k][j] = map[i][j];
+		}
+		if (count < 10) {
+			k--;
+		}
+	}
+
+	
 	
 	
 	move = 0;
@@ -115,13 +137,27 @@ Update_Status ModuleTetromino::Update() {
 }
 
 Update_Status ModuleTetromino::PostUpdate() {
-
+	SDL_Rect rect = idleAnim.GetCurrentFrame();
+	//Print the map
+	int type = 0;
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 10; j++){
+			if (map[i][j]==1) {
+				App->render->Blit(blocks, j*7,  i*7 , &rect);
+			}
+		}
+	}
+	//Print the block
+	for (int i = 0; i < 4; i++) {
+		App->render->Blit(blocks, block[i].x*7, block[i].y*7, &rect);
+	}
+	
 	return Update_Status::UPDATE_CONTINUE;
 }
 
 //This method picks a random number between 0 and 7 and loads a random tetromino
 void ModuleTetromino::nextTetromino() {
-	int n = rand() % 7;
+	int n = 3; // rand() % 7;
 	for (int i = 0; i < 4; i++) {
 		block[i].x = tetrominoes[n][i] % 4;
 		block[i].y = int (tetrominoes[n][i] / 4);
@@ -131,12 +167,21 @@ void ModuleTetromino::nextTetromino() {
 
 bool ModuleTetromino::allowMovement() {
 	for (int i = 0; i < 4; i++) {
-		if (App->tetromino->block[i].x < 0 || App->tetromino->block[i].x >= 10 || App->tetromino->block[i].x >= 20) {
+		if (block[i].x < 0 || block[i].x >= 10 || block[i].y >= 20) {
 			return false;
 		}
-		else if(App->tetromino->map[App->tetromino->block[i].y][App->tetromino->block[i].x]){
+		else if(map[block[i].y][block[i].x]){
 			return false;
 		}
 	}
 	return true;
+}
+
+void ModuleTetromino::setRectPos(SDL_Rect& rect, int x, int y, int w, int h) {
+	rect = { x, y, w, h };
+}
+
+void ModuleTetromino::moveRectPos(SDL_Rect& rect, int x, int y) {
+	rect.x += x;
+	rect.y += y;
 }

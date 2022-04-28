@@ -38,7 +38,7 @@ Update_Status SceneMembers::Update()
 {
 	frameCount++;
 
-	if (frameCount >= 100)
+	if (frameCount >= 100 || App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 	{
 		this->Disable();
 		App->sceneIntro_1->Enable();

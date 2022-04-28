@@ -8,6 +8,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "SceneDifficultyMenu.h"
+#include "ModuleParticles.h"
 
 #include "SceneLevel1.h"
 
@@ -29,7 +30,10 @@ bool SceneIntro_2::Start()
 	bool ret = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/titlescreen_2.png");
-	//App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska", 1.0f);
+
+	App->particles->AddParticle(App->particles->firework, 233, 27, Collider::Type::NONE, 0);
+	App->particles->AddParticle(App->particles->firework, 65, 19, Collider::Type::NONE, 14);
+
 
 	return ret;
 }

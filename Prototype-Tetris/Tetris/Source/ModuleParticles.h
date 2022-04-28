@@ -54,7 +54,8 @@ public:
 
 public:
 
-	Particle firework;
+	Particle firework1;
+	Particle firework2;
 
 private:
 	// Particles spritesheet loaded into an SDL Texture

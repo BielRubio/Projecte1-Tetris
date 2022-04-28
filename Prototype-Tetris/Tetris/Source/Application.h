@@ -25,7 +25,6 @@ class ModuleFadeToBlack;
 class ModuleFonts;
 class ModuleRender;
 class ModuleTetromino; 
-class ModuleFunctionality;
 
 
 class Application
@@ -76,8 +75,6 @@ public:
 	ModuleFonts* fonts = nullptr;
 
 	ModuleTetromino* tetromino = nullptr;
-
-	ModuleFunctionality* functionality = nullptr;
 
 	ModuleRender* render = nullptr;
 };

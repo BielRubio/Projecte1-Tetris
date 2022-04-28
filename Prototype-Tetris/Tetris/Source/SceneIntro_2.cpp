@@ -31,8 +31,11 @@ bool SceneIntro_2::Start()
 
 	bgTexture = App->textures->Load("Assets/Sprites/titlescreen_2.png");
 
-	App->particles->AddParticle(App->particles->firework, 233, 27, Collider::Type::NONE, 0);
-	App->particles->AddParticle(App->particles->firework, 65, 19, Collider::Type::NONE, 14);
+	App->particles->AddParticle(App->particles->firework1, 233, 27, Collider::Type::NONE, 0);
+	App->particles->AddParticle(App->particles->firework1, 65, 19, Collider::Type::NONE, 14);
+	App->particles->AddParticle(App->particles->firework2, 187, 20, Collider::Type::NONE, 30);
+	App->particles->AddParticle(App->particles->firework2, 19, 44, Collider::Type::NONE, 40);
+	App->particles->AddParticle(App->particles->firework2, 283, 44, Collider::Type::NONE, 40);
 
 
 	return ret;

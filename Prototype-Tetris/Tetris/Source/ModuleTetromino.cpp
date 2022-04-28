@@ -10,7 +10,6 @@
 #include "ModuleFonts.h"
 
 #include "../External_Libraries/SDL/include/SDL_timer.h"
-#include "SDL/include/SDL_render.h"
 #include <stdio.h>
 
 /* Printing positions
@@ -157,7 +156,7 @@ Update_Status ModuleTetromino::PostUpdate() {
 
 //This method picks a random number between 0 and 7 and loads a random tetromino
 void ModuleTetromino::nextTetromino() {
-	int n = 3; // rand() % 7;
+	int n = rand() % 7;
 	for (int i = 0; i < 4; i++) {
 		block[i].x = tetrominoes[n][i] % 4;
 		block[i].y = int (tetrominoes[n][i] / 4);

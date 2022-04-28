@@ -1,6 +1,6 @@
 # Projecte1-Tetris
 
-##Link TetrisTeam
+## Link TetrisTeam
   (https://github.com/BielRubio/Projecte1-Tetris)
   
 ## Members

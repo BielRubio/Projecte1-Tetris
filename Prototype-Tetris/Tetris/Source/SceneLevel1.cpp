@@ -66,12 +66,6 @@ Update_Status SceneLevel1::PostUpdate()
 	App->render->Blit(curtainTexture, 128, 96, &rect);
 
 	// Draw UI (score) --------------------------------------
-	sprintf_s(WhiteFontText, 10, "%7d", score);
-
-	// TODO 3: Blit the text of the score in at the bottom of the screen
-	App->fonts->BlitText(58, 248, WhiteFont, WhiteFontText);
-
-	//App->fonts->BlitText(150, 248, scoreFont, "this is just a font test");
 	App->fonts->BlitText(24, 217, RedFont, "score");
 	App->fonts->BlitText(10, 12, RedFont, "next");
 	App->fonts->BlitText(24, 226, RedFont, "lines");

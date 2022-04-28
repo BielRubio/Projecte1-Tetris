@@ -38,7 +38,7 @@ Application::Application()
 	modules[7] =	sceneMembers = new SceneMembers(false);
 	modules[8] =	sceneIntro_1 =	new SceneIntro_1(false);
 	modules[9] =	sceneIntro_2 =  new SceneIntro_2(false);
-	modules[10] =    sceneDifficulty = new SceneDifficultyMenu(false);
+	modules[10] =   sceneDifficulty = new SceneDifficultyMenu(false);
 	modules[11] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
 	modules[12] =	player =		new ModulePlayer(false);	//Player starts disabled
 	modules[13]=	tetromino =		new ModuleTetromino(false);

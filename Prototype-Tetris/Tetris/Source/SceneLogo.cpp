@@ -6,7 +6,6 @@
 #include "ModuleAudio.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-
 #include "SceneDescription.h"
 
 SceneLogo::SceneLogo(bool startEnabled) : Module(startEnabled)

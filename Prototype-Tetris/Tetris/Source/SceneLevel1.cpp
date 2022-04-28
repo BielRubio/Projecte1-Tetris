@@ -36,7 +36,7 @@ bool SceneLevel1::Start()
 
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
-
+	
 	currentAnimation = &curtainAnim;
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");

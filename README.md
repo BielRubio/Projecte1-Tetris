@@ -5,27 +5,27 @@
   
 ## Members
 
-Javier Valencia 
+**Javier Valencia**
 
 * Design
 * Github: [JaviVP](https://github.com/JaviVP)
 
-Biel Rubio
+**Biel Rubio**
 
 * Art
 * Github: [BielRubio](https://github.com/BielRubio)
 
-Sergi Rubio
+**Sergi Rubio**
 
 * Code
 * Github: [SergiRubio156](https://github.com/SergiRubio156)
 
-Nacho Moreno
+**Nacho Moreno**
 
 * Management/Q&A
 * Github: [NachoMoren](https://github.com/NachoMoren)
 
-Maksym Polupan
+**Maksym Polupan**
 
 * Code
 * Github: [Maksym203](https://github.com/Maksym203)
@@ -39,7 +39,7 @@ Tetris is a puzzle video game created by the Russian scientist [Alexey Pajitnov]
 ## Controls
 
 Tetris controls are simple.
-To be able to control the pieces we will use **A**(move to the left), **D**(move to the right), **A** (Rotate the piece) and finally **S**(Lower the piece with greater speed).
+To be able to control the pieces we will use **A**(move to the left), **D**(move to the right), **A** (Rotate the piece) and finally **S**(Lower the piece with greater speed). The functionality controls are **F1** God_mode(View Colliders), **F4** Game_Over(The game ends).
 
 
 

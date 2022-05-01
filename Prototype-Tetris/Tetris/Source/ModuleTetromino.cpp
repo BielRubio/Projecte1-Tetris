@@ -47,7 +47,11 @@ bool ModuleTetromino::Start() {
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 	nextTetromino();
 	bool ret = true; 
-	
+
+	position.x = 40;
+	position.y = 120;
+
+	collider = App->collisions->AddCollider({ position.x, position.y, 32, 16 }, Collider::Type::PIECE, this);
 	return ret; 
 }
 
@@ -77,23 +81,24 @@ Update_Status ModuleTetromino::Update() {
 	if (move != 0) {
 		for (int i = 0; i < 4; i++) {
 			block[i].x += move; 
+
 		}
 	}
 	//Rotate (revisar)
-	if (rotate == true) {
-		Point p = block[2]; //We store the center of the rotation
-		for (int i = 0; i < 4; i++) {
-			int x = block[i].x - p.y;
-			int y = block[i].y - p.x;
-			block[i].x = p.x - x;
-			block[i].y = p.y + y;
-		}
-		if (allowMovement() == false) {
-			for (int i = 0; i < 4; i++) {
-				block[i] = cBlock[i];
-			}
-		}
-	}
+	//if (rotate == true) {
+	//	Point p = block[2]; //We store the center of the rotation
+	//	for (int i = 0; i < 4; i++) {
+	//		int x = block[i].x - p.y;
+	//		int y = block[i].y - p.x;
+	//		block[i].x = p.x - x;
+	//		block[i].y = p.y + y;
+	//	}
+	//	/*if (allowMovement() == false) {
+	//		for (int i = 0; i < 4; i++) {
+	//			block[i] = cBlock[i];
+	//		}
+	//	}*/
+	//}
 	//Falling
 	frameCount++;
 	if (frameCount >= 50) {
@@ -113,6 +118,7 @@ Update_Status ModuleTetromino::Update() {
 		}
 		frameCount = 0;
 	}
+	
 	//Check lines
 	int k = 19;
 	for (int i = k; i > 0; i--) {
@@ -147,7 +153,8 @@ Update_Status ModuleTetromino::PostUpdate() {
 	}
 	//Print the block
 	for (int i = 0; i < 4; i++) {
-		App->render->Blit(blocks, xOffset + block[i].x*8, yOffset + block[i].y*8, &rect);
+		App->render->Blit(blocks, block[i].x*8, block[i].y*8, &rect);
+		collider->SetPos(block[i].x*8-16, block[i].y*8-9);
 	}
 	
 	return Update_Status::UPDATE_CONTINUE;
@@ -163,14 +170,14 @@ void ModuleTetromino::nextTetromino() {
 }
 
 
-bool ModuleTetromino::allowMovement() {
-	for (int i = 0; i < 4; i++) {
-		if (block[i].x < 0 || block[i].x >= 10 || block[i].y >= 20) {
-			return false;
+
+void ModuleTetromino::OnCollision(Collider* c1, Collider* c2)
+{
+	if (c1->type == Collider::Type::PIECE && c2->type == Collider::Type::D_WALL)
+	{
+		for (int i = 0; i < 4; i++) {
+			map[cBlock[i].y][cBlock[i].x] = 1;
 		}
-		else if(map[block[i].y][block[i].x]){
-			return false;
-		}
+		nextTetromino();
 	}
-	return true;
 }

@@ -5,7 +5,6 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
-#include "ModulePlayer.h"
 #include "SceneLogo.h";
 #include "SceneDescription.h";
 #include "SceneDetails.h";
@@ -20,6 +19,7 @@
 #include "ModuleRender.h"
 #include "ModuleTetromino.h"
 #include "SceneDifficultyMenu.h"
+
 
 Application::Application()
 {

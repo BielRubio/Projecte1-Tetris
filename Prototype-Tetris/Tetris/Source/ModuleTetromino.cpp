@@ -128,9 +128,6 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 
-	
-	
-	
 	move = 0;
 	rotate = false; 
 

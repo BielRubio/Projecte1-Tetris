@@ -33,16 +33,24 @@ public:
 	//Called every time a tetromino is moved, in order to authorize the movement
 	bool allowMovement();
 
+	void fall();
+
+	void move(int m);
+
+	//void rotate();
+
+	void checkLines();
+
+
 public:
 	//Matrix containing the map
 	int map[20][10] = {0};
 
+	enum {mapLenght = 10, mapHeigh = 22};
+
 	enum { xOffset = 33, yOffset = 41};
-	Animation idleAnim; 
 
-	iPoint position; 
-
-	int speed = 1; 
+	Animation idleAnim;
 
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* blocks = nullptr;
@@ -58,8 +66,7 @@ public:
 	} block[4], cBlock[4]; 
 	//a boolean variable that will allow or not the rotation of the tetromino
 	bool rotate = false; 
-	//a variable that will move the tetromino
-	int move = 0; 
+	
 	//Fx
 	uint Drop = 0;
 

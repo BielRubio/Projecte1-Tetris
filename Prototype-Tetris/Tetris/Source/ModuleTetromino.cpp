@@ -53,86 +53,27 @@ bool ModuleTetromino::Start() {
 
 Update_Status ModuleTetromino::Update() {
 
-	
-
 	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN) {
-		move = -1;
+		move(-1);
 	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN) {
-		move = 1;
+		move(1);
 	}
 	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN) {
-		rotate = true;
+		rotate();
 	}
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
 		frameCount += 10;
 	}
-	
+
+	fall();
+
+	checkLines();
+
 	//current tetromino copy in case a movement is not allowed
 	for (int i = 0; i < 4; i++) {
 		cBlock[i] = block[i];
 	}
-
-	//movement of the tetromino
-	if (move != 0) {
-		for (int i = 0; i < 4; i++) {
-			block[i].x += move; 
-		}
-	}
-	//Rotate (revisar)
-	if (rotate == true) {
-		Point p = block[2]; //We store the center of the rotation
-		for (int i = 0; i < 4; i++) {
-			int x = block[i].x - p.y;
-			int y = block[i].y - p.x;
-			block[i].x = p.x - x;
-			block[i].y = p.y + y;
-		}
-		if (allowMovement() == false) {
-			for (int i = 0; i < 4; i++) {
-				block[i] = cBlock[i];
-			}
-		}
-	}
-	//Falling
-	frameCount++;
-	if (frameCount >= 50) {
-		for (int i = 0; i < 4; i++) {
-			cBlock[i] = block[i];
-		}
-		for (int i = 0; i < 4; i++) {
-			block[i].y++;
-		}
-		if (allowMovement() == false)
-		{
-			for (int i = 0; i < 4; i++) {
-				map[cBlock[i].y][cBlock[i].x]=1;
-			}
-		App->audio->PlayFx(Drop);
-		nextTetromino();
-		}
-		frameCount = 0;
-	}
-	//Check lines
-	int k = 19;
-	for (int i = k; i > 0; i--) {
-		int count = 0; 
-		for (int j = 0; j < 10; j++) {
-			if (map[i][j]==1) {
-				count++;
-			}
-			map[k][j] = map[i][j];
-		}
-		if (count < 10) {
-			k--;
-		}
-	}
-
-	
-	
-	
-	move = 0;
-	rotate = false; 
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -177,3 +118,74 @@ bool ModuleTetromino::allowMovement() {
 	}
 	return true;
 }
+
+void ModuleTetromino::fall() {
+
+	frameCount++;
+	if (frameCount >= 50) {
+		for (int i = 0; i < 4; i++) {
+			cBlock[i] = block[i];
+		}
+		for (int i = 0; i < 4; i++) {
+			block[i].y++;
+		}
+		if (!allowMovement())
+		{
+			for (int i = 0; i < 4; i++) {
+				map[cBlock[i].y][cBlock[i].x] = 1;
+			}
+			App->audio->PlayFx(Drop);
+			nextTetromino();
+		}
+		frameCount = 0;
+	}
+
+}
+
+void ModuleTetromino::move(int m) {
+	
+	if (allowMovement()) {
+		for (int i = 0; i < 4; i++) {
+			block[i].x += m;
+		}
+	}
+	
+}
+
+void ModuleTetromino::rotate() {
+
+	Point p = block[2]; //We store the center of the rotation
+	for (int i = 0; i < 4; i++) {
+		int x = block[i].x - p.y;
+		int y = block[i].y - p.x;
+		block[i].x = p.x - x;
+		block[i].y = p.y + y;
+	}
+	if (allowMovement() == false) {
+		for (int i = 0; i < 4; i++) {
+			block[i] = cBlock[i];
+		}
+	}
+	
+}
+
+void ModuleTetromino::checkLines() {
+
+	int k = 19;
+	for (int i = k; i > 0; i--) {
+		int count = 0;
+		for (int j = 0; j < 10; j++) {
+			if (map[i][j] == 1) {
+				count++;
+			}
+			map[k][j] = map[i][j];
+		}
+		if (count < 10) {
+			k--;
+		}
+	}
+
+}
+
+
+

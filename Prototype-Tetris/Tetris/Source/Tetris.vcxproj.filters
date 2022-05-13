@@ -22,6 +22,9 @@
     <ClCompile Include="ModuleCollisions.cpp">
       <Filter>Sources Files\Modules\Core</Filter>
     </ClCompile>
+    <ClCompile Include="ModulePlayer.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
     <ClCompile Include="ModuleFadeToBlack.cpp">
       <Filter>Sources Files\Modules\Core</Filter>
     </ClCompile>
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="ModuleCollisions.h">
       <Filter>Sources Files\Modules\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePlayer.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="ModuleParticles.h">
       <Filter>Sources Files\Modules\Core</Filter>

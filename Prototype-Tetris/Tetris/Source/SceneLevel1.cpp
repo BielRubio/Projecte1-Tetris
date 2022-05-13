@@ -5,9 +5,9 @@
 #include "ModuleRender.h"
 #include "ModuleAudio.h"
 #include "ModuleCollisions.h"
+#include "ModulePlayer.h"
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
-#include "ModuleInput.h"
 #include <stdio.h>
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
@@ -36,17 +36,10 @@ bool SceneLevel1::Start()
 
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
-	//gameover = App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
 	
 	currentAnimation = &curtainAnim;
 
-
-	App->collisions->AddCollider({ 20, 211, 3930, 16 }, Collider::Type::D_WALL);
-	App->collisions->AddCollider({ 0, 0, 25, 296 }, Collider::Type::L_WALL);
-	App->collisions->AddCollider({ 120, 0, 25, 296 }, Collider::Type::R_WALL);
-
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
-	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
 
 	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
 	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
@@ -63,8 +56,6 @@ Update_Status SceneLevel1::Update()
 {
 	currentAnimation->Update();
 
-	App->tetromino->Enable();
-
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -76,20 +67,6 @@ Update_Status SceneLevel1::PostUpdate()
 
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	App->render->Blit(curtainTexture, 128, 96, &rect);
-
-	App->tetromino->Disable();
-
-	//LoserFunctionality
-
-	losercount++;
-
-	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN && losercount >= 100 || gameover == true)
-	{
-		gameover = true;
-		App->render->Blit(loserSprite, 32, 0, NULL);
-		//App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
-
-	}
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");

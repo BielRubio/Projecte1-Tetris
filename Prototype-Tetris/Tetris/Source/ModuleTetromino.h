@@ -31,11 +31,7 @@ public:
 	//Called in order to create a new tetromino
 	void nextTetromino();
 	//Called every time a tetromino is moved, in order to authorize the movement
-	bool allowMovement(Collider* c1, Collider* c2);
-
-	// Collision callback, called when the player intersects with another collider
-	void OnCollision(Collider* c1, Collider* c2) override;
-
+	bool allowMovement();
 
 public:
 	//Matrix containing the map
@@ -52,9 +48,6 @@ public:
 	SDL_Texture* blocks = nullptr;
 
 	int frameCount = 0;
-
-	// The enemy's collider
-	Collider* collider = nullptr;
 
 	//the matrix containing the info or the 7 different tetrominoes
 	static const int tetrominoes[7][4]; 

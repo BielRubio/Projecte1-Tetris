@@ -35,15 +35,12 @@ public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
 	SDL_Texture* curtainTexture = nullptr;
-	SDL_Texture* loserSprite = nullptr;
 
 	Animation* currentAnimation = nullptr;
 
 	Animation curtainAnim;
 	//Fonts and score
 	uint score = 000;
-	bool gameover = false;
-	int losercount = 0;
 	int WhiteFont = -1;
 	char WhiteFontText[10] = { "\0" };
 	int BlueFont = 0;

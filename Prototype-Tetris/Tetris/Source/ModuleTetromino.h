@@ -37,9 +37,13 @@ public:
 
 	void move(int m);
 
-	//void rotate();
+	void rotate();
 
-	void checkLines();
+	bool checkLines();
+
+	bool checkLoss();
+
+	void deleteLines();
 
 
 public:
@@ -57,6 +61,8 @@ public:
 
 	int frameCount = 0;
 
+	int linesToWin;
+
 	//the matrix containing the info or the 7 different tetrominoes
 	static const int tetrominoes[7][4]; 
 
@@ -64,9 +70,6 @@ public:
 	struct Point {
 		int x, y; 
 	} block[4], cBlock[4]; 
-	//a boolean variable that will allow or not the rotation of the tetromino
-	bool rotate = false; 
-	
 	//Fx
 	uint Drop = 0;
 

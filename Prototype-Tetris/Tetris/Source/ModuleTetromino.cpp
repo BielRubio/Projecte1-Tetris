@@ -68,7 +68,7 @@ Update_Status ModuleTetromino::Update() {
 
 	fall();
 
-	checkLines();
+	deleteLines();
 
 	//current tetromino copy in case a movement is not allowed
 	for (int i = 0; i < 4; i++) {
@@ -169,22 +169,44 @@ void ModuleTetromino::rotate() {
 	
 }
 
-void ModuleTetromino::checkLines() {
+bool ModuleTetromino::checkLines() {
 
-	int k = 19;
-	for (int i = k; i > 0; i--) {
-		int count = 0;
-		for (int j = 0; j < 10; j++) {
+	int ret = false;
+	int tilesInLines = 0;
+
+	for (int j = 0; j < mapHeigh; j++) {
+		for (int i = 0; i < mapLenght; i++) {
 			if (map[i][j] == 1) {
-				count++;
+				tilesInLines++;
 			}
-			map[k][j] = map[i][j];
 		}
-		if (count < 10) {
-			k--;
+		if (tilesInLines == 10) {
+			linesToWin--;
+			tilesInLines = 0;
+			ret = true;
 		}
 	}
+	return ret;
 
+}
+
+bool ModuleTetromino::checkLoss() {
+
+	for (int i = 0; i < mapLenght; i++) {
+		if (map[i][2] == 1) {
+			return true;
+		}
+	}
+	return false;
+
+}
+
+void ModuleTetromino::deleteLines() {
+
+	if (checkLines) {
+
+	}
+	
 }
 
 

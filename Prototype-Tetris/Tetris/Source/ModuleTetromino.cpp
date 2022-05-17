@@ -109,7 +109,10 @@ void ModuleTetromino::nextTetromino() {
 
 bool ModuleTetromino::allowMovement() {
 	for (int i = 0; i < 4; i++) {
-		if (block[i].x < 0 || block[i].x >= 10 || block[i].y >= 20) {
+		if (block[i].x < 0 || block[i].x >= 10) {
+			return false;
+		}
+		else if (block[i].y >= 20) {
 			return false;
 		}
 		else if(map[block[i].y][block[i].x]){
@@ -143,12 +146,15 @@ void ModuleTetromino::fall() {
 }
 
 void ModuleTetromino::move(int m) {
-	
-	if (allowMovement()) {
+	for (int i = 0; i < 4; i++) {
+		block[i].x += m;
+	}
+	if (!allowMovement()) {
 		for (int i = 0; i < 4; i++) {
-			block[i].x += m;
+			block[i] = cBlock[i];
 		}
 	}
+	
 	
 }
 

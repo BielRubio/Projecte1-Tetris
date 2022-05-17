@@ -35,10 +35,14 @@ public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
 	SDL_Texture* curtainTexture = nullptr;
+	SDL_Texture* doorTexture = nullptr;
 
-	Animation* currentAnimation = nullptr;
+	Animation* currentAnimationCurtain = nullptr;
+	Animation* currentAnimationDoor = nullptr;
 
 	Animation curtainAnim;
+	Animation doorAnim;
+
 	//Fonts and score
 	uint score = 000;
 	int WhiteFont = -1;

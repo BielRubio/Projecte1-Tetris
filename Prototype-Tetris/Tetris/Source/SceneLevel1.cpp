@@ -20,6 +20,79 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 	curtainAnim.PushBack({ 80 * 5,0,80,64 });
 	curtainAnim.loop = false;
 	curtainAnim.speed = 0.25f;
+
+	//Open door
+	doorAnim.PushBack({ 32 * 0,0,32,40 });
+	doorAnim.PushBack({ 32 * 1,0,32,40 });
+	doorAnim.PushBack({ 32 * 2,0,32,40 });
+	doorAnim.PushBack({ 32 * 3,0,32,40 });
+	doorAnim.PushBack({ 32 * 4,0,32,40 });
+	doorAnim.PushBack({ 32 * 5,0,32,40 });
+	//Dance
+	doorAnim.PushBack({ 32 * 6,0,32,40 });
+	doorAnim.PushBack({ 32 * 7,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 12,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 13,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 12,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 15,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 16,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 15,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 17,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 18,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 17,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 18,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 19,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 7,0,32,40 });
+	doorAnim.PushBack({ 32 * 6,0,32,40 });
+	//Door closes
+	doorAnim.PushBack({ 32 * 5,0,32,40 });
+	doorAnim.PushBack({ 32 * 4,0,32,40 });
+	doorAnim.PushBack({ 32 * 3,0,32,40 });
+	doorAnim.PushBack({ 32 * 2,0,32,40 });
+	doorAnim.PushBack({ 32 * 1,0,32,40 });
+	doorAnim.PushBack({ 32 * 0,0,32,40 });
+
+	doorAnim.loop = false;
+	doorAnim.speed = 0.1f;
+
 }
 
 SceneLevel1::~SceneLevel1()
@@ -37,9 +110,11 @@ bool SceneLevel1::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 	
-	currentAnimation = &curtainAnim;
+	currentAnimationCurtain = &curtainAnim;
+	currentAnimationDoor = &doorAnim;
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
+	doorTexture = App->textures->Load("Assets/Sprites/door.png");
 
 	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
 	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
@@ -54,7 +129,8 @@ bool SceneLevel1::Start()
 
 Update_Status SceneLevel1::Update()
 {
-	currentAnimation->Update();
+	currentAnimationCurtain->Update();
+	currentAnimationDoor->Update();
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -65,8 +141,11 @@ Update_Status SceneLevel1::PostUpdate()
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
-	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	App->render->Blit(curtainTexture, 128, 96, &rect);
+	SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
+	App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
+
+	SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
+	App->render->Blit(doorTexture, 135, 50, &rectDoor);
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");

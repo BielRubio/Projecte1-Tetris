@@ -117,9 +117,9 @@ bool SceneLevel1::Start()
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
 
 	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
-	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
-	BlueFont = App->fonts->Load("Assets/Fonts/BLUE.png", lookupTable, 1);
-	RedFont = App->fonts->Load("Assets/Fonts/RED.png", lookupTable, 1);
+	WhiteFont = App->fonts->Load("Assets/Fonts/TetrisFontWhite.png", lookupTable, 1);
+	BlueFont = App->fonts->Load("Assets/Fonts/TetrisFontBlue.png", lookupTable, 1);
+	RedFont = App->fonts->Load("Assets/Fonts/TetrisFontRed.png", lookupTable, 1);
 
 	App->tetromino->Enable();
 

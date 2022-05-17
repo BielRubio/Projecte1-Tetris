@@ -166,18 +166,44 @@ Update_Status SceneLevel1::PostUpdate()
 	{
 		SceneLevel1::loser();
 	}
+
+	//Winner hotkey
+	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN || win == true)
+	{
+		SceneLevel1::winner();
+	}
+
 	return Update_Status::UPDATE_CONTINUE;
+
+	
+
 }
 
 //Makes the player lose the game directly
 void SceneLevel1::loser() {
+
 	gameover = true;
+
 	App->render->Blit(loserSprite, 32, 0, NULL);
 
-	App->tetromino->Disable();
 	App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+	App->tetromino->Disable();
 	
 }
+
+//Makes the player win the game directly
+void SceneLevel1::winner() {
+
+	win = true;
+
+	App->fonts->BlitText(119, 157, BlueFont, "you");
+	App->fonts->BlitText(138, 146, WhiteFont, "did it");
+
+	App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+	App->tetromino->Disable();
+
+}
+
 
 bool SceneLevel1::CleanUp()
 {

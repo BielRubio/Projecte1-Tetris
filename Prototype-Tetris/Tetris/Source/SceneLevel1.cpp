@@ -8,6 +8,7 @@
 #include "ModulePlayer.h"
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
+#include "ModuleInput.h"
 #include <stdio.h>
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
@@ -115,6 +116,7 @@ bool SceneLevel1::Start()
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
+	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
 
 	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
 	WhiteFont = App->fonts->Load("Assets/Fonts/WHITE.png", lookupTable, 1);
@@ -147,6 +149,9 @@ Update_Status SceneLevel1::PostUpdate()
 	SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
 	App->render->Blit(doorTexture, 135, 50, &rectDoor);
 
+	//LoserFunctionality
+	losercount++;
+
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
 	App->fonts->BlitText(10, 12, RedFont, "next");
@@ -156,7 +161,22 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(125, 210, BlueFont, "round");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
+	//Loser hotkey
+	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN && losercount >= 100 || gameover == true)
+	{
+		SceneLevel1::loser();
+	}
 	return Update_Status::UPDATE_CONTINUE;
+}
+
+//Makes the player lose the game directly
+void SceneLevel1::loser() {
+	gameover = true;
+	App->render->Blit(loserSprite, 32, 0, NULL);
+
+	App->tetromino->Disable();
+	App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+	
 }
 
 bool SceneLevel1::CleanUp()

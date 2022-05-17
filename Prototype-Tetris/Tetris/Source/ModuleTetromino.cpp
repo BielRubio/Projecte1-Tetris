@@ -156,10 +156,10 @@ void ModuleTetromino::rotate() {
 
 	Point p = block[2]; //We store the center of the rotation
 	for (int i = 0; i < 4; i++) {
-		int x = block[i].x - p.y;
-		int y = block[i].y - p.x;
-		block[i].x = p.x - x;
-		block[i].y = p.y + y;
+		int x = block[i].x;
+		int y = block[i].y;
+		block[i].x = y + p.x - p.y;
+		block[i].y = p.x + p.y - x;
 	}
 	if (allowMovement() == false) {
 		for (int i = 0; i < 4; i++) {
@@ -203,7 +203,7 @@ bool ModuleTetromino::checkLoss() {
 
 void ModuleTetromino::deleteLines() {
 
-	if (checkLines) {
+	if (checkLines()) {
 
 	}
 	

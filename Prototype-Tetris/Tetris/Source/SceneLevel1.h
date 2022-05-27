@@ -27,7 +27,10 @@ public:
 	// Performs the render call of all the parts of the scene's background
 	Update_Status PostUpdate() override;
 
+	//Hotkeys functions loser and winner screens
 	void loser();
+
+	void winner();
 
 	// Disables pieces
 	bool CleanUp();
@@ -50,6 +53,7 @@ public:
 	//Fonts and score
 	uint score = 000;
 	bool gameover = false;
+	bool win = false;
 	int WhiteFont = -1;
 	int losercount = 0;
 	char WhiteFontText[10] = { "\0" };

@@ -134,6 +134,9 @@ Update_Status SceneLevel1::Update()
 	currentAnimationCurtain->Update();
 	currentAnimationDoor->Update();
 
+	//LoserFunctionality
+	losercount++;
+
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -149,8 +152,7 @@ Update_Status SceneLevel1::PostUpdate()
 	SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
 	App->render->Blit(doorTexture, 135, 50, &rectDoor);
 
-	//LoserFunctionality
-	losercount++;
+	
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");

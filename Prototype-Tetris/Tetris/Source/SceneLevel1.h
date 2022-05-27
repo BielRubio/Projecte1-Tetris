@@ -32,6 +32,8 @@ public:
 
 	void winner();
 
+	void winnerRound();
+
 	// Disables pieces
 	bool CleanUp();
 
@@ -55,6 +57,7 @@ public:
 	bool gameover = false;
 	bool win = false;
 	int WhiteFont = -1;
+	int winnerCount = 0;
 	int losercount = 0;
 	char WhiteFontText[10] = { "\0" };
 	int BlueFont = 0;

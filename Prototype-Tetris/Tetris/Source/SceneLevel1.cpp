@@ -13,6 +13,7 @@
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
+	/*
 	curtainAnim.PushBack({ 80 * 0,0,80,64 });
 	curtainAnim.PushBack({ 80 * 1,0,80,64 });
 	curtainAnim.PushBack({ 80 * 2,0,80,64 });
@@ -93,7 +94,7 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
-
+*/
 }
 
 SceneLevel1::~SceneLevel1()
@@ -137,6 +138,9 @@ Update_Status SceneLevel1::Update()
 	//LoserFunctionality
 	losercount++;
 
+	//WinnerFunctionality
+	winnerCount++;
+
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -177,8 +181,6 @@ Update_Status SceneLevel1::PostUpdate()
 
 	return Update_Status::UPDATE_CONTINUE;
 
-	
-
 }
 
 //Makes the player lose the game directly
@@ -193,16 +195,119 @@ void SceneLevel1::loser() {
 	
 }
 
-//Makes the player win the game directly
-void SceneLevel1::winner() {
+void SceneLevel1::winnerRound() {
 
 	win = true;
 
 	App->fonts->BlitText(119, 157, BlueFont, "you");
 	App->fonts->BlitText(138, 146, WhiteFont, "did it");
 
-	App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
-	App->tetromino->Disable();
+
+
+	App->audio->PlayMusic("Assets/Music/02_-_Tetris_Atari_-_ARC_-_You_Did_It.ogg", 1.0f);
+}
+
+//Makes the player win the game directly
+void SceneLevel1::winner() {
+
+	win = true;
+
+	App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
+
+	App->fonts->BlitText(119, 157, BlueFont, "you");
+	App->fonts->BlitText(138, 146, WhiteFont, "did it");
+		
+	//Open door
+	doorAnim.PushBack({ 32 * 0,0,32,40 });
+	doorAnim.PushBack({ 32 * 1,0,32,40 });
+	doorAnim.PushBack({ 32 * 2,0,32,40 });
+	doorAnim.PushBack({ 32 * 3,0,32,40 });
+	doorAnim.PushBack({ 32 * 4,0,32,40 });
+	doorAnim.PushBack({ 32 * 5,0,32,40 });
+	//Dance
+	doorAnim.PushBack({ 32 * 6,0,32,40 });
+	doorAnim.PushBack({ 32 * 7,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 12,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 13,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 12,0,32,40 });
+	doorAnim.PushBack({ 32 * 9,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 15,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 16,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 15,0,32,40 });
+	doorAnim.PushBack({ 32 * 14,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 17,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 18,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 17,0,32,40 });
+	doorAnim.PushBack({ 32 * 10,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 18,0,32,40 });
+	doorAnim.PushBack({ 32 * 11,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 20,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 19,0,32,40 });
+	doorAnim.PushBack({ 32 * 8,0,32,40 });
+	doorAnim.PushBack({ 32 * 7,0,32,40 });
+	doorAnim.PushBack({ 32 * 6,0,32,40 });
+	//Door closes
+	doorAnim.PushBack({ 32 * 5,0,32,40 });
+	doorAnim.PushBack({ 32 * 4,0,32,40 });
+	doorAnim.PushBack({ 32 * 3,0,32,40 });
+	doorAnim.PushBack({ 32 * 2,0,32,40 });
+	doorAnim.PushBack({ 32 * 1,0,32,40 });
+	doorAnim.PushBack({ 32 * 0,0,32,40 });
+
+	doorAnim.loop = false;
+	doorAnim.speed = 0.1f;
+
+	if (winnerCount >= 50 ) {
+		curtainAnim.PushBack({ 80 * 0,0,80,64 });
+		curtainAnim.PushBack({ 80 * 1,0,80,64 });
+		curtainAnim.PushBack({ 80 * 2,0,80,64 });
+		curtainAnim.PushBack({ 80 * 3,0,80,64 });
+		curtainAnim.PushBack({ 80 * 4,0,80,64 });
+		curtainAnim.PushBack({ 80 * 5,0,80,64 });
+		curtainAnim.loop = false;
+		curtainAnim.speed = 0.25f;
+	}
+
+	if (winnerCount >=100) {
+		App->fonts->BlitText(104, 139, WhiteFont, "complete");
+		App->fonts->BlitText(115, 139, WhiteFont, "10 lines");
+		App->fonts->BlitText(137, 139, WhiteFont, "to go to");
+		App->fonts->BlitText(150, 129, WhiteFont, "next round");
+	}
+
+	//App->tetromino->Disable();
 
 }
 

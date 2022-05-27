@@ -13,6 +13,7 @@
 #include "SceneIntro_1.h"
 #include "SceneIntro_2.h"
 #include "SceneLevel1.h"
+#include "SceneLevel1Round1.h"
 #include "ModuleParticles.h"
 #include "ModuleCollisions.h"
 #include "ModuleFadeToBlack.h"
@@ -40,15 +41,16 @@ Application::Application()
 	modules[9] =	sceneIntro_2 =  new SceneIntro_2(false);
 	modules[10] =   sceneDifficulty = new SceneDifficultyMenu(false);
 	modules[11] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
-	modules[12] =	player =		new ModulePlayer(false);	//Player starts disabled
-	modules[13]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
-	modules[14] =	particles =		new ModuleParticles(true);	
+	modules[12] =	sceneLevel_1_Round_1 = new SceneLevel1Round1(false);
+	modules[13] =	player =		new ModulePlayer(false);	//Player starts disabled
+	modules[14]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
+	modules[15] =	particles =		new ModuleParticles(true);	
 	
 
-	modules[15] =	collisions =	new ModuleCollisions(true);
-	modules[16] =	fade =			new ModuleFadeToBlack(true);
-	modules[17] =	fonts =			new ModuleFonts(true);
-	modules[18] =	render =		new ModuleRender(true);
+	modules[16] =	collisions =	new ModuleCollisions(true);
+	modules[17] =	fade =			new ModuleFadeToBlack(true);
+	modules[18] =	fonts =			new ModuleFonts(true);
+	modules[19] =	render =		new ModuleRender(true);
 }
 
 Application::~Application()

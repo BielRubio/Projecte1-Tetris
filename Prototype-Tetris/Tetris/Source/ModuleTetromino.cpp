@@ -8,8 +8,8 @@
 #include "ModuleCollisions.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleFonts.h"
+#include<time.h>
 
-#include "../External_Libraries/SDL/include/SDL_timer.h"
 #include <stdio.h>
 
 /* Printing positions
@@ -45,6 +45,9 @@ bool ModuleTetromino::Start() {
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
+
+	srand(time(NULL)); //Generate random seed
+
 	nextTetromino();
 	bool ret = true; 
 	

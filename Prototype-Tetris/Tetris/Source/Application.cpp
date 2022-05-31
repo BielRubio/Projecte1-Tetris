@@ -10,8 +10,7 @@
 #include "SceneDescription.h";
 #include "SceneDetails.h";
 #include "SceneMembers.h";
-#include "SceneIntro_1.h"
-#include "SceneIntro_2.h"
+#include "SceneIntro.h"
 #include "SceneLevel1.h"
 #include "SceneLevel1Round1.h"
 #include "ModuleParticles.h"
@@ -37,20 +36,19 @@ Application::Application()
 	modules[5] =	sceneDescription = new SceneDescription(false);
 	modules[6] =	sceneDetails = new SceneDetails(false);
 	modules[7] =	sceneMembers = new SceneMembers(false);
-	modules[8] =	sceneIntro_1 =	new SceneIntro_1(false);
-	modules[9] =	sceneIntro_2 =  new SceneIntro_2(false);
-	modules[10] =   sceneDifficulty = new SceneDifficultyMenu(false);
-	modules[11] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
-	modules[12] =	sceneLevel_1_Round_1 = new SceneLevel1Round1(false);
-	modules[13] =	player =		new ModulePlayer(false);	//Player starts disabled
-	modules[14]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
-	modules[15] =	particles =		new ModuleParticles(true);	
+	modules[8] =	sceneIntro =  new SceneIntro(false);
+	modules[9] =   sceneDifficulty = new SceneDifficultyMenu(false);
+	modules[10] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
+	modules[11] =	sceneLevel_1_Round_1 = new SceneLevel1Round1(false);
+	modules[12] =	player =		new ModulePlayer(false);	//Player starts disabled
+	modules[13]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
+	modules[14] =	particles =		new ModuleParticles(true);	
 	
 
-	modules[16] =	collisions =	new ModuleCollisions(true);
-	modules[17] =	fade =			new ModuleFadeToBlack(true);
-	modules[18] =	fonts =			new ModuleFonts(true);
-	modules[19] =	render =		new ModuleRender(true);
+	modules[15] =	collisions =	new ModuleCollisions(true);
+	modules[16] =	fade =			new ModuleFadeToBlack(true);
+	modules[17] =	fonts =			new ModuleFonts(true);
+	modules[18] =	render =		new ModuleRender(true);
 }
 
 Application::~Application()

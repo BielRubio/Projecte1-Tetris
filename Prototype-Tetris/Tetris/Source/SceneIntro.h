@@ -1,19 +1,19 @@
-#ifndef __SCENE_INTRO_2_H__
-#define __SCENE_INTRO_2_H__
+#ifndef __SCENE_INTRO_H__
+#define __SCENE_INTRO_H__
 
 #include "Module.h"
 #include "Animation.h"
 
 struct SDL_Texture;
 
-class SceneIntro_2 : public Module
+class SceneIntro : public Module
 {
 public:
 	//Constructor
-	SceneIntro_2(bool startEnabled);
+	SceneIntro(bool startEnabled);
 
 	//Destructor
-	~SceneIntro_2();
+	~SceneIntro();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the map background
@@ -34,6 +34,23 @@ public:
 	SDL_Texture* bgTexture = nullptr;
 
 	uint fireworkFx = 0;
+
+	int frameCount = 0;
+
+	char bgFile[11][33] = 
+	{ "Assets/Sprites/titlescreen1.png",
+	"Assets/Sprites/titlescreen2.png" ,
+	"Assets/Sprites/titlescreen3.png" ,
+	"Assets/Sprites/titlescreen4.png" ,
+	"Assets/Sprites/titlescreen5.png" ,
+	"Assets/Sprites/titlescreen6.png" ,
+	"Assets/Sprites/titlescreen7.png" ,
+	"Assets/Sprites/titlescreen8.png" ,
+	"Assets/Sprites/titlescreen9.png" ,
+	"Assets/Sprites/titlescreen10.png",
+	"Assets/Sprites/titlescreen11.png" };
+
+	int bgIndex = 0;
 
 };
 

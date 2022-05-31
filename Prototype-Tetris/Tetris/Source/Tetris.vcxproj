@@ -89,8 +89,7 @@
     <ClInclude Include="ModuleParticles.h" />
     <ClInclude Include="ModuleTetromino.h" />
     <ClInclude Include="SceneDifficultyMenu.h" />
-    <ClInclude Include="SceneIntro_1.h" />
-    <ClInclude Include="SceneIntro_2.h" />
+    <ClInclude Include="SceneIntro.h" />
     <ClInclude Include="SceneLevel1.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModulePlayer.h" />
@@ -120,8 +119,7 @@
     <ClCompile Include="ModuleParticles.cpp" />
     <ClCompile Include="ModuleTetromino.cpp" />
     <ClCompile Include="SceneDifficultyMenu.cpp" />
-    <ClCompile Include="SceneIntro_1.cpp" />
-    <ClCompile Include="SceneIntro_2.cpp" />
+    <ClCompile Include="SceneIntro.cpp" />
     <ClCompile Include="SceneLevel1.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModulePlayer.cpp" />

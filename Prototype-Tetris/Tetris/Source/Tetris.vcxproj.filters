@@ -43,9 +43,6 @@
     <ClCompile Include="ModuleWindow.cpp">
       <Filter>Sources Files\Modules\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SceneIntro_1.cpp">
-      <Filter>Sources Files\Modules\Gameplay</Filter>
-    </ClCompile>
     <ClCompile Include="SceneLevel1.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
@@ -58,7 +55,7 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Sources Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="SceneIntro_2.cpp">
+    <ClCompile Include="SceneIntro.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="ModuleTetromino.cpp">
@@ -132,9 +129,6 @@
     <ClInclude Include="SceneLevel1.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="SceneIntro_1.h">
-      <Filter>Sources Files\Modules\Gameplay</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Sources Files\Utils</Filter>
     </ClInclude>
@@ -147,7 +141,7 @@
     <ClInclude Include="Particle.h">
       <Filter>Sources Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="SceneIntro_2.h">
+    <ClInclude Include="SceneIntro.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="ModuleTetromino.h">

@@ -39,18 +39,19 @@ public:
 
 	void rotate();
 
+	//Check if a line is completed and delete it
 	bool checkLines();
 
 	bool checkLoss();
 
-	void deleteLines();
-
 
 public:
 	//Matrix containing the map
-	int map[20][10] = {0};
+	
 
-	enum {mapLenght = 10, mapHeigh = 22};
+	enum {mapLength = 10, mapHeigth = 20};
+
+	int map[20][mapLength] = { 0 };
 
 	enum { xOffset = 33, yOffset = 41};
 
@@ -61,7 +62,7 @@ public:
 
 	int frameCount = 0;
 
-	int linesToWin;
+	int linesToWin = 2;
 
 	//the matrix containing the info or the 7 different tetrominoes
 	static const int tetrominoes[7][4]; 

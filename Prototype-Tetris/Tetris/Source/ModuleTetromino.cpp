@@ -12,25 +12,35 @@
 
 #include <stdio.h>
 
-/* Printing positions
-	0	1	2	3
-	4	5	6	7
+/* Printing offset
+	(0,0)	(1,0)	(2,0)	(3,0)
+	(0,1)	(1,1)	(2,1)	(3,1)	
 */
 
 //Create the tetrominoes
-const int ModuleTetromino::tetrominoes[7][4]{
-	0,1,2,3,	// I
-	0,4,5,6,	// J
-	2,6,5,4,	// L
-	1,2,5,6,	// O
-	2,1,5,4,	// S
-	1,4,5,6,	// T
-	0,1,5,6,	// Z
+const int ModuleTetromino::tetrominoes[7][4][2]{
+	{{0,0},{1,0},{2,0},{3,0}},	// I
+	{{0,1},{1,1},{1,0},{2,1}},	// T
+	{{1,1},{1,0},{2,1},{2,0}},	// O
+	{{0,0},{1,0},{2,0},{2,1}},	// J
+	{{0,1},{1,1},{2,1},{2,0}},	// L
+	{{0,0},{1,0},{1,1},{2,1}},	// Z
+	{{0,1},{1,1},{1,0},{2,0}}   // S
 };
-//Load animations
+
+const int ModuleTetromino::sX[7][4]{
+	{8,10,10,2},	// I
+	{8,11,4,2},		// T
+	{9,12,3,6},		// O	
+	{8,10,6,1},		// J
+	{8,10,3,4},		// L
+	{8,6,9,2},		// Z
+	{8,3,12,2}		// S
+};
+
 ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 {
-	idleAnim.PushBack({113, 1, 7, 7});
+	
 }
 
 
@@ -46,9 +56,20 @@ bool ModuleTetromino::Start() {
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 
+	currentAnimation = &idleAnim;
+
 	srand(time(NULL)); //Generate random seed
 
+	for (int i = 0; i < mapLength; i++) {
+		for (int j = 0; j < mapHeight; j++) {
+			if (i == 0 || i == mapLength - 1 || j == mapHeight - 1) {
+				map[i][j] = new Tile;
+			}
+		}
+	}
+
 	nextTetromino();
+
 	bool ret = true; 
 	
 	return ret; 
@@ -69,34 +90,44 @@ Update_Status ModuleTetromino::Update() {
 		frameCount += 10;
 	}
 
-	fall();
-
-	checkLines();
-
-	//current tetromino copy in case a movement is not allowed
-	for (int i = 0; i < 4; i++) {
-		cBlock[i] = block[i];
+	if (frameCount >= 50) {
+		fall();
+		frameCount = 0;
 	}
+
+	//if (canCheckLines == true) {
+	//	if (checkLines()) {
+	//		canCheckLines = false;
+	//		currentAnimation->Update();
+	//	}
+	//}
+	
+	//current tetromino copy in case a movement is not allowed
+	/*for (int i = 0; i < 4; i++) {
+		cBlock[i] = block[i];
+	}*/
+
+	frameCount++;
 
 	return Update_Status::UPDATE_CONTINUE;
 }
 
 Update_Status ModuleTetromino::PostUpdate() {
-	SDL_Rect rect = idleAnim.GetCurrentFrame();
-	//Print the map
-	int type = 0;
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 10; j++){
-			if (map[i][j]==1) {
-				App->render->Blit(blocks, xOffset + j*8, yOffset + i*8 , &rect);
+
+	for (int i = 0; i < mapLength; i++) {
+		for (int j = 0; j < mapHeight; j++) {
+			if (map[i][j] != nullptr) {
+				SDL_Rect rect = { getSpriteX(map[i][j]) * 8, map[i][j]->spriteY * 8, 8,8 };
+				App->render->Blit(blocks, xOffset + (i * 8), yOffset + (j * 8), &rect);
 			}
 		}
 	}
-	//Print the block
+
 	for (int i = 0; i < 4; i++) {
-		App->render->Blit(blocks, xOffset + block[i].x*8, yOffset + block[i].y*8, &rect);
+		SDL_Rect rect = { currentBlock[i]->spriteX * 8, currentBlock[i]->spriteY * 8, 8,8 };
+		App->render->Blit(blocks, xOffset + (currentBlock[i]->x * 8), yOffset + (currentBlock[i]->y * 8), &rect);
 	}
-	
+
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -104,61 +135,70 @@ Update_Status ModuleTetromino::PostUpdate() {
 void ModuleTetromino::nextTetromino() {
 	int n = rand() % 7;
 	for (int i = 0; i < 4; i++) {
-		block[i].x = tetrominoes[n][i] % 4;
-		block[i].y = int (tetrominoes[n][i] / 4);
+		currentBlock[i] = new Tile;
+		currentBlock[i]->spriteX = sX[n][i];
+		currentBlock[i]->spriteY = n;
+		currentBlock[i]->id = currentId;
+		currentBlock[i]->x = 4 + tetrominoes[n][i][0];
+		currentBlock[i]->y = 1 + tetrominoes[n][i][1];
 	}
 }
 
 
-bool ModuleTetromino::allowMovement() {
-	for (int i = 0; i < 4; i++) {
-		if (block[i].x < 0 || block[i].x >= 10) {
-			return false;
+bool ModuleTetromino::allowMovement(Tile* t) {
+
+	if (t == nullptr) {
+		
+		return true;
+	}
+	else {
+		if (t->id == currentId) {
+			return true;
 		}
-		else if (block[i].y >= 20) {
-			return false;
-		}
-		else if(map[block[i].y][block[i].x]){
+		else {
 			return false;
 		}
 	}
-	return true;
 }
 
 void ModuleTetromino::fall() {
+	
+	int c = 0;
 
-	frameCount++;
-	if (frameCount >= 50) {
-		for (int i = 0; i < 4; i++) {
-			cBlock[i] = block[i];
+	for (int i = 0; i < 4; i++) {
+		if (allowMovement(map[currentBlock[i]->x][currentBlock[i]->y + 1])) {
+			c++;
 		}
-		for (int i = 0; i < 4; i++) {
-			block[i].y++;
-		}
-		if (!allowMovement())
-		{
+		else {
 			for (int i = 0; i < 4; i++) {
-				map[cBlock[i].y][cBlock[i].x] = 1;
+				map[currentBlock[i]->x][currentBlock[i]->y] = currentBlock[i];
 			}
-			App->audio->PlayFx(Drop);
+			currentId++;
 			nextTetromino();
+			return;
 		}
-		frameCount = 0;
 	}
-
+	if (c >= 4) {
+		for (int i = 0; i < 4; i++) {
+			currentBlock[i]->y++;
+		}
+	}
 }
 
 void ModuleTetromino::move(int m) {
+
+	int c = 0;
+
 	for (int i = 0; i < 4; i++) {
-		block[i].x += m;
-	}
-	if (!allowMovement()) {
-		for (int i = 0; i < 4; i++) {
-			block[i] = cBlock[i];
+		if (allowMovement(map[currentBlock[i]->x + m][currentBlock[i]->y])) {
+			c++;
 		}
 	}
-	
-	
+	if (c >= 4) {
+		for (int i = 0; i < 4; i++) {
+			currentBlock[i]->x += m;
+		}
+	}
 }
 
 void ModuleTetromino::rotate() {
@@ -170,11 +210,11 @@ void ModuleTetromino::rotate() {
 		block[i].x = y + p.x - p.y;
 		block[i].y = p.x + p.y - x;
 	}
-	if (allowMovement() == false) {
+	/*if (allowMovement(map[1][1]) == false) {
 		for (int i = 0; i < 4; i++) {
 			block[i] = cBlock[i];
 		}
-	}
+	}*/
 	
 }
 
@@ -182,13 +222,14 @@ bool ModuleTetromino::checkLines() {
 
 	int ret = false;
 	int tilesInLines = 0;
-	int k = mapHeigth - 1; 
+	int k = mapHeight - 1; 
 	for (int i = k; i > 0; i--) {
 		tilesInLines = 0; 
 		for (int j = 0; j < mapLength; j++) {
 			if (map[i][j]) {
 				tilesInLines++;
 			}
+			//Delete line
 			map[k][j] = map[i][j];
 		}
 		if (tilesInLines < mapLength) {
@@ -201,15 +242,20 @@ bool ModuleTetromino::checkLines() {
 
 }
 
-bool ModuleTetromino::checkLoss() {
+//bool ModuleTetromino::checkLoss() {
+//
+//	for (int i = 0; i < mapLength; i++) {
+//		if (map[i][2] == 1) {
+//			return true;
+//		}
+//	}
+//	return false;
+//
+//}
 
-	for (int i = 0; i < mapLength; i++) {
-		if (map[i][2] == 1) {
-			return true;
-		}
-	}
-	return false;
+int ModuleTetromino::getSpriteX(Tile* t) {
 
+	return 0;
 }
 
 

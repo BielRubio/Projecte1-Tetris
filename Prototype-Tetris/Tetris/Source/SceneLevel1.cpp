@@ -150,6 +150,7 @@ Update_Status SceneLevel1::PostUpdate()
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
+
 	SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
 	App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
 

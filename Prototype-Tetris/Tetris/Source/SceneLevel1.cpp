@@ -168,6 +168,10 @@ Update_Status SceneLevel1::PostUpdate()
 		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
 		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
 
+
+	SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
+	App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
+
 		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
 		App->render->Blit(doorTexture, 135, 50, &rectDoor);
 	}

@@ -9,11 +9,12 @@
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include "ModuleInput.h"
+#include "SceneLevel1Round1.h"
 #include <stdio.h>
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
-	/*
+	
 	curtainAnim.PushBack({ 80 * 0,0,80,64 });
 	curtainAnim.PushBack({ 80 * 1,0,80,64 });
 	curtainAnim.PushBack({ 80 * 2,0,80,64 });
@@ -94,7 +95,7 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
-*/
+
 }
 
 SceneLevel1::~SceneLevel1()
@@ -111,7 +112,20 @@ bool SceneLevel1::Start()
 
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+
+	LOG("Loading sound effects")
+	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
+	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 	
+	// Variables
+	lines = 0;
+	linesObj = 5;
+	linesleft = linesObj;
+	
+	// Counter
+	t_points = 0;
+	t_losetoContinue = 9;
+
 	currentAnimationCurtain = &curtainAnim;
 	currentAnimationDoor = &doorAnim;
 
@@ -139,7 +153,7 @@ Update_Status SceneLevel1::Update()
 	losercount++;
 
 	//WinnerFunctionality
-	winnerCount++;
+	//winnerCount++;
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -150,13 +164,14 @@ Update_Status SceneLevel1::PostUpdate()
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
-	SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
-	App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
+	if (win == true) {
+		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
+		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
 
-	SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
-	App->render->Blit(doorTexture, 135, 50, &rectDoor);
+		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
+		App->render->Blit(doorTexture, 135, 50, &rectDoor);
+	}
 
-	
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
@@ -183,134 +198,76 @@ Update_Status SceneLevel1::PostUpdate()
 
 }
 
-//Makes the player lose the game directly
+//Makes the player lose the game
 void SceneLevel1::loser() {
+
+
+	App->tetromino->Disable();
 
 	gameover = true;
 
 	App->render->Blit(loserSprite, 32, 0, NULL);
 
-	App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
-	App->tetromino->Disable();
+	App->audio->PlayFx(fxgameOver);
 	
 }
 
+//Makes the player win after 1 round
 void SceneLevel1::winnerRound() {
 
+	App->tetromino->Disable();
+
 	win = true;
 
-	App->fonts->BlitText(119, 157, BlueFont, "you");
-	App->fonts->BlitText(138, 146, WhiteFont, "did it");
+	App->fonts->BlitText(152, 123, WhiteFont, "you");
+	App->fonts->BlitText(144, 135, WhiteFont, "did it");
 
+	App->audio->PlayFx(fxWinner);
 
-
-	App->audio->PlayMusic("Assets/Music/02_-_Tetris_Atari_-_ARC_-_You_Did_It.ogg", 1.0f);
+	//App->sceneLevel_1_Round_1->Enable();
 }
 
-//Makes the player win the game directly
+//Makes the player win the game after 3 rounds
 void SceneLevel1::winner() {
 
+	App->tetromino->Disable();
+
 	win = true;
 
-	App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
+	if (winnerCount >= 0 && winnerCount < 250)
+	{
+		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
+		else { 
+			App->audio->PauseMusic(); 
+		}
+		App->fonts->BlitText(152, 123, WhiteFont, "you");
+		App->fonts->BlitText(144, 135, WhiteFont, "did it");
+	}
+	
+	if (winnerCount >= 250 && winnerCount < 574)
+	{
+		//Bonus
+		App->fonts->BlitText(138, 105, WhiteFont, "bonus for");
+		App->fonts->BlitText(150, 110, WhiteFont, "low");
+		App->fonts->BlitText(144, 116, WhiteFont, "puzzle");
+	}
 
-	App->fonts->BlitText(119, 157, BlueFont, "you");
-	App->fonts->BlitText(138, 146, WhiteFont, "did it");
+	if (winnerCount >= 574 ) {
+		if (currentAnimationCurtain->GetLoopCount() == 1) {
+			App->render->Blit(curtainTexture, 258, 194, &(curtainAnim.GetCurrentFrame()), 0.85f);
+		}
+		currentAnimationCurtain->Update();
+	}
 		
-	//Open door
-	doorAnim.PushBack({ 32 * 0,0,32,40 });
-	doorAnim.PushBack({ 32 * 1,0,32,40 });
-	doorAnim.PushBack({ 32 * 2,0,32,40 });
-	doorAnim.PushBack({ 32 * 3,0,32,40 });
-	doorAnim.PushBack({ 32 * 4,0,32,40 });
-	doorAnim.PushBack({ 32 * 5,0,32,40 });
-	//Dance
-	doorAnim.PushBack({ 32 * 6,0,32,40 });
-	doorAnim.PushBack({ 32 * 7,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 9,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 10,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 11,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 10,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 9,0,32,40 });
-	doorAnim.PushBack({ 32 * 12,0,32,40 });
-	doorAnim.PushBack({ 32 * 9,0,32,40 });
-	doorAnim.PushBack({ 32 * 13,0,32,40 });
-	doorAnim.PushBack({ 32 * 9,0,32,40 });
-	doorAnim.PushBack({ 32 * 12,0,32,40 });
-	doorAnim.PushBack({ 32 * 9,0,32,40 });
-	doorAnim.PushBack({ 32 * 20,0,32,40 });
-	doorAnim.PushBack({ 32 * 14,0,32,40 });
-	doorAnim.PushBack({ 32 * 15,0,32,40 });
-	doorAnim.PushBack({ 32 * 14,0,32,40 });
-	doorAnim.PushBack({ 32 * 20,0,32,40 });
-	doorAnim.PushBack({ 32 * 14,0,32,40 });
-	doorAnim.PushBack({ 32 * 16,0,32,40 });
-	doorAnim.PushBack({ 32 * 14,0,32,40 });
-	doorAnim.PushBack({ 32 * 20,0,32,40 });
-	doorAnim.PushBack({ 32 * 14,0,32,40 });
-	doorAnim.PushBack({ 32 * 15,0,32,40 });
-	doorAnim.PushBack({ 32 * 14,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 10,0,32,40 });
-	doorAnim.PushBack({ 32 * 17,0,32,40 });
-	doorAnim.PushBack({ 32 * 10,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 11,0,32,40 });
-	doorAnim.PushBack({ 32 * 18,0,32,40 });
-	doorAnim.PushBack({ 32 * 11,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 10,0,32,40 });
-	doorAnim.PushBack({ 32 * 17,0,32,40 });
-	doorAnim.PushBack({ 32 * 10,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 11,0,32,40 });
-	doorAnim.PushBack({ 32 * 18,0,32,40 });
-	doorAnim.PushBack({ 32 * 11,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 20,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 19,0,32,40 });
-	doorAnim.PushBack({ 32 * 8,0,32,40 });
-	doorAnim.PushBack({ 32 * 7,0,32,40 });
-	doorAnim.PushBack({ 32 * 6,0,32,40 });
-	//Door closes
-	doorAnim.PushBack({ 32 * 5,0,32,40 });
-	doorAnim.PushBack({ 32 * 4,0,32,40 });
-	doorAnim.PushBack({ 32 * 3,0,32,40 });
-	doorAnim.PushBack({ 32 * 2,0,32,40 });
-	doorAnim.PushBack({ 32 * 1,0,32,40 });
-	doorAnim.PushBack({ 32 * 0,0,32,40 });
-
-	doorAnim.loop = false;
-	doorAnim.speed = 0.1f;
-
-	if (winnerCount >= 50 ) {
-		curtainAnim.PushBack({ 80 * 0,0,80,64 });
-		curtainAnim.PushBack({ 80 * 1,0,80,64 });
-		curtainAnim.PushBack({ 80 * 2,0,80,64 });
-		curtainAnim.PushBack({ 80 * 3,0,80,64 });
-		curtainAnim.PushBack({ 80 * 4,0,80,64 });
-		curtainAnim.PushBack({ 80 * 5,0,80,64 });
-		curtainAnim.loop = false;
-		curtainAnim.speed = 0.25f;
+	if (winnerCount == 604) {
+		currentAnimationCurtain->speed = 0;
+		gameover = false;
+		App->sceneLevel_1_Round_1->Enable();
 	}
-
-	if (winnerCount >=100) {
-		App->fonts->BlitText(104, 139, WhiteFont, "complete");
-		App->fonts->BlitText(115, 139, WhiteFont, "10 lines");
-		App->fonts->BlitText(137, 139, WhiteFont, "to go to");
-		App->fonts->BlitText(150, 129, WhiteFont, "next round");
-	}
-
-	//App->tetromino->Disable();
+	
+	winnerCount++;
 
 }
-
 
 bool SceneLevel1::CleanUp()
 {

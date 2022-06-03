@@ -57,6 +57,8 @@ Update_Status SceneLevel1Round1::Update()
 	//LoserFunctionality
 	losercount++;
 
+	//winnercount++;
+
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -99,6 +101,7 @@ Update_Status SceneLevel1Round1::PostUpdate()
 
 }
 
+
 //Makes the player lose the game directly
 void SceneLevel1Round1::loser() {
 
@@ -106,21 +109,21 @@ void SceneLevel1Round1::loser() {
 
 	App->render->Blit(loserSprite, 32, 0, NULL);
 
-	App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
 	App->tetromino->Disable();
 
 }
+
 
 //Makes the player win the game directly
 void SceneLevel1Round1::winner() {
 
 	win = true;
 
-	App->fonts->BlitText(119, 157, BlueFont, "you");
+	App->fonts->BlitText(119, 157, WhiteFont, "you");
 	App->fonts->BlitText(138, 146, WhiteFont, "did it");
 
-	App->audio->PlayMusic("Assets/Music/02_-_Tetris_Atari_-_ARC_-_You_Did_It.ogg", 1.0f);
-	App->tetromino->Disable();
+	//App->audio->PlayFx()
+	//App->tetromino->Disable();
 
 }
 

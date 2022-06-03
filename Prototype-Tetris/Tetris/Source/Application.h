@@ -18,7 +18,7 @@ class SceneMembers;
 class SceneIntro;
 class SceneDifficultyMenu;
 class SceneLevel1;
-class SceneLevel1Round1;
+class SceneLevel2;
 class ModuleParticles;
 class ModuleCollisions;
 class ModuleFadeToBlack;
@@ -66,7 +66,7 @@ public:
 	SceneIntro* sceneIntro = nullptr;
 	SceneDifficultyMenu* sceneDifficulty = nullptr;
 	SceneLevel1* sceneLevel_1 = nullptr;
-	SceneLevel1Round1* sceneLevel_1_Round_1 = nullptr;
+	SceneLevel2* sceneLevel_2 = nullptr;
 
 	ModuleParticles* particles = nullptr;
 

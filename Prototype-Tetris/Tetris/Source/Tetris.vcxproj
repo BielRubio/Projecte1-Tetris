@@ -79,7 +79,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="SceneDescription.h" />
     <ClInclude Include="SceneDetails.h" />
-    <ClInclude Include="SceneLevel1Round1.h" />
+    <ClInclude Include="SceneLevel2.h" />
     <ClInclude Include="SceneLogo.h" />
     <ClInclude Include="SceneMembers.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -109,7 +109,7 @@
     <ClCompile Include="SceneDescription.cpp" />
     <ClCompile Include="SceneDetails.cpp" />
     <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="SceneLevel1Round1.cpp" />
+    <ClCompile Include="SceneLevel2.cpp" />
     <ClCompile Include="SceneLogo.cpp" />
     <ClCompile Include="SceneMembers.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />

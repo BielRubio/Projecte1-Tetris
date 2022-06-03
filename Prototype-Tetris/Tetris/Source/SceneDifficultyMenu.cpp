@@ -53,7 +53,7 @@ Update_Status SceneDifficultyMenu::Update()
 	}
 	if (SecondFrameCount >= 60) {
 		this->Disable();
-		App->sceneLevel_1->Enable();
+		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
 	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 2)
 	{
@@ -102,4 +102,13 @@ Update_Status SceneDifficultyMenu::PostUpdate()
 	App->fonts->BlitText(240, 225, WhiteFont, "40000 bonus");
 
 	return Update_Status::UPDATE_CONTINUE;
+}
+
+bool SceneDifficultyMenu::CleanUp() {
+
+	App->textures->Unload(bgTexture);
+	App->textures->Unload(ARTexture);
+	App->textures->Unload(ALTexture);
+
+	return true;
 }

@@ -4,13 +4,16 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleAudio.h"
-#include "ModuleCollisions.h"
-#include "ModulePlayer.h"
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include "ModuleInput.h"
-#include "SceneLevel1Round1.h"
+#include "SceneIntro.h";
+#include "ModuleFadeToBlack.h"
+#include <iostream>
 #include <stdio.h>
+#include <sstream>
+using namespace std;
+
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -96,6 +99,7 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
 
+	
 }
 
 SceneLevel1::~SceneLevel1()
@@ -106,6 +110,9 @@ SceneLevel1::~SceneLevel1()
 // Load assets
 bool SceneLevel1::Start()
 {
+	App->textures->Enable();
+	App->fonts->Enable();
+
 	LOG("Loading background assets");
 
 	bool ret = true;
@@ -123,7 +130,7 @@ bool SceneLevel1::Start()
 	linesleft = linesObj;
 	
 	// Counter
-	t_points = 0;
+	//t_points = 0;
 	t_losetoContinue = 9;
 
 	currentAnimationCurtain = &curtainAnim;
@@ -140,7 +147,6 @@ bool SceneLevel1::Start()
 
 	App->tetromino->Enable();
 
-
 	return ret;
 }
 
@@ -148,12 +154,6 @@ Update_Status SceneLevel1::Update()
 {
 	currentAnimationCurtain->Update();
 	currentAnimationDoor->Update();
-
-	//LoserFunctionality
-	losercount++;
-
-	//WinnerFunctionality
-	//winnerCount++;
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -168,14 +168,9 @@ Update_Status SceneLevel1::PostUpdate()
 		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
 		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
 
-
-	SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
-	App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
-
 		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
 		App->render->Blit(doorTexture, 135, 50, &rectDoor);
 	}
-
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
@@ -186,34 +181,80 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(125, 210, BlueFont, "round");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
-	//Loser hotkey
-	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN && losercount >= 100 || gameover == true)
-	{
-		SceneLevel1::loser();
-	}
 
-	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN || win == true)
-	{
+	if (linesleft == 0) {
+		App->audio->PauseMusic();
 		SceneLevel1::winner();
 	}
 
-	return Update_Status::UPDATE_CONTINUE;
+	//Loser hotkey
+	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN)
+	{
+		gameover = true;
+		losercount = 0;
+	}
+	if (gameover == true) {
 
+		string str_losetoContinue = to_string(t_losetoContinue);
+		const char* ch_losetoContinue = str_losetoContinue.c_str();
+
+		App->audio->PauseMusic();
+		SceneLevel1::loser(ch_losetoContinue);
+	}
+
+	//Winner hotkey
+	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN)
+	{
+		win = true;
+		winnerCount = 0;
+	}
+	if(win == true)
+	{
+		App->audio->PauseMusic();
+		SceneLevel1::winner();
+	}
+	
+	return Update_Status::UPDATE_CONTINUE;
 }
 
 //Makes the player lose the game
-void SceneLevel1::loser() {
-
+void SceneLevel1::loser(const char* ch_losetoContinue){
 
 	App->tetromino->Disable();
 
-	gameover = true;
+	if (losercount >= 0 && losercount < 200)
+	{
+		if (losercount == 5) App->audio->PlayFx(fxgameOver);
+		else { App->audio->PauseMusic(); }
+		App->render->Blit(loserSprite, 32, 0, NULL);
+	}
 
-	App->render->Blit(loserSprite, 32, 0, NULL);
+	else if (losercount > 200)
+	{
+		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
+		{
+			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+		}
 
-	App->audio->PlayFx(fxgameOver);
-	
+		App->fonts->BlitText(52, 74, WhiteFont, "press");
+		App->fonts->BlitText(56, 90, WhiteFont, "start");
+		App->fonts->BlitText(62, 105, WhiteFont, "to");
+		App->fonts->BlitText(43, 122, WhiteFont, "continue");
+		App->fonts->BlitText(74, 187, WhiteFont, ch_losetoContinue);
+		
+		if (losercount % 50 == 0)
+		{
+			t_losetoContinue--;
+		}
+
+		if (t_losetoContinue == 0)
+		{
+			gameover = false;
+			App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 0);
+		}
+	}
+
+	losercount++;
 }
 
 //Makes the player win after 1 round
@@ -236,8 +277,6 @@ void SceneLevel1::winner() {
 
 	App->tetromino->Disable();
 
-	win = true;
-
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
 		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
@@ -251,9 +290,9 @@ void SceneLevel1::winner() {
 	if (winnerCount >= 250 && winnerCount < 574)
 	{
 		//Bonus
-		App->fonts->BlitText(138, 105, WhiteFont, "bonus for");
-		App->fonts->BlitText(150, 110, WhiteFont, "low");
-		App->fonts->BlitText(144, 116, WhiteFont, "puzzle");
+		App->fonts->BlitText(135, 105, WhiteFont, "bonus for");
+		App->fonts->BlitText(157, 116, WhiteFont, "low");
+		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
 	}
 
 	if (winnerCount >= 574 ) {
@@ -266,16 +305,21 @@ void SceneLevel1::winner() {
 	if (winnerCount == 604) {
 		currentAnimationCurtain->speed = 0;
 		gameover = false;
-		App->sceneLevel_1_Round_1->Enable();
+		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
+		//App->sceneIntro->Enable();
 	}
 	
 	winnerCount++;
-
 }
 
 bool SceneLevel1::CleanUp()
 {
 	App->tetromino->Disable();
+
+	App->textures->Unload(bgTexture);
+	App->textures->Unload(curtainTexture);
+	App->textures->Unload(doorTexture);
+	App->textures->Unload(loserSprite);
 
 	return true;
 }

@@ -4,14 +4,16 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleAudio.h"
-#include "ModuleCollisions.h"
-#include "ModulePlayer.h"
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include "ModuleInput.h"
 #include "SceneIntro.h";
 #include "ModuleFadeToBlack.h"
+#include <iostream>
 #include <stdio.h>
+#include <sstream>
+using namespace std;
+
 
 SceneLevel2::SceneLevel2(bool startEnabled) : Module(startEnabled)
 {
@@ -97,6 +99,7 @@ SceneLevel2::SceneLevel2(bool startEnabled) : Module(startEnabled)
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
 
+	
 }
 
 SceneLevel2::~SceneLevel2()
@@ -107,6 +110,9 @@ SceneLevel2::~SceneLevel2()
 // Load assets
 bool SceneLevel2::Start()
 {
+	App->textures->Enable();
+	App->fonts->Enable();
+
 	LOG("Loading background assets");
 
 	bool ret = true;
@@ -190,8 +196,12 @@ Update_Status SceneLevel2::PostUpdate()
 		losercount = 0;
 	}
 	if (gameover == true) {
+
+		string str_losetoContinue = to_string(t_losetoContinue);
+		const char* ch_losetoContinue = str_losetoContinue.c_str();
+
 		App->audio->PauseMusic();
-		SceneLevel2::loser();
+		SceneLevel2::loser(ch_losetoContinue);
 	}
 
 	//Winner hotkey
@@ -212,7 +222,7 @@ Update_Status SceneLevel2::PostUpdate()
 }
 
 //Makes the player lose the game
-void SceneLevel2::loser() {
+void SceneLevel2::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
 
@@ -310,7 +320,11 @@ void SceneLevel2::winner() {
 bool SceneLevel2::CleanUp()
 {
 	App->tetromino->Disable();
+
 	App->textures->Unload(bgTexture);
 	App->textures->Unload(curtainTexture);
+	App->textures->Unload(doorTexture);
+	App->textures->Unload(loserSprite);
+
 	return true;
 }

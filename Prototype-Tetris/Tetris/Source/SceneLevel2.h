@@ -28,7 +28,7 @@ public:
 	Update_Status PostUpdate() override;
 
 	//Hotkeys functions loser and winner screens
-	void loser();
+	void loser(const char* ch_losetoContinue);
 
 	void winner();
 
@@ -38,6 +38,7 @@ public:
 	bool CleanUp();
 
 public:
+
 
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
@@ -81,7 +82,6 @@ public:
 	//int t_message;
 
 	int t_losetoContinue;
-	int t_WinnerLoser = 0;
 };
 
 #endif

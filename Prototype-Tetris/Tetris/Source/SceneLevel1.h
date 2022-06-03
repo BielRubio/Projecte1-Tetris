@@ -28,7 +28,7 @@ public:
 	Update_Status PostUpdate() override;
 
 	//Hotkeys functions loser and winner screens
-	void loser();
+	void loser(const char* ch_losetoContinue);
 
 	void winner();
 
@@ -81,7 +81,6 @@ public:
 	//int t_message;
 
 	int t_losetoContinue;
-	int t_WinLose;
 };
 
 #endif

@@ -560,9 +560,7 @@ Update_Status ModuleTetromino::Update() {
 		frameCount = 0;
 	}
 
-	frameCount++;
-
-	
+	frameCount++;	
 
 	if (fileToDelete != 0) {
 
@@ -855,16 +853,18 @@ void ModuleTetromino::lowerLines(int y) {
 	}
 }
 
-//bool ModuleTetromino::checkLoss() {
-//
-//	for (int i = 0; i < mapLength; i++) {
-//		if (map[i][2] == 1) {
-//			return true;
-//		}
-//	}
-//	return false;
-//
-//}
+bool ModuleTetromino::checkLoss() {
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 1; j < mapLength - 1; j++) {
+			if (map[j][i] != nullptr) {
+				return true;
+			}
+		}
+	}
+	return false;
+
+}
 
 int ModuleTetromino::getSpriteX(Tile* t) {
 

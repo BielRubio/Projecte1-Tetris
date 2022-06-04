@@ -204,6 +204,10 @@ Update_Status SceneLevel1::PostUpdate()
 		gameover = true;
 		losercount = 0;
 	}
+	if (App->tetromino->checkLoss()) {
+		gameover = true;
+	}
+
 	if (gameover == true) {
 
 		string str_losetoContinue = to_string(t_losetoContinue);

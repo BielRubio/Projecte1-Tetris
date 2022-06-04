@@ -7,7 +7,7 @@
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include "ModuleInput.h"
-#include "SceneIntro.h";
+#include "SceneHighScore.h";
 #include "ModuleFadeToBlack.h"
 #include <iostream>
 #include <stdio.h>
@@ -114,7 +114,7 @@ bool SceneLevel1::Start()
 {
 
 	App->tetromino->Enable();
-
+	
 	LOG("Loading background assets");
 
 	bool ret = true;
@@ -311,7 +311,8 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 		if (t_losetoContinue == 0)
 		{
 			gameover = false;
-			App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 0);
+			this->Disable();
+			App->sceneHighScore->Enable();
 		}
 	}
 
@@ -451,12 +452,10 @@ void SceneLevel1::Score(int score) {
 
 bool SceneLevel1::CleanUp()
 {
-	App->tetromino->Disable();
+	if (App->tetromino->IsEnabled()) {
 
-	App->textures->Unload(bgTexture);
-	App->textures->Unload(curtainTexture);
-	App->textures->Unload(doorTexture);
-	App->textures->Unload(loserSprite);
-
+		App->tetromino->Disable();
+	}
+	
 	return true;
 }

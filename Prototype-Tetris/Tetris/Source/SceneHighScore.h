@@ -1,19 +1,19 @@
-#ifndef __SCENE_DIFFICULTY_MENU_H__
-#define __SCENE_DIFFICULTY_MENU_H__
+#ifndef __SCENE_HIGH_SCORE_H__
+#define __SCENE_HIGH_SCORE_H__
 
 #include "Module.h"
 #include "Animation.h"
 
 struct SDL_Texture;
 
-class SceneDifficultyMenu : public Module
+class SceneHighScore : public Module
 {
 public:
 	//Constructor
-	SceneDifficultyMenu(bool startEnabled);
+	SceneHighScore(bool startEnabled);
 
 	//Destructor
-	~SceneDifficultyMenu();
+	~SceneHighScore();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the map background
@@ -32,24 +32,11 @@ public:
 public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
-	SDL_Texture* ARTexture = nullptr;
-	SDL_Texture* ALTexture = nullptr;
 
-	int frameCount = 0, SecondFrameCount = 0;
-	//FX sounds
-	uint Select = 0;
-	uint Switch = 0;
-	//Selection state, 0 = Easy, 1 = Medium, 2 = Hard 
-	int Selection = 0;
-	bool SelectAux = false;
-	//Fonts
-	int WhiteFont = -1;
-	char WhiteFontText[10] = { "\0" };
-	int BlueFont = 0;
-	char BlueFontText[10] = { "\0" };
-	int RedFont = 1;
-	char RedFontText[10] = { "\0" };
+	uint fireworkFx = 0;
+
+	int frameCount = 0;
+
 };
 
 #endif
-

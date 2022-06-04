@@ -13,7 +13,7 @@
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
-	/*
+	
 	curtainAnim.PushBack({ 80 * 0,0,80,64 });
 	curtainAnim.PushBack({ 80 * 1,0,80,64 });
 	curtainAnim.PushBack({ 80 * 2,0,80,64 });
@@ -94,7 +94,7 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
-*/
+
 }
 
 SceneLevel1::~SceneLevel1()

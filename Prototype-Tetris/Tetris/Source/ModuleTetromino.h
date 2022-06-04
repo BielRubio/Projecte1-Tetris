@@ -28,15 +28,15 @@ public:
 
 	Update_Status PostUpdate() override;
 
-	
 
-	
+
+
 
 	//Called in order to create a new tetromino
 	void nextTetromino();
 
 	//Called every time a tetromino is moved, in order to authorize the movement
-	
+
 	void fall();
 
 	void move(int m);
@@ -44,7 +44,9 @@ public:
 	void rotate();
 
 	//Check if a line is completed and delete it
-	bool checkLines();
+	int checkLines();
+
+	void animLines(int j);
 
 	bool checkLoss();
 
@@ -62,42 +64,54 @@ public:
 
 	enum { mapLength = 10 + 2, mapHeight = 22 + 2 };
 
-	Tile* map[mapLength][mapHeight] = {nullptr};
-	
+	//Matrix containing the map
+	Tile* map[mapLength][mapHeight] = { nullptr };
+
 	Tile* currentBlock[4];
+
+	Tile nextBlock[4];
 
 	bool allowMovement(Tile* t);
 
 	int currentId = 0;
 
-	
-
-	//Matrix containing the map
-
-	
+	int currentRotation = 1;
 
 	enum { xOffset = 32 - 8, yOffset = 24 - 8};
-
-	Animation idleAnim;
 
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* blocks = nullptr;
 
 	Animation* currentAnimation = nullptr;
 
+	Animation lineAnim;
+
 	int frameCount = 0;
 
 	int linesToWin = 2;
 
 	//the matrix containing the info or the 7 different tetrominoes
-	static const int tetrominoes[7][4][2]; 
+	static const int tetrominoes1[7][4][2]; 
 
-	static const int sX[7][4];
+	static const int sX1[7][4];
+
+	static const int tetrominoes2[7][4][2];
+
+	static const int sX2[7][4];
+
+	static const int tetrominoes3[7][4][2];
+
+	static const int sX3[7][4];
+
+	static const int tetrominoes4[7][4][2];
+
+	static const int sX4[7][4];
 
 	//struct that will contain the info of a block (a map 4x4) and a copy of it
 	struct Point {
 		int x, y; 
 	} block[4], cBlock[4]; 
+
 	//Fx
 	uint Drop = 0;
 

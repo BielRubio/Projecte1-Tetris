@@ -79,6 +79,9 @@
     <ClCompile Include="SceneLevel2.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLevel3.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -163,6 +166,9 @@
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="SceneLevel2.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel3.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

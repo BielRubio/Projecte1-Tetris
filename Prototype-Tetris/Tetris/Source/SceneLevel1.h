@@ -32,7 +32,7 @@ public:
 
 	void winner();
 
-	void winnerRound();
+	//void winnerRound();
 
 	// Disables pieces
 	bool CleanUp();
@@ -78,7 +78,7 @@ public:
 	
 	//Timers
 	int t_points;
-	//int t_message;
+	int t_message = 0;
 
 	int t_losetoContinue;
 };

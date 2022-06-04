@@ -56,6 +56,7 @@ public:
 	SDL_Texture* curtainTexture = nullptr;
 	SDL_Texture* doorTexture = nullptr;
 	SDL_Texture* loserSprite = nullptr;
+	SDL_Texture* speedTexture = nullptr;
 
 	uint fxgameOver = 0;
 	uint fxWinner = 0;

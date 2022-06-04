@@ -120,6 +120,7 @@ bool SceneLevel1::Start()
 	bool ret = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
+	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	LOG("Loading sound effects")
@@ -134,6 +135,8 @@ bool SceneLevel1::Start()
 	// Counter
 	//t_points = 0;
 	t_losetoContinue = 9;
+
+	App->tetromino->speed = App->tetromino->speed1;
 
 	currentAnimationCurtain = &curtainAnim;
 	currentAnimationDoor = &doorAnim;
@@ -232,6 +235,44 @@ Update_Status SceneLevel1::PostUpdate()
 	{
 		App->audio->PauseMusic();
 		SceneLevel1::winner();
+	}
+
+	//Speed meter
+	if (App->tetromino->speed <= App->tetromino->speed1) {
+		SDL_Rect rect = { 0,16,8,2 };
+		App->render->Blit(speedTexture, 8, 230, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed2) {
+		SDL_Rect rect = { 0,14,8,2 };
+		App->render->Blit(speedTexture, 8, 228, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed3) {
+		SDL_Rect rect = { 0,12,8,2 };
+		App->render->Blit(speedTexture, 8, 226, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed4) {
+		SDL_Rect rect = { 0,10,8,2 };
+		App->render->Blit(speedTexture, 8, 224, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed5) {
+		SDL_Rect rect = { 0,8,8,2 };
+		App->render->Blit(speedTexture, 8, 222, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed6) {
+		SDL_Rect rect = { 0,6,8,2 };
+		App->render->Blit(speedTexture, 8, 220, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed7) {
+		SDL_Rect rect = { 0,4,8,2 };
+		App->render->Blit(speedTexture, 8, 218, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed8) {
+		SDL_Rect rect = { 0,2,8,2 };
+		App->render->Blit(speedTexture, 8, 216, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed9) {
+		SDL_Rect rect = { 0,0,8,2 };
+		App->render->Blit(speedTexture, 8, 214, &rect);
 	}
 	
 	return Update_Status::UPDATE_CONTINUE;

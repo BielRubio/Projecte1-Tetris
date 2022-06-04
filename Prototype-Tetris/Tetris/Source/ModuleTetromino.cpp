@@ -191,6 +191,7 @@ Update_Status ModuleTetromino::Update() {
 		rotate();
 	}
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
+
 		frameCount += 10;
 	}
 	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {
@@ -566,7 +567,7 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 
-	if (frameCount >= 50) {
+	if (frameCount >= speed) {
 		fall();
 		frameCount = 0;
 	}

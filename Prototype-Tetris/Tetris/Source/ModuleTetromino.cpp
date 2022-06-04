@@ -853,7 +853,7 @@ int ModuleTetromino::checkLines() {
 			}
 			App->sceneLevel_1->Score(100);
 			App->sceneLevel_1->Lines();
-			App->sceneLevel_1->LinesLeft(-1);
+			App->sceneLevel_1->LinesLeft();
 			return j;
 		}
 		allTiles = true;

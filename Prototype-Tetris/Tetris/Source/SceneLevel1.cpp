@@ -400,42 +400,13 @@ void SceneLevel1::Lines() {
 	strValue >> intValue;
 	intValue++;
 
-	// This method is not the best but it will be changed
-	switch(intValue) {
-	case 1:
-		LinesCount = "1";
-		break;
-	case 2:
-		LinesCount = "2";
-		break;
-	case 3:
-		LinesCount = "3";
-		break;
-	case 4:
-		LinesCount = "4";
-		break;
-	case 5:
-		LinesCount = "5";
-		break;
-	case 6:
-		LinesCount = "6";
-		break;
-	case 7:
-		LinesCount = "7";
-		break;
-	case 8:
-		LinesCount = "8";
-		break;
-	case 9:
-		LinesCount = "9";
-		break;
-	case 10:
-		LinesCount = "10";
-		break;
-	}
+	stringstream ss;
+	ss << intValue;
+	Aux22Count = ss.str();
+	LinesCount = Aux22Count.c_str();
 }
 
-void SceneLevel1::LinesLeft(int linesleft) {
+void SceneLevel1::LinesLeft() {
 	const char* CurrentLines = LinesLeftCount;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -443,41 +414,15 @@ void SceneLevel1::LinesLeft(int linesleft) {
 	unsigned int intValue;
 	strValue >> intValue;
 	intValue--;
-	// This method is not the best but it will be changed
-	switch (intValue) {
-	case 0:
+	if (intValue > 0 && IsZero == false) {
+		stringstream ss;
+		ss << intValue;
+		Aux222Count = ss.str();
+		LinesLeftCount = Aux222Count.c_str();
+	}
+	if (intValue == 0) {
 		LinesLeftCount = "0";
-		break;
-	case 1:
-		LinesLeftCount = "1";
-		break;
-	case 2:
-		LinesLeftCount = "2";
-		break;
-	case 3:
-		LinesLeftCount = "3";
-		break;
-	case 4:
-		LinesLeftCount = "4";
-		break;
-	case 5:
-		LinesLeftCount = "5";
-		break;
-	case 6:
-		LinesLeftCount = "6";
-		break;
-	case 7:
-		LinesLeftCount = "7";
-		break;
-	case 8:
-		LinesLeftCount = "8";
-		break;
-	case 9:
-		LinesLeftCount = "9";
-		break;
-	case 10:
-		LinesLeftCount = "10";
-		break;
+		IsZero = true;
 	}
 }
 

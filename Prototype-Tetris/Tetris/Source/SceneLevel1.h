@@ -40,7 +40,7 @@ public:
 
 	void Lines();
 
-	void LinesLeft(int linesleft);
+	void LinesLeft();
 
 	int StrToInt(string x);
 
@@ -71,10 +71,11 @@ public:
 	const char* AuxCount = "0";
 	const char* LinesCount = "0";
 	const char* LinesLeftCount = "5";
-	string Aux2Count;
+	string Aux2Count, Aux22Count, Aux222Count;
 	uint score = 000;
 	bool gameover = false;
 	bool win = false;
+	bool IsZero = false;
 
 	int ScoreCount = 0;
 	int WhiteFont = -1;

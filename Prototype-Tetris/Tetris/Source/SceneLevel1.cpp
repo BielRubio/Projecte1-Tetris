@@ -189,7 +189,7 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
-	App->fonts->BlitText(209, 175, BlueFont, "1");
+	App->fonts->BlitText(175, 209, BlueFont, "1");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
 

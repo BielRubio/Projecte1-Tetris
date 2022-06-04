@@ -19,15 +19,15 @@ using namespace std;
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
-	
+	//Curtain anim
 	curtainAnim.PushBack({ 80 * 0,0,80,64 });
 	curtainAnim.PushBack({ 80 * 1,0,80,64 });
 	curtainAnim.PushBack({ 80 * 2,0,80,64 });
 	curtainAnim.PushBack({ 80 * 3,0,80,64 });
 	curtainAnim.PushBack({ 80 * 4,0,80,64 });
 	curtainAnim.PushBack({ 80 * 5,0,80,64 });
-	curtainAnim.loop = false;
-	curtainAnim.speed = 0.25f;
+	curtainAnim.loop = true;
+	curtainAnim.speed = 0.2f;
 
 	//Open door
 	doorAnim.PushBack({ 32 * 0,0,32,40 });
@@ -111,8 +111,8 @@ SceneLevel1::~SceneLevel1()
 // Load assets
 bool SceneLevel1::Start()
 {
-	App->textures->Enable();
-	App->fonts->Enable();
+
+	App->tetromino->Enable();
 
 	LOG("Loading background assets");
 
@@ -146,8 +146,6 @@ bool SceneLevel1::Start()
 	BlueFont = App->fonts->Load("Assets/Fonts/TetrisFontBlue.png", lookupTable, 1);
 	RedFont = App->fonts->Load("Assets/Fonts/TetrisFontRed.png", lookupTable, 1);
 
-	App->tetromino->Enable();
-
 	return ret;
 }
 
@@ -168,10 +166,20 @@ Update_Status SceneLevel1::PostUpdate()
 	if (win == true) {
 		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
 		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
-
+		/*
 		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
-		App->render->Blit(doorTexture, 135, 50, &rectDoor);
+		App->render->Blit(doorTexture, 135, 50, &rectDoor);*/
 	}
+
+	//Message postcurtainAnim
+	//curtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
+	//{
+	/*App->render->TextDraw("complete", 272, 210, 255, 255, 255, 255, 16);
+	//App->render->TextDraw(ch_linesleft, 272, 242, 255, 255, 255, 255, 16);
+	App->render->TextDraw("lines", 320, 240, 252, 255, 255, 255, 16);
+	App->render->TextDraw("to go to", 272, 272, 255, 255, 255, 255, 16);
+	App->render->TextDraw("next round", 257, 305, 255, 255, 255, 255, 16);
+	//}*/
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
@@ -181,6 +189,7 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
+	App->fonts->BlitText(209, 175, BlueFont, "1");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
 
@@ -190,7 +199,7 @@ Update_Status SceneLevel1::PostUpdate()
 	}
 
 	//Loser hotkey
-	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
 	{
 		gameover = true;
 		losercount = 0;
@@ -205,7 +214,7 @@ Update_Status SceneLevel1::PostUpdate()
 	}
 
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
 		win = true;
 		winnerCount = 0;
@@ -259,6 +268,7 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 	losercount++;
 }
 
+/*
 //Makes the player win after 1 round
 void SceneLevel1::winnerRound() {
 
@@ -273,6 +283,7 @@ void SceneLevel1::winnerRound() {
 
 	//App->sceneLevel_1_Round_1->Enable();
 }
+*/
 
 //Makes the player win the game after 3 rounds
 void SceneLevel1::winner() {

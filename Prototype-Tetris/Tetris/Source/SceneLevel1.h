@@ -34,7 +34,7 @@ public:
 
 	void winner();
 
-	void winnerRound();
+	//void winnerRound();
 
 	void Score(int score);
 
@@ -87,7 +87,7 @@ public:
 	
 	//Timers
 	int t_points;
-	//int t_message;
+	int t_message = 0;
 
 	int t_losetoContinue;
 };

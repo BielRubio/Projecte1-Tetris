@@ -7,13 +7,14 @@
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include "ModuleInput.h"
-#include "SceneIntro.h";
+#include "SceneHighScore.h";
 #include "ModuleFadeToBlack.h"
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <charconv>
 using namespace std;
 
 
@@ -123,18 +124,32 @@ bool SceneLevel1::Start()
 {
 
 	App->tetromino->Enable();
-
+	
 	LOG("Loading background assets");
 
 	bool ret = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
+	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	LOG("Loading sound effects")
 	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
+
+	// Variables
+	lines = 0;
+	linesObj = 5;
+	linesleft = linesObj;
 	
+	// Counter
+	//t_points = 0;
+	t_losetoContinue = 9;
+
+	App->tetromino->speed = App->tetromino->speed1;
+
+	currentAnimationCurtain = &curtainAnim;
+	currentAnimationDoor = &doorAnim;
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
 	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
@@ -221,11 +236,19 @@ Update_Status SceneLevel1::PostUpdate()
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
+
 	App->fonts->BlitText(72, 217, WhiteFont, AuxCount);
+
+	App->fonts->BlitText(65, 217, RedFont, AuxCount);
+
 	App->fonts->BlitText(10, 12, RedFont, "next");
-	App->fonts->BlitText(24, 226, RedFont, "lines");
+	App->fonts->BlitText(24, 225, RedFont, "lines");
+	App->fonts->BlitText(65, 225, RedFont, LinesCount);
+	App->fonts->BlitText(135, 110, RedFont, LinesLeftCount);
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
+	App->fonts->BlitText(155, 125, WhiteFont, "lines");
+	App->fonts->BlitText(155, 140, WhiteFont, "left");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
 	App->fonts->BlitText(175, 210, BlueFont, "1");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
@@ -242,6 +265,10 @@ Update_Status SceneLevel1::PostUpdate()
 		gameover = true;
 		losercount = 0;
 	}
+	if (App->tetromino->checkLoss()) {
+		gameover = true;
+	}
+
 	if (gameover == true) {
 
 		string str_losetoContinue = to_string(t_losetoContinue);
@@ -261,6 +288,44 @@ Update_Status SceneLevel1::PostUpdate()
 	{
 		App->audio->PauseMusic();
 		SceneLevel1::winner();
+	}
+
+	//Speed meter
+	if (App->tetromino->speed <= App->tetromino->speed1) {
+		SDL_Rect rect = { 0,16,8,2 };
+		App->render->Blit(speedTexture, 8, 230, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed2) {
+		SDL_Rect rect = { 0,14,8,2 };
+		App->render->Blit(speedTexture, 8, 228, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed3) {
+		SDL_Rect rect = { 0,12,8,2 };
+		App->render->Blit(speedTexture, 8, 226, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed4) {
+		SDL_Rect rect = { 0,10,8,2 };
+		App->render->Blit(speedTexture, 8, 224, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed5) {
+		SDL_Rect rect = { 0,8,8,2 };
+		App->render->Blit(speedTexture, 8, 222, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed6) {
+		SDL_Rect rect = { 0,6,8,2 };
+		App->render->Blit(speedTexture, 8, 220, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed7) {
+		SDL_Rect rect = { 0,4,8,2 };
+		App->render->Blit(speedTexture, 8, 218, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed8) {
+		SDL_Rect rect = { 0,2,8,2 };
+		App->render->Blit(speedTexture, 8, 216, &rect);
+	}
+	if (App->tetromino->speed <= App->tetromino->speed9) {
+		SDL_Rect rect = { 0,0,8,2 };
+		App->render->Blit(speedTexture, 8, 214, &rect);
 	}
 	
 	return Update_Status::UPDATE_CONTINUE;
@@ -299,7 +364,8 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 		if (t_losetoContinue == 0)
 		{
 			gameover = false;
-			App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 0);
+			this->Disable();
+			App->sceneHighScore->Enable();
 		}
 	}
 
@@ -362,12 +428,56 @@ void SceneLevel1::winner() {
 	winnerCount++;
 }
 
-int SceneLevel1::StrToInt(string x) {
+int SceneLevel1::ConstChartoInt(const char* x) { // Function that converts const char* to int
+	stringstream strValue;
+	strValue << x;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	return intValue;
+}
+
+int SceneLevel1::StrToInt(string x) { // Function that converts string to int
 	int temp = 0;
 	for (int i = 0; i < x.length(); i++) {
 		temp = temp * 10 + (x[i] - '0');
 	}
 	return temp;
+}
+
+void SceneLevel1::Lines() {
+	const char* CurrentLines = LinesCount;
+	stringstream strValue;
+	strValue << CurrentLines;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	intValue++;
+
+	stringstream ss;
+	ss << intValue;
+	Aux22Count = ss.str();
+	LinesCount = Aux22Count.c_str();
+}
+
+void SceneLevel1::LinesLeft() {
+	const char* CurrentLines = LinesLeftCount;
+	stringstream strValue;
+	strValue << CurrentLines;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	intValue--;
+	if (intValue > 0 && IsZero == false) {
+		stringstream ss;
+		ss << intValue;
+		Aux222Count = ss.str();
+		LinesLeftCount = Aux222Count.c_str();
+	}
+	if (intValue == 0) {
+		LinesLeftCount = "0";
+		IsZero = true;
+	}
 }
 
 void SceneLevel1::Score(int score) {
@@ -395,12 +505,10 @@ void SceneLevel1::Score(int score) {
 
 bool SceneLevel1::CleanUp()
 {
-	App->tetromino->Disable();
+	if (App->tetromino->IsEnabled()) {
 
-	App->textures->Unload(bgTexture);
-	App->textures->Unload(curtainTexture);
-	App->textures->Unload(doorTexture);
-	App->textures->Unload(loserSprite);
-
+		App->tetromino->Disable();
+	}
+	
 	return true;
 }

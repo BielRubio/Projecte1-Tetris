@@ -38,7 +38,13 @@ public:
 
 	void Score(int score);
 
+	void Lines();
+
+	void LinesLeft();
+
 	int StrToInt(string x);
+
+	int ConstChartoInt(const char* x);
 
 	// Disables pieces
 	bool CleanUp();
@@ -50,6 +56,7 @@ public:
 	SDL_Texture* curtainTexture = nullptr;
 	SDL_Texture* doorTexture = nullptr;
 	SDL_Texture* loserSprite = nullptr;
+	SDL_Texture* speedTexture = nullptr;
 
 	uint fxgameOver = 0;
 	uint fxWinner = 0;
@@ -63,10 +70,13 @@ public:
 
 	//Fonts and score
 	const char* AuxCount = "0";
-	string Aux2Count;
+	const char* LinesCount = "0";
+	const char* LinesLeftCount = "5";
+	string Aux2Count, Aux22Count, Aux222Count;
 	uint score = 000;
 	bool gameover = false;
 	bool win = false;
+	bool IsZero = false;
 
 	int ScoreCount = 0;
 	int WhiteFont = -1;

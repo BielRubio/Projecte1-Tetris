@@ -111,6 +111,15 @@ ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 	lineAnim.PushBack({ 4 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 5 * 8, 9 * 8, 8, 8 });
 	lineAnim.loop = true;
+
+	lineDAnim.PushBack({ 0 * 2, 0, 2, 12 });
+	lineDAnim.PushBack({ 1 * 2, 0, 2, 12 });
+	lineDAnim.PushBack({ 2 * 2, 0, 2, 12 });
+	lineDAnim.PushBack({ 3 * 2, 0, 2, 12 });
+	lineDAnim.PushBack({ 4 * 2, 0, 2, 12 });
+	lineDAnim.PushBack({ 5 * 2, 0, 2, 12 });
+	lineDAnim.loop = true;
+	lineDAnim.speed = 0.5f;
 }
 
 
@@ -124,10 +133,12 @@ bool ModuleTetromino::Start() {
 	LOG("Loading Tetrominoes_textures");
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
+	lineDTexture = App->textures->Load("Assets/Sprites/linesDetails.png");
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 	lineFX = App->audio->LoadFx("Assets/Fx/tetris_line_completed.wav");
 
 	currentAnimation = &lineAnim;
+	currentLineD = &lineDAnim;
 
 	srand(time(NULL)); //Generate random seed
 
@@ -180,6 +191,7 @@ Update_Status ModuleTetromino::Update() {
 		rotate();
 	}
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
+
 		frameCount += 10;
 	}
 	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {
@@ -555,14 +567,12 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 
-	if (frameCount >= 50) {
+	if (frameCount >= speed) {
 		fall();
 		frameCount = 0;
 	}
 
-	frameCount++;
-
-	
+	frameCount++;	
 
 	if (fileToDelete != 0) {
 
@@ -570,6 +580,7 @@ Update_Status ModuleTetromino::Update() {
 
 			animateLines = true;
 			lineAnim.Update();
+			lineDAnim.Update();
 		}
 		else {
 
@@ -577,6 +588,7 @@ Update_Status ModuleTetromino::Update() {
 			lowerLines(fileToDelete);
 			fileToDelete = 0;
 			lineAnim.Reset();
+			lineDAnim.Reset();
 			fileCount = 0;
 			App->audio->PlayFx(lineFX);
 		}
@@ -621,6 +633,19 @@ Update_Status ModuleTetromino::PostUpdate() {
 		for (int i = 1; i < mapLength - 1; i++) {
 			SDL_Rect rectLines = currentAnimation->GetCurrentFrame();
 			App->render->Blit(blocks, xOffset + (i * 8), yOffset + (fileToDelete * 8), &rectLines);
+		}
+
+		SDL_Rect lineD = currentLineD->GetCurrentFrame();
+		App->render->Blit(lineDTexture, 28, 64 + (lineDOffset * 24), &lineD);
+		App->render->Blit(lineDTexture, 116, 64 + (lineDOffset * 24), &lineD);
+
+		if (lineDOffset == 5) {
+
+			lineDOffset = 0;
+		}
+		else {
+
+			lineDOffset++;
 		}
 	}
 
@@ -694,6 +719,7 @@ void ModuleTetromino::fall() {
 			App->audio->PlayFx(Drop);
 			currentId++;
 			nextTetromino();
+			App->sceneLevel_1->Score(10);
 			return;
 		}
 	}
@@ -826,6 +852,8 @@ int ModuleTetromino::checkLines() {
 				map[i][j] = nullptr;
 			}
 			App->sceneLevel_1->Score(100);
+			App->sceneLevel_1->Lines();
+			App->sceneLevel_1->LinesLeft();
 			return j;
 		}
 		allTiles = true;
@@ -855,16 +883,18 @@ void ModuleTetromino::lowerLines(int y) {
 	}
 }
 
-//bool ModuleTetromino::checkLoss() {
-//
-//	for (int i = 0; i < mapLength; i++) {
-//		if (map[i][2] == 1) {
-//			return true;
-//		}
-//	}
-//	return false;
-//
-//}
+bool ModuleTetromino::checkLoss() {
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 1; j < mapLength - 1; j++) {
+			if (map[j][i] != nullptr) {
+				return true;
+			}
+		}
+	}
+	return false;
+
+}
 
 int ModuleTetromino::getSpriteX(Tile* t) {
 

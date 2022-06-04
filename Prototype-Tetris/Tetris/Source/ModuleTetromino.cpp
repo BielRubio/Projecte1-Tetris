@@ -110,8 +110,7 @@ ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 	lineAnim.PushBack({ 3 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 4 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 5 * 8, 9 * 8, 8, 8 });
-	lineAnim.loop = false;
-	lineAnim.speed = 1.0f;
+	lineAnim.loop = true;
 }
 
 
@@ -126,6 +125,7 @@ bool ModuleTetromino::Start() {
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
+	lineFX = App->audio->LoadFx("Assets/Fx/tetris_line_completed.wav");
 
 	currentAnimation = &lineAnim;
 
@@ -182,7 +182,7 @@ Update_Status ModuleTetromino::Update() {
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
 		frameCount += 10;
 	}
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {
 
 		bool stop = false;
 
@@ -203,7 +203,7 @@ Update_Status ModuleTetromino::Update() {
 			}
 		}
 	}
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN) {
 		if (godMode) {
 			godMode = false;
 		}
@@ -562,26 +562,32 @@ Update_Status ModuleTetromino::Update() {
 
 	frameCount++;
 
-	fileToDelete = checkLines(); //Delete line
+	
 
 	if (fileToDelete != 0) {
 
-		if (frameCount <= 50) {
+		if (fileCount <= 10) {
+
 			animateLines = true;
+			lineAnim.Update();
 		}
 		else {
+
 			animateLines = false;
+			lowerLines(fileToDelete);
+			fileToDelete = 0;
+			lineAnim.Reset();
+			fileCount = 0;
+			App->audio->PlayFx(lineFX);
 		}
-		
+
+		fileCount++;
+	}
+	else {
+
+		fileToDelete = checkLines(); //Delete line
 	}
 
-	if (lineAnim.HasFinished()) {
-
-		lowerLines(fileToDelete);
-		lineAnim.Reset();
-		fileToDelete = 0;
-	}
-	
 	return Update_Status::UPDATE_CONTINUE;
 }
 

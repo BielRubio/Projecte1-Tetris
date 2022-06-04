@@ -61,10 +61,11 @@ public:
 	uint fxgameOver = 0;
 	uint fxWinner = 0;
 
-	Animation* currentAnimationCurtain = nullptr;
+	//Animation* currentAnimationCurtain = nullptr;
 	Animation* currentAnimationDoor = nullptr;
 
-	Animation curtainAnim;
+	Animation openCurtainAnim;
+	Animation closeCurtainAnim;
 	Animation doorAnim;
 
 	//Fonts and score
@@ -86,17 +87,17 @@ public:
 	char BlueFontText[10] = { "\0" };
 	char RedFontText[10] = { "\0" };
 
-	int winnerCount = 0;
-	int losercount = 0;
+	int winnerCount;
+	int losercount;
 
 	int lines;
 	int linesleft;
 	int linesObj;
 
-	int points;
+	//int points;
 	
 	//Timers
-	int t_points;
+	//int t_points;
 	int t_message = 0;
 
 	int t_losetoContinue;

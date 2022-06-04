@@ -38,7 +38,7 @@ Application::Application()
 	modules[6] =	sceneDetails = new SceneDetails(false);
 	modules[7] =	sceneMembers = new SceneMembers(false);
 	modules[8] =	sceneIntro =  new SceneIntro(false);
-	modules[9] =	sceneDifficulty = new SceneDifficultyMenu(false);
+	modules[9] =   sceneDifficulty = new SceneDifficultyMenu(false);
 	modules[10] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
 	modules[11] =	sceneLevel_2 = new SceneLevel2(false);
 	modules[12] =	sceneLevel_3 = new SceneLevel3(false);

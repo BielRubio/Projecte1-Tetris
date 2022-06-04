@@ -64,6 +64,10 @@ public:
 	{
 		return loopCount;
 	}
+
+	float GetFrame() {
+		return currentFrame;
+	}
 };
 
 #endif

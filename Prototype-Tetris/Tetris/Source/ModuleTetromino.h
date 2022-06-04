@@ -79,6 +79,8 @@ public:
 
 	int fileToDelete = 0;
 
+	bool animateLines = false;
+
 	enum { xOffset = 32 - 8, yOffset = 24 - 8};
 
 	// The scene sprite sheet loaded into an SDL_Texture

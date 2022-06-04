@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <charconv>
 using namespace std;
 
 
@@ -175,11 +176,15 @@ Update_Status SceneLevel1::PostUpdate()
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
-	App->fonts->BlitText(65, 217, WhiteFont, AuxCount);
+	App->fonts->BlitText(65, 217, RedFont, AuxCount);
 	App->fonts->BlitText(10, 12, RedFont, "next");
-	App->fonts->BlitText(24, 226, RedFont, "lines");
+	App->fonts->BlitText(24, 225, RedFont, "lines");
+	App->fonts->BlitText(65, 225, RedFont, LinesCount);
+	App->fonts->BlitText(135, 110, RedFont, LinesLeftCount);
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
+	App->fonts->BlitText(155, 125, WhiteFont, "lines");
+	App->fonts->BlitText(155, 140, WhiteFont, "left");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
@@ -313,12 +318,108 @@ void SceneLevel1::winner() {
 	winnerCount++;
 }
 
-int SceneLevel1::StrToInt(string x) {
+int SceneLevel1::ConstChartoInt(const char* x) { // Function that converts const char* to int
+	stringstream strValue;
+	strValue << x;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	return intValue;
+}
+
+int SceneLevel1::StrToInt(string x) { // Function that converts string to int
 	int temp = 0;
 	for (int i = 0; i < x.length(); i++) {
 		temp = temp * 10 + (x[i] - '0');
 	}
 	return temp;
+}
+
+void SceneLevel1::Lines() {
+	const char* CurrentLines = LinesCount;
+	stringstream strValue;
+	strValue << CurrentLines;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	intValue++;
+
+	// This method is not the best but it will be changed
+	switch(intValue) {
+	case 1:
+		LinesCount = "1";
+		break;
+	case 2:
+		LinesCount = "2";
+		break;
+	case 3:
+		LinesCount = "3";
+		break;
+	case 4:
+		LinesCount = "4";
+		break;
+	case 5:
+		LinesCount = "5";
+		break;
+	case 6:
+		LinesCount = "6";
+		break;
+	case 7:
+		LinesCount = "7";
+		break;
+	case 8:
+		LinesCount = "8";
+		break;
+	case 9:
+		LinesCount = "9";
+		break;
+	case 10:
+		LinesCount = "10";
+		break;
+	}
+}
+
+void SceneLevel1::LinesLeft(int linesleft) {
+	const char* CurrentLines = LinesLeftCount;
+	stringstream strValue;
+	strValue << CurrentLines;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	intValue--;
+	// This method is not the best but it will be changed
+	switch (intValue) {
+	case 1:
+		LinesLeftCount = "1";
+		break;
+	case 2:
+		LinesLeftCount = "2";
+		break;
+	case 3:
+		LinesLeftCount = "3";
+		break;
+	case 4:
+		LinesLeftCount = "4";
+		break;
+	case 5:
+		LinesLeftCount = "5";
+		break;
+	case 6:
+		LinesLeftCount = "6";
+		break;
+	case 7:
+		LinesLeftCount = "7";
+		break;
+	case 8:
+		LinesLeftCount = "8";
+		break;
+	case 9:
+		LinesLeftCount = "9";
+		break;
+	case 10:
+		LinesLeftCount = "10";
+		break;
+	}
 }
 
 void SceneLevel1::Score(int score) {

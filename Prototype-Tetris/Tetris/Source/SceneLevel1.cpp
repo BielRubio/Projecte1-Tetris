@@ -131,7 +131,6 @@ bool SceneLevel1::Start()
 
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
-	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	LOG("Loading sound effects")
 	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
@@ -148,7 +147,7 @@ bool SceneLevel1::Start()
 
 	App->tetromino->speed = App->tetromino->speed1;
 
-	currentAnimationCurtain = &curtainAnim;
+	//currentAnimationCurtain = &curtainAnim;
 	currentAnimationDoor = &doorAnim;
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
@@ -165,9 +164,6 @@ bool SceneLevel1::Start()
 	linesleft = linesObj;
 	score = 000;
 	ScoreCount = 0;
-	WhiteFont = -1;
-	BlueFont = 0;
-	RedFont = 1;
 	
 	// Counter
 	//t_points = 0;
@@ -214,25 +210,29 @@ Update_Status SceneLevel1::PostUpdate()
 
 	if (win == true) {
 		//Curtain animation
-	if (openCurtainAnim.GetLoopCount() == 0)
-	{
+		if (openCurtainAnim.GetLoopCount() == 0)
+		{
 		App->render->Blit(curtainTexture, 128, 96, &(openCurtainAnim.GetCurrentFrame()), 0.85f);
-	}
-		
-		/*
-		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
-		App->render->Blit(doorTexture, 135, 50, &rectDoor);*/
+		}
 	}
 
-	//Message postcurtainAnim
-	//curtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
-	//{
-	/*App->render->TextDraw("complete", 272, 210, 255, 255, 255, 255, 16);
-	//App->render->TextDraw(ch_linesleft, 272, 242, 255, 255, 255, 255, 16);
-	App->render->TextDraw("lines", 320, 240, 252, 255, 255, 255, 16);
-	App->render->TextDraw("to go to", 272, 272, 255, 255, 255, 255, 16);
-	App->render->TextDraw("next round", 257, 305, 255, 255, 255, 255, 16);
-	//}*/
+	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
+	{
+		App->fonts->BlitText(136, 104, WhiteFont,"complete");
+		App->fonts->BlitText(136, 116, WhiteFont, LinesCount);
+		App->fonts->BlitText(154, 121, WhiteFont, "lines");
+		App->fonts->BlitText(136, 140, WhiteFont, "to go to");
+		App->fonts->BlitText(129, 151, WhiteFont, "next round");
+	}
+
+	else if (t_message == 100)
+	{
+		LOG("Loading background music: Loginska");
+		App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+		//App->tetromino->Enable();
+	}
+	
+	t_message++;
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");

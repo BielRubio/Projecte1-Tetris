@@ -11,6 +11,8 @@
 #include "ModuleFadeToBlack.h"
 #include <iostream>
 #include <stdio.h>
+#include <fstream>
+#include <string>
 #include <sstream>
 using namespace std;
 
@@ -99,7 +101,6 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
 
-	
 }
 
 SceneLevel1::~SceneLevel1()
@@ -182,6 +183,7 @@ Update_Status SceneLevel1::PostUpdate()
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
+	App->fonts->BlitText(65, 217, WhiteFont, AuxCount);
 	App->fonts->BlitText(10, 12, RedFont, "next");
 	App->fonts->BlitText(24, 226, RedFont, "lines");
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
@@ -319,8 +321,38 @@ void SceneLevel1::winner() {
 		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
 		//App->sceneIntro->Enable();
 	}
-	
 	winnerCount++;
+}
+
+int SceneLevel1::StrToInt(string x) {
+	int temp = 0;
+	for (int i = 0; i < x.length(); i++) {
+		temp = temp * 10 + (x[i] - '0');
+	}
+	return temp;
+}
+
+void SceneLevel1::Score(int score) {
+	fstream Score;
+	int i = 0;
+	Score.open("Score.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + score;
+	Score.open("Score.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
+	stringstream ss;
+	ss << ScoreCount;
+	Aux2Count = ss.str();
+	AuxCount = Aux2Count.c_str();
 }
 
 bool SceneLevel1::CleanUp()

@@ -32,13 +32,13 @@ Application::Application()
 	modules[2] =	textures =		new ModuleTextures(true);
 	modules[3] =	audio =			new ModuleAudio(true);
 
-	modules[4] =	sceneLogo = new SceneLogo(false);
+	modules[4] =	sceneLogo = new SceneLogo(true);
 	modules[5] =	sceneDescription = new SceneDescription(false);
 	modules[6] =	sceneDetails = new SceneDetails(false);
 	modules[7] =	sceneMembers = new SceneMembers(false);
 	modules[8] =	sceneIntro =  new SceneIntro(false);
 	modules[9] =   sceneDifficulty = new SceneDifficultyMenu(false);
-	modules[10] =	sceneLevel_1 =	new SceneLevel1(true);		//Gameplay scene starts disabled
+	modules[10] =	sceneLevel_1 =	new SceneLevel1(false);		//Gameplay scene starts disabled
 	modules[11] =	sceneLevel_2 = new SceneLevel2(false);
 	modules[12] =	player =		new ModulePlayer(false);	//Player starts disabled
 	modules[13]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled

@@ -110,8 +110,8 @@ ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 	lineAnim.PushBack({ 3 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 4 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 5 * 8, 9 * 8, 8, 8 });
-	lineAnim.loop = true;
-	lineAnim.speed = 0.5f;
+	lineAnim.loop = false;
+	lineAnim.speed = 1.0f;
 }
 
 
@@ -562,16 +562,26 @@ Update_Status ModuleTetromino::Update() {
 
 	frameCount++;
 
-	lineAnim.Update();
-
 	fileToDelete = checkLines(); //Delete line
+
+	if (fileToDelete != 0) {
+
+		if (frameCount <= 50) {
+			animateLines = true;
+		}
+		else {
+			animateLines = false;
+		}
+		
+	}
+
 	if (lineAnim.HasFinished()) {
 
 		lowerLines(fileToDelete);
 		lineAnim.Reset();
-		//fileToDelete = 0;
+		fileToDelete = 0;
 	}
-
+	
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -599,7 +609,8 @@ Update_Status ModuleTetromino::PostUpdate() {
 		App->render->Blit(blocks, xOffset + (nextBlock[i].x * 8), yOffset + (nextBlock[i].y * 8), &rect);
 	}
 
-	if (fileToDelete != 0) {
+	//Print line animation
+	if (animateLines) {
 
 		for (int i = 1; i < mapLength - 1; i++) {
 			SDL_Rect rectLines = currentAnimation->GetCurrentFrame();
@@ -607,6 +618,7 @@ Update_Status ModuleTetromino::PostUpdate() {
 		}
 	}
 
+	//Print debug matrix
 	if (godMode) {
 		for (int i = 1; i < mapLength - 1; i++) {
 			for (int j = 1; j < mapHeight -1; j++) {

@@ -1,4 +1,4 @@
-#include "SceneLevel2.h"
+#include "SceneLevel3.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -11,21 +11,23 @@
 #include "ModuleFadeToBlack.h"
 #include <iostream>
 #include <stdio.h>
+#include <fstream>
+#include <string>
 #include <sstream>
 using namespace std;
 
 
-SceneLevel2::SceneLevel2(bool startEnabled) : Module(startEnabled)
+SceneLevel3::SceneLevel3(bool startEnabled) : Module(startEnabled)
 {
-
+	//Curtain anim
 	curtainAnim.PushBack({ 80 * 0,0,80,64 });
 	curtainAnim.PushBack({ 80 * 1,0,80,64 });
 	curtainAnim.PushBack({ 80 * 2,0,80,64 });
 	curtainAnim.PushBack({ 80 * 3,0,80,64 });
 	curtainAnim.PushBack({ 80 * 4,0,80,64 });
 	curtainAnim.PushBack({ 80 * 5,0,80,64 });
-	curtainAnim.loop = false;
-	curtainAnim.speed = 0.25f;
+	curtainAnim.loop = true;
+	curtainAnim.speed = 0.2f;
 
 	//Open door
 	doorAnim.PushBack({ 32 * 0,0,32,40 });
@@ -101,16 +103,14 @@ SceneLevel2::SceneLevel2(bool startEnabled) : Module(startEnabled)
 
 }
 
-SceneLevel2::~SceneLevel2()
+SceneLevel3::~SceneLevel3()
 {
 
 }
 
 // Load assets
-bool SceneLevel2::Start()
+bool SceneLevel3::Start()
 {
-	App->textures->Enable();
-	App->fonts->Enable();
 
 	App->tetromino->Enable();
 
@@ -118,7 +118,7 @@ bool SceneLevel2::Start()
 
 	bool ret = true;
 
-	bgTexture = App->textures->Load("Assets/Sprites/screen_lvl1.png");
+	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	LOG("Loading sound effects")
@@ -131,10 +131,11 @@ bool SceneLevel2::Start()
 	linesleft = linesObj;
 
 	// Counter
-	t_points = 0;
+	//t_points = 0;
 	t_losetoContinue = 9;
 
 	currentAnimationCurtain = &curtainAnim;
+	currentAnimationDoor = &doorAnim;
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
@@ -148,7 +149,7 @@ bool SceneLevel2::Start()
 	return ret;
 }
 
-Update_Status SceneLevel2::Update()
+Update_Status SceneLevel3::Update()
 {
 	currentAnimationCurtain->Update();
 	currentAnimationDoor->Update();
@@ -157,7 +158,7 @@ Update_Status SceneLevel2::Update()
 }
 
 // Update: draw background
-Update_Status SceneLevel2::PostUpdate()
+Update_Status SceneLevel3::PostUpdate()
 {
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
@@ -165,28 +166,41 @@ Update_Status SceneLevel2::PostUpdate()
 	if (win == true) {
 		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
 		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
+		/*
+		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
+		App->render->Blit(doorTexture, 135, 50, &rectDoor);*/
 	}
+
+	//Message postcurtainAnim
+	//curtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
+	//{
+	/*App->render->TextDraw("complete", 272, 210, 255, 255, 255, 255, 16);
+	//App->render->TextDraw(ch_linesleft, 272, 242, 255, 255, 255, 255, 16);
+	App->render->TextDraw("lines", 320, 240, 252, 255, 255, 255, 16);
+	App->render->TextDraw("to go to", 272, 272, 255, 255, 255, 255, 16);
+	App->render->TextDraw("next round", 257, 305, 255, 255, 255, 255, 16);
+	//}*/
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
+	App->fonts->BlitText(65, 217, WhiteFont, AuxCount);
 	App->fonts->BlitText(10, 12, RedFont, "next");
 	App->fonts->BlitText(24, 226, RedFont, "lines");
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
-	App->fonts->BlitText(175, 209, BlueFont, "2");
+	App->fonts->BlitText(175, 209, BlueFont, "3");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
 
 	if (linesleft == 0) {
 		App->audio->PauseMusic();
-		SceneLevel2::winner();
+		SceneLevel3::winner();
 	}
 
 	//Loser hotkey
-	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
 	{
-
 		gameover = true;
 		losercount = 0;
 	}
@@ -196,11 +210,11 @@ Update_Status SceneLevel2::PostUpdate()
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
 		App->audio->PauseMusic();
-		SceneLevel2::loser(ch_losetoContinue);
+		SceneLevel3::loser(ch_losetoContinue);
 	}
 
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
 		win = true;
 		winnerCount = 0;
@@ -208,16 +222,14 @@ Update_Status SceneLevel2::PostUpdate()
 	if (win == true)
 	{
 		App->audio->PauseMusic();
-		SceneLevel2::winner();
+		SceneLevel3::winner();
 	}
 
-
 	return Update_Status::UPDATE_CONTINUE;
-
 }
 
 //Makes the player lose the game
-void SceneLevel2::loser(const char* ch_losetoContinue) {
+void SceneLevel3::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
 
@@ -232,7 +244,7 @@ void SceneLevel2::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2, 0);
+			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");
@@ -256,8 +268,9 @@ void SceneLevel2::loser(const char* ch_losetoContinue) {
 	losercount++;
 }
 
+/*
 //Makes the player win after 1 round
-void SceneLevel2::winnerRound() {
+void SceneLevel1::winnerRound() {
 
 	App->tetromino->Disable();
 
@@ -270,9 +283,10 @@ void SceneLevel2::winnerRound() {
 
 	//App->sceneLevel_1_Round_1->Enable();
 }
+*/
 
 //Makes the player win the game after 3 rounds
-void SceneLevel2::winner() {
+void SceneLevel3::winner() {
 
 	App->tetromino->Disable();
 
@@ -304,14 +318,44 @@ void SceneLevel2::winner() {
 	if (winnerCount == 604) {
 		currentAnimationCurtain->speed = 0;
 		gameover = false;
-		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_3);
+		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
 		//App->sceneIntro->Enable();
 	}
-
 	winnerCount++;
 }
 
-bool SceneLevel2::CleanUp()
+int SceneLevel3::StrToInt(string x) {
+	int temp = 0;
+	for (int i = 0; i < x.length(); i++) {
+		temp = temp * 10 + (x[i] - '0');
+	}
+	return temp;
+}
+
+void SceneLevel3::Score(int score) {
+	fstream Score;
+	int i = 0;
+	Score.open("Score.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + score;
+	Score.open("Score.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
+	stringstream ss;
+	ss << ScoreCount;
+	Aux2Count = ss.str();
+	AuxCount = Aux2Count.c_str();
+}
+
+bool SceneLevel3::CleanUp()
 {
 	App->tetromino->Disable();
 

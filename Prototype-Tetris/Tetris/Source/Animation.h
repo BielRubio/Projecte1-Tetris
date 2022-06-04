@@ -57,6 +57,12 @@ public:
 
 		return frames[actualFrame];
 	}
+
+	// Getter
+	int GetLoopCount()
+	{
+		return loopCount;
+	}
 };
 
 #endif

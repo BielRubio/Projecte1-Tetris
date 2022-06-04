@@ -76,7 +76,7 @@
     <ClCompile Include="SceneDifficultyMenu.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="SceneLevel1Round1.cpp">
+    <ClCompile Include="SceneLevel2.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,7 +162,7 @@
     <ClInclude Include="SceneDifficultyMenu.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="SceneLevel1Round1.h">
+    <ClInclude Include="SceneLevel2.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

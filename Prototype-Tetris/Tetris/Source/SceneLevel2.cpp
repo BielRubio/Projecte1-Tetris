@@ -1,4 +1,4 @@
-#include "SceneLevel1.h"
+#include "SceneLevel2.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -15,9 +15,9 @@
 using namespace std;
 
 
-SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
+SceneLevel2::SceneLevel2(bool startEnabled) : Module(startEnabled)
 {
-	
+
 	curtainAnim.PushBack({ 80 * 0,0,80,64 });
 	curtainAnim.PushBack({ 80 * 1,0,80,64 });
 	curtainAnim.PushBack({ 80 * 2,0,80,64 });
@@ -99,15 +99,16 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
 
+	
 }
 
-SceneLevel1::~SceneLevel1()
+SceneLevel2::~SceneLevel2()
 {
 
 }
 
 // Load assets
-bool SceneLevel1::Start()
+bool SceneLevel2::Start()
 {
 	App->textures->Enable();
 	App->fonts->Enable();
@@ -116,20 +117,20 @@ bool SceneLevel1::Start()
 
 	bool ret = true;
 
-	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
+	bgTexture = App->textures->Load("Assets/Sprites/level_2.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	LOG("Loading sound effects")
-	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
+		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-	
+
 	// Variables
 	lines = 0;
 	linesObj = 5;
 	linesleft = linesObj;
-	
+
 	// Counter
-	//t_points = 0;
+	t_points = 0;
 	t_losetoContinue = 9;
 
 	currentAnimationCurtain = &curtainAnim;
@@ -146,10 +147,11 @@ bool SceneLevel1::Start()
 
 	App->tetromino->Enable();
 
+
 	return ret;
 }
 
-Update_Status SceneLevel1::Update()
+Update_Status SceneLevel2::Update()
 {
 	currentAnimationCurtain->Update();
 	currentAnimationDoor->Update();
@@ -158,7 +160,7 @@ Update_Status SceneLevel1::Update()
 }
 
 // Update: draw background
-Update_Status SceneLevel1::PostUpdate()
+Update_Status SceneLevel2::PostUpdate()
 {
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
@@ -183,12 +185,13 @@ Update_Status SceneLevel1::PostUpdate()
 
 	if (linesleft == 0) {
 		App->audio->PauseMusic();
-		SceneLevel1::winner();
+		SceneLevel2::winner();
 	}
 
 	//Loser hotkey
 	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN)
 	{
+
 		gameover = true;
 		losercount = 0;
 	}
@@ -198,7 +201,7 @@ Update_Status SceneLevel1::PostUpdate()
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
 		App->audio->PauseMusic();
-		SceneLevel1::loser(ch_losetoContinue);
+		SceneLevel2::loser(ch_losetoContinue);
 	}
 
 	//Winner hotkey
@@ -207,17 +210,19 @@ Update_Status SceneLevel1::PostUpdate()
 		win = true;
 		winnerCount = 0;
 	}
-	if(win == true)
+	if (win == true)
 	{
 		App->audio->PauseMusic();
-		SceneLevel1::winner();
+		SceneLevel2::winner();
 	}
-	
+
+
 	return Update_Status::UPDATE_CONTINUE;
+
 }
 
 //Makes the player lose the game
-void SceneLevel1::loser(const char* ch_losetoContinue){
+void SceneLevel2::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
 
@@ -232,15 +237,15 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			//App->points->Reset();
+			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2, 0);
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");
 		App->fonts->BlitText(56, 90, WhiteFont, "start");
 		App->fonts->BlitText(62, 105, WhiteFont, "to");
 		App->fonts->BlitText(43, 122, WhiteFont, "continue");
-		App->fonts->BlitText(74, 187, WhiteFont, ch_losetoContinue);
-		
+
 		if (losercount % 50 == 0)
 		{
 			t_losetoContinue--;
@@ -249,7 +254,8 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 		if (t_losetoContinue == 0)
 		{
 			gameover = false;
-			App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 0);
+			//App->points->Reset();
+			App->fade->FadeToBlack(this, (Module*)App->sceneIntro);
 		}
 	}
 
@@ -257,7 +263,7 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 }
 
 //Makes the player win after 1 round
-void SceneLevel1::winnerRound() {
+void SceneLevel2::winnerRound() {
 
 	App->tetromino->Disable();
 
@@ -272,20 +278,20 @@ void SceneLevel1::winnerRound() {
 }
 
 //Makes the player win the game after 3 rounds
-void SceneLevel1::winner() {
+void SceneLevel2::winner() {
 
 	App->tetromino->Disable();
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
 		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
-		else { 
-			App->audio->PauseMusic(); 
+		else {
+			App->audio->PauseMusic();
 		}
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}
-	
+
 	if (winnerCount >= 250 && winnerCount < 574)
 	{
 		//Bonus
@@ -294,24 +300,24 @@ void SceneLevel1::winner() {
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
 	}
 
-	if (winnerCount >= 574 ) {
+	if (winnerCount >= 574) {
 		if (currentAnimationCurtain->GetLoopCount() == 1) {
 			App->render->Blit(curtainTexture, 258, 194, &(curtainAnim.GetCurrentFrame()), 0.85f);
 		}
 		currentAnimationCurtain->Update();
 	}
-		
+
 	if (winnerCount == 604) {
 		currentAnimationCurtain->speed = 0;
 		gameover = false;
-		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
+		//App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1);
 		//App->sceneIntro->Enable();
 	}
-	
+
 	winnerCount++;
 }
 
-bool SceneLevel1::CleanUp()
+bool SceneLevel2::CleanUp()
 {
 	App->tetromino->Disable();
 

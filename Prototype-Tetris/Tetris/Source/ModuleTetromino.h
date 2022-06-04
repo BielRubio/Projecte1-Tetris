@@ -87,8 +87,8 @@ public:
 
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* blocks = nullptr;
-
 	SDL_Texture* lineDTexture = nullptr;
+	SDL_Texture* lineNumbers = nullptr;
 
 	Animation* currentAnimation = nullptr;
 
@@ -101,6 +101,8 @@ public:
 	int lineDOffset = 0;
 
 	int frameCount = 0;
+
+	int lineNumbersCount = 0;
 
 	int linesToWin = 2;
 

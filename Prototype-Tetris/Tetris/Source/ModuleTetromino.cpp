@@ -134,6 +134,8 @@ bool ModuleTetromino::Start() {
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
 	lineDTexture = App->textures->Load("Assets/Sprites/linesDetails.png");
+	lineNumbers = App->textures->Load("Assets/Sprites/lines_numbers.png");
+
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 	lineFX = App->audio->LoadFx("Assets/Fx/tetris_line_completed.wav");
 
@@ -649,6 +651,81 @@ Update_Status ModuleTetromino::PostUpdate() {
 		}
 	}
 
+	//Print lines to go
+	int numberLoop = 0;
+
+	if (linesToWin == 5) {
+
+		SDL_Rect rect = { 0 * 16, 0 * 16, 16,16 };
+		App->render->Blit(lineNumbers, 4, 68 + (0 * 27), &rect);
+
+		if ((lineNumbersCount >= 30 && lineNumbersCount < 60) && numberLoop < 3) {
+
+			SDL_Rect rect = { 1 * 16, 0 * 16, 16,16 };
+			App->render->Blit(lineNumbers, 4, 68 + (0 * 27), &rect);
+		}
+		else if (lineNumbersCount >= 60) {
+			lineNumbersCount = 0;
+			numberLoop++;
+		}
+	}
+	if (linesToWin == 4) {
+		SDL_Rect rect = { 0 * 16, 1 * 16, 16,16 };
+		App->render->Blit(lineNumbers, 4, 68 + (1 * 27), &rect);
+
+		if ((lineNumbersCount >= 30 && lineNumbersCount < 60) && numberLoop < 3) {
+
+			SDL_Rect rect = { 1 * 16, 1 * 16, 16,16 };
+			App->render->Blit(lineNumbers, 4, 68 + (1 * 27), &rect);
+		}
+		else if (lineNumbersCount >= 60) {
+			lineNumbersCount = 0;
+			numberLoop++;
+		}
+	}
+	if (linesToWin == 3) {
+		SDL_Rect rect = { 0 * 16, 2 * 16, 16,16 };
+		App->render->Blit(lineNumbers, 4, 68 + (2 * 27), &rect);
+
+		if ((lineNumbersCount >= 30 && lineNumbersCount < 60) && numberLoop < 3) {
+
+			SDL_Rect rect = { 1 * 16, 2 * 16, 16,16 };
+			App->render->Blit(lineNumbers, 4, 68 + (2 * 27), &rect);
+		}
+		else if (lineNumbersCount >= 60) {
+			lineNumbersCount = 0;
+			numberLoop++;
+		}
+	}
+	if (linesToWin == 2) {
+		SDL_Rect rect = { 0 * 16, 3 * 16, 16,16 };
+		App->render->Blit(lineNumbers, 4, 68 + (3 * 27), &rect);
+
+		if ((lineNumbersCount >= 30 && lineNumbersCount < 60) && numberLoop < 3) {
+
+			SDL_Rect rect = { 1 * 16, 3 * 16, 16,16 };
+			App->render->Blit(lineNumbers, 4, 68 + (3 * 27), &rect);
+		}
+		else if (lineNumbersCount >= 60) {
+			lineNumbersCount = 0;
+			numberLoop++;
+		}
+	}
+	if (linesToWin == 1) {
+		SDL_Rect rect = { 0 * 16, 4 * 16, 16,16 };
+		App->render->Blit(lineNumbers, 4, 68 + (4 * 27), &rect);
+
+		if ((lineNumbersCount >= 30 && lineNumbersCount < 60) && numberLoop < 3) {
+
+			SDL_Rect rect = { 1 * 16, 4 * 16, 16,16 };
+			App->render->Blit(lineNumbers, 4, 68 + (4 * 27), &rect);
+		}
+		else if (lineNumbersCount >= 60) {
+			lineNumbersCount = 0;
+			numberLoop = 0;
+		}
+	}
+
 	//Print debug matrix
 	if (godMode) {
 		for (int i = 1; i < mapLength - 1; i++) {
@@ -660,6 +737,7 @@ Update_Status ModuleTetromino::PostUpdate() {
 			}
 		}
 	}
+	
 	
 	return Update_Status::UPDATE_CONTINUE;
 }

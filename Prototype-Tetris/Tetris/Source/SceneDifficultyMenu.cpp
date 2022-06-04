@@ -25,6 +25,16 @@ bool SceneDifficultyMenu::Start()
 {
 	LOG("Loading background assets");
 
+	frameCount = 0;
+	SecondFrameCount = 0;
+	Select = 0;
+	Switch = 0;
+	Selection = 0;
+	SelectAux = false;
+	WhiteFont = -1;
+	BlueFont = 0;
+	RedFont = 1;
+
 	bool ret = true;
 
 	bgTexture = App->textures->Load("Assets/Sprites/difficulty_select.png");
@@ -109,6 +119,10 @@ bool SceneDifficultyMenu::CleanUp() {
 	App->textures->Unload(bgTexture);
 	App->textures->Unload(ARTexture);
 	App->textures->Unload(ALTexture);
+
+	App->fonts->UnLoad(WhiteFont);
+	App->fonts->UnLoad(BlueFont);
+	App->fonts->UnLoad(RedFont);
 
 	return true;
 }

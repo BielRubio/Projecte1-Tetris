@@ -21,6 +21,7 @@
 #include "ModuleRender.h"
 #include "ModuleTetromino.h"
 #include "SceneDifficultyMenu.h"
+#include "SceneHighScore.h"
 
 Application::Application()
 {
@@ -42,14 +43,15 @@ Application::Application()
 	modules[10] =	sceneLevel_1 =	new SceneLevel1(true);		//Gameplay scene starts disabled
 	modules[11] =	sceneLevel_2 = new SceneLevel2(false);
 	modules[12] =	sceneLevel_3 = new SceneLevel3(false);
-	modules[13] =	player =		new ModulePlayer(false);	//Player starts disabled
-	modules[14]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
-	modules[15] =	particles =		new ModuleParticles(true);	
+	modules[13] =	sceneHighScore = new SceneHighScore(false);
+	modules[14] =	player =		new ModulePlayer(false);	//Player starts disabled
+	modules[15]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
+	modules[16] =	particles =		new ModuleParticles(false);	
 
-	modules[16] =	collisions =	new ModuleCollisions(true);
-	modules[17] =	fade =			new ModuleFadeToBlack(true);
-	modules[18] =	fonts =			new ModuleFonts(true);
-	modules[19] =	render =		new ModuleRender(true);
+	modules[17] =	collisions =	new ModuleCollisions(true);
+	modules[18] =	fade =			new ModuleFadeToBlack(true);
+	modules[19] =	fonts =			new ModuleFonts(true);
+	modules[20] =	render =		new ModuleRender(true);
 }
 
 Application::~Application()

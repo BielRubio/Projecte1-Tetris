@@ -46,6 +46,10 @@ public:
 
 	int ConstChartoInt(const char* x);
 
+	void AddPlayer(string P, int score);
+
+	void SortPlayers();
+
 	// Disables pieces
 	bool CleanUp();
 
@@ -68,10 +72,17 @@ public:
 	Animation doorAnim;
 
 	//Fonts and score
+	//struct Players {
+	//public:
+	//	char name[3] = {""};
+	//	char score[200] = { "" };
+	//	int position = 0;
+	//};
+
 	const char* AuxCount = "0";
 	const char* LinesCount = "0";
 	const char* LinesLeftCount = "5";
-	string Aux2Count, Aux22Count, Aux222Count;
+	string Aux2Count, Aux22Count, Aux222Count, New;
 	uint score = 000;
 	bool gameover = false;
 	bool win = false;

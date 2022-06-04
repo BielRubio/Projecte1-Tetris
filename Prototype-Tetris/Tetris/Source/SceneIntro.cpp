@@ -27,6 +27,10 @@ bool SceneIntro::Start()
 {
 	LOG("Loading background assets");
 
+	App->particles->Enable();
+	bgIndex = 0;
+	frameCount = 0;
+
 	bool ret = true;
 
 	bgTexture = App->textures->Load(bgFile[bgIndex]);

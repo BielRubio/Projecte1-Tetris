@@ -7,7 +7,7 @@
 #include "ModuleFonts.h"
 #include "ModuleTetromino.h"
 #include "ModuleInput.h"
-#include "SceneIntro.h";
+#include "SceneHighScore.h";
 #include "ModuleFadeToBlack.h"
 #include <iostream>
 #include <stdio.h>
@@ -21,14 +21,24 @@ using namespace std;
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
 	//Curtain anim
-	curtainAnim.PushBack({ 80 * 0,0,80,64 });
-	curtainAnim.PushBack({ 80 * 1,0,80,64 });
-	curtainAnim.PushBack({ 80 * 2,0,80,64 });
-	curtainAnim.PushBack({ 80 * 3,0,80,64 });
-	curtainAnim.PushBack({ 80 * 4,0,80,64 });
-	curtainAnim.PushBack({ 80 * 5,0,80,64 });
-	curtainAnim.loop = true;
-	curtainAnim.speed = 0.2f;
+
+	openCurtainAnim.PushBack({ 80 * 0,0,80,64 });
+	openCurtainAnim.PushBack({ 80 * 1,0,80,64 });
+	openCurtainAnim.PushBack({ 80 * 2,0,80,64 });
+	openCurtainAnim.PushBack({ 80 * 3,0,80,64 });
+	openCurtainAnim.PushBack({ 80 * 4,0,80,64 });
+	openCurtainAnim.PushBack({ 80 * 5,0,80,64 });
+	openCurtainAnim.loop = true;
+	//openCurtainAnim.speed = 0.2f;
+
+	closeCurtainAnim.PushBack({ 80 * 5,0,80,64 });
+	closeCurtainAnim.PushBack({ 80 * 4,0,80,64 });
+	closeCurtainAnim.PushBack({ 80 * 3,0,80,64 });
+	closeCurtainAnim.PushBack({ 80 * 2,0,80,64 });
+	closeCurtainAnim.PushBack({ 80 * 1,0,80,64 });
+	closeCurtainAnim.PushBack({ 80 * 0,0,80,64 });
+	closeCurtainAnim.loop = true;
+	//closeCurtainAnim.speed = 0.2f;
 
 	//Open door
 	doorAnim.PushBack({ 32 * 0,0,32,40 });
@@ -114,7 +124,7 @@ bool SceneLevel1::Start()
 {
 
 	App->tetromino->Enable();
-
+	
 	LOG("Loading background assets");
 
 	bool ret = true;
@@ -126,7 +136,7 @@ bool SceneLevel1::Start()
 	LOG("Loading sound effects")
 	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-	
+
 	// Variables
 	lines = 0;
 	linesObj = 5;
@@ -140,7 +150,6 @@ bool SceneLevel1::Start()
 
 	currentAnimationCurtain = &curtainAnim;
 	currentAnimationDoor = &doorAnim;
-
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
 	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
@@ -150,12 +159,48 @@ bool SceneLevel1::Start()
 	BlueFont = App->fonts->Load("Assets/Fonts/TetrisFontBlue.png", lookupTable, 1);
 	RedFont = App->fonts->Load("Assets/Fonts/TetrisFontRed.png", lookupTable, 1);
 
+	// Variables
+	lines = 0;
+	linesObj = 5;
+	linesleft = linesObj;
+	score = 000;
+	ScoreCount = 0;
+	WhiteFont = -1;
+	BlueFont = 0;
+	RedFont = 1;
+	
+	// Counter
+	//t_points = 0;
+	t_losetoContinue = 9;
+	t_losetoContinue = 9;
+	winnerCount = 0;
+	losercount = 0;
+	t_message = 0;
+
+	//currentAnimationCurtain = &curtainAnim;
+	openCurtainAnim.loopCount = 0;
+	openCurtainAnim.speed = 0.2f;
+
+	closeCurtainAnim.loopCount = 0;
+	closeCurtainAnim.speed = 0.2f;
+
+	currentAnimationDoor = &doorAnim;
+
 	return ret;
 }
 
 Update_Status SceneLevel1::Update()
 {
-	currentAnimationCurtain->Update();
+
+	if (openCurtainAnim.GetLoopCount() == 1) {
+		openCurtainAnim.speed = 0;
+	}
+	else
+	{
+		openCurtainAnim.Update();
+	}
+
+	//openCurtainAnim.Update();
 	currentAnimationDoor->Update();
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -168,8 +213,12 @@ Update_Status SceneLevel1::PostUpdate()
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
 	if (win == true) {
-		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
-		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
+		//Curtain animation
+	if (openCurtainAnim.GetLoopCount() == 0)
+	{
+		App->render->Blit(curtainTexture, 128, 96, &(openCurtainAnim.GetCurrentFrame()), 0.85f);
+	}
+		
 		/*
 		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
 		App->render->Blit(doorTexture, 135, 50, &rectDoor);*/
@@ -187,7 +236,11 @@ Update_Status SceneLevel1::PostUpdate()
 
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
+
+	App->fonts->BlitText(72, 217, WhiteFont, AuxCount);
+
 	App->fonts->BlitText(65, 217, RedFont, AuxCount);
+
 	App->fonts->BlitText(10, 12, RedFont, "next");
 	App->fonts->BlitText(24, 225, RedFont, "lines");
 	App->fonts->BlitText(65, 225, RedFont, LinesCount);
@@ -197,7 +250,7 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(155, 125, WhiteFont, "lines");
 	App->fonts->BlitText(155, 140, WhiteFont, "left");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
-	App->fonts->BlitText(175, 209, BlueFont, "1");
+	App->fonts->BlitText(175, 210, BlueFont, "1");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
 
@@ -313,7 +366,8 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 		if (t_losetoContinue == 0)
 		{
 			gameover = false;
-			App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 0);
+			this->Disable();
+			App->sceneHighScore->Enable();
 		}
 	}
 
@@ -361,14 +415,14 @@ void SceneLevel1::winner() {
 	}
 
 	if (winnerCount >= 574 ) {
-		if (currentAnimationCurtain->GetLoopCount() == 1) {
-			App->render->Blit(curtainTexture, 258, 194, &(curtainAnim.GetCurrentFrame()), 0.85f);
+		if (openCurtainAnim.GetLoopCount() == 1) {
+			App->render->Blit(curtainTexture, 128, 96, &(closeCurtainAnim.GetCurrentFrame()), 0.85f);
 		}
-		currentAnimationCurtain->Update();
+		closeCurtainAnim.Update();
 	}
 		
 	if (winnerCount == 604) {
-		currentAnimationCurtain->speed = 0;
+		closeCurtainAnim.speed = 0;
 		gameover = false;
 		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
 		//App->sceneIntro->Enable();
@@ -453,12 +507,10 @@ void SceneLevel1::Score(int score) {
 
 bool SceneLevel1::CleanUp()
 {
-	App->tetromino->Disable();
+	if (App->tetromino->IsEnabled()) {
 
-	App->textures->Unload(bgTexture);
-	App->textures->Unload(curtainTexture);
-	App->textures->Unload(doorTexture);
-	App->textures->Unload(loserSprite);
-
+		App->tetromino->Disable();
+	}
+	
 	return true;
 }

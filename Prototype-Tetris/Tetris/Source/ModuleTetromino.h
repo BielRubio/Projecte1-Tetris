@@ -50,6 +50,8 @@ public:
 
 	bool checkLoss();
 
+	void spawnBigBlock(int line);
+
 
 public:
 	struct Tile {
@@ -88,15 +90,21 @@ public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* blocks = nullptr;
 
+	SDL_Texture* bigBlock = nullptr; 
+
 	SDL_Texture* lineDTexture = nullptr;
 
 	Animation* currentAnimation = nullptr;
 
 	Animation* currentLineD = nullptr;
 
+	Animation* currentColor = nullptr; 
+
 	Animation lineAnim;
 
 	Animation lineDAnim;
+
+	Animation endingBlock; 
 
 	int lineDOffset = 0;
 
@@ -127,9 +135,13 @@ public:
 
 	uint lineFX = 0;
 
+	uint win = 0; 
+
 	bool canCheckLines = true;
 
 	bool godMode = false;
+
+	bool hasPlayed = true; 
 
 };
 

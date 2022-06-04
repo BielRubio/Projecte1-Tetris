@@ -120,6 +120,11 @@ ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 	lineDAnim.PushBack({ 5 * 2, 0, 2, 12 });
 	lineDAnim.loop = true;
 	lineDAnim.speed = 0.5f;
+
+	endingBlock.PushBack({ 0 , 0, 80, 8});
+	endingBlock.PushBack({ 0 , 1 * 8, 80, 8});
+	endingBlock.loop = true; 
+	endingBlock.speed = 0.25f;
 }
 
 
@@ -134,11 +139,14 @@ bool ModuleTetromino::Start() {
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
 	lineDTexture = App->textures->Load("Assets/Sprites/linesDetails.png");
+	bigBlock = App->textures->Load("Assets/Sprites/EndStage.png");
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 	lineFX = App->audio->LoadFx("Assets/Fx/tetris_line_completed.wav");
+	win = App->audio->LoadFx("Assets/Fx/tetris_you_did_it_winner.wav");
 
 	currentAnimation = &lineAnim;
 	currentLineD = &lineDAnim;
+	currentColor = &endingBlock;
 
 	srand(time(NULL)); //Generate random seed
 
@@ -176,6 +184,8 @@ bool ModuleTetromino::Start() {
 
 	bool ret = true; 
 	
+	hasPlayed = false; 
+
 	return ret; 
 }
 
@@ -567,39 +577,47 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 
-	if (frameCount >= speed) {
-		fall();
-		frameCount = 0;
+	if (linesToWin <= 0 && hasPlayed == false) {
+		int tileCount = 0; 
+		hasPlayed = true; 
+		App->audio->PlayFx(win);
 	}
+	else if(linesToWin > 0){
+		if (frameCount >= speed) {
+			fall();
+			frameCount = 0;
+		}
 
-	frameCount++;	
+		frameCount++;
 
-	if (fileToDelete != 0) {
+		if (fileToDelete != 0) {
 
-		if (fileCount <= 10) {
+			if (fileCount <= 10) {
 
-			animateLines = true;
-			lineAnim.Update();
-			lineDAnim.Update();
+				animateLines = true;
+				lineAnim.Update();
+				lineDAnim.Update();
+			}
+			else {
+
+				animateLines = false;
+				lowerLines(fileToDelete);
+				fileToDelete = 0;
+				lineAnim.Reset();
+				lineDAnim.Reset();
+				fileCount = 0;
+				App->audio->PlayFx(lineFX);
+				linesToWin--;
+			}
+
+			fileCount++;
 		}
 		else {
 
-			animateLines = false;
-			lowerLines(fileToDelete);
-			fileToDelete = 0;
-			lineAnim.Reset();
-			lineDAnim.Reset();
-			fileCount = 0;
-			App->audio->PlayFx(lineFX);
+			fileToDelete = checkLines(); //Delete line
 		}
-
-		fileCount++;
 	}
-	else {
-
-		fileToDelete = checkLines(); //Delete line
-	}
-
+	endingBlock.Update();
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -648,6 +666,24 @@ Update_Status ModuleTetromino::PostUpdate() {
 			lineDOffset++;
 		}
 	}
+
+	//Print ending blocks
+	if (linesToWin <= 0) {
+		int tileCount = 0;
+		for (int j = mapHeight - 1; j > 2; j--) {
+			for (int i = 1; i < mapLength - 1; i++) {
+				if (map[i][j] != nullptr) {
+					tileCount++;
+				}
+			}
+			if (tileCount == 0) {
+				SDL_Rect bigBlocks = currentColor->GetCurrentFrame();
+				App->render->Blit(bigBlock, xOffset + 8, yOffset + j * 8, &bigBlocks);
+			}
+			tileCount = 0;
+		}
+	}
+	
 
 	//Print debug matrix
 	if (godMode) {
@@ -894,6 +930,15 @@ bool ModuleTetromino::checkLoss() {
 	}
 	return false;
 
+}
+void ModuleTetromino::spawnBigBlock(int line) {
+	for (int i = 1; i < mapLength - 1; i++) {
+		map[i][line] = new Tile;
+		map[i][line]->x = i;
+		map[i][line]->y = line;
+		map[i][line]->id = -2 - line;
+		map[i][line]->spriteY = 7;
+	}
 }
 
 int ModuleTetromino::getSpriteX(Tile* t) {

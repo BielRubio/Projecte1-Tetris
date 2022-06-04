@@ -445,6 +445,9 @@ void SceneLevel1::LinesLeft(int linesleft) {
 	intValue--;
 	// This method is not the best but it will be changed
 	switch (intValue) {
+	case 0:
+		LinesLeftCount = "0";
+		break;
 	case 1:
 		LinesLeftCount = "1";
 		break;

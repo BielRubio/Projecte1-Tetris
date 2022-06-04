@@ -8,6 +8,7 @@
 #include "ModuleCollisions.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleFonts.h"
+#include "SceneLevel1.h"
 #include<time.h>
 
 #include <stdio.h>
@@ -463,6 +464,7 @@ int ModuleTetromino::checkLines() {
 			for (int i = 1; i < mapLength - 1; i++) {
 				map[i][j] = nullptr;
 			}
+			App->sceneLevel_1->Score(100);
 			return j;
 		}
 		allTiles = true;

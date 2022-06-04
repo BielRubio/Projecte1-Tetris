@@ -3,6 +3,8 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include <string>
+using namespace std;
 
 struct SDL_Texture;
 
@@ -34,6 +36,10 @@ public:
 
 	void winnerRound();
 
+	void Score(int score);
+
+	int StrToInt(string x);
+
 	// Disables pieces
 	bool CleanUp();
 
@@ -55,10 +61,13 @@ public:
 	Animation doorAnim;
 
 	//Fonts and score
+	const char* AuxCount = "0";
+	string Aux2Count;
 	uint score = 000;
 	bool gameover = false;
 	bool win = false;
 
+	int ScoreCount = 0;
 	int WhiteFont = -1;
 	int BlueFont = 0;
 	int RedFont = 1;

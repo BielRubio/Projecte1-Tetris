@@ -38,7 +38,13 @@ public:
 
 	void Score(int score);
 
+	void Lines();
+
+	void LinesLeft(int linesleft);
+
 	int StrToInt(string x);
+
+	int ConstChartoInt(const char* x);
 
 	// Disables pieces
 	bool CleanUp();
@@ -62,6 +68,8 @@ public:
 
 	//Fonts and score
 	const char* AuxCount = "0";
+	const char* LinesCount = "0";
+	const char* LinesLeftCount = "5";
 	string Aux2Count;
 	uint score = 000;
 	bool gameover = false;

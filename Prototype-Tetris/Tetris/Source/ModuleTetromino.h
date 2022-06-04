@@ -79,6 +79,10 @@ public:
 
 	int fileToDelete = 0;
 
+	bool animateLines = false;
+
+	int fileCount = 0;
+
 	enum { xOffset = 32 - 8, yOffset = 24 - 8};
 
 	// The scene sprite sheet loaded into an SDL_Texture
@@ -108,6 +112,8 @@ public:
 	
 	//Fx
 	uint Drop = 0;
+
+	uint lineFX = 0;
 
 	bool canCheckLines = true;
 

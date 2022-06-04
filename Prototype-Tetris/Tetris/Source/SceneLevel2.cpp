@@ -99,7 +99,6 @@ SceneLevel2::SceneLevel2(bool startEnabled) : Module(startEnabled)
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
 
-	
 }
 
 SceneLevel2::~SceneLevel2()
@@ -113,11 +112,13 @@ bool SceneLevel2::Start()
 	App->textures->Enable();
 	App->fonts->Enable();
 
+	App->tetromino->Enable();
+
 	LOG("Loading background assets");
 
 	bool ret = true;
 
-	bgTexture = App->textures->Load("Assets/Sprites/level_2.png");
+	bgTexture = App->textures->Load("Assets/Sprites/screen_lvl1.png");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 
 	LOG("Loading sound effects")
@@ -134,7 +135,6 @@ bool SceneLevel2::Start()
 	t_losetoContinue = 9;
 
 	currentAnimationCurtain = &curtainAnim;
-	currentAnimationDoor = &doorAnim;
 
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
@@ -144,9 +144,6 @@ bool SceneLevel2::Start()
 	WhiteFont = App->fonts->Load("Assets/Fonts/TetrisFontWhite.png", lookupTable, 1);
 	BlueFont = App->fonts->Load("Assets/Fonts/TetrisFontBlue.png", lookupTable, 1);
 	RedFont = App->fonts->Load("Assets/Fonts/TetrisFontRed.png", lookupTable, 1);
-
-	App->tetromino->Enable();
-
 
 	return ret;
 }
@@ -168,9 +165,6 @@ Update_Status SceneLevel2::PostUpdate()
 	if (win == true) {
 		SDL_Rect rectCourtain = currentAnimationCurtain->GetCurrentFrame();
 		App->render->Blit(curtainTexture, 128, 96, &rectCourtain);
-
-		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
-		App->render->Blit(doorTexture, 135, 50, &rectDoor);
 	}
 
 	// Draw UI (score) --------------------------------------
@@ -180,6 +174,7 @@ Update_Status SceneLevel2::PostUpdate()
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
+	App->fonts->BlitText(175, 209, BlueFont, "2");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
 
@@ -237,7 +232,6 @@ void SceneLevel2::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			//App->points->Reset();
 			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2, 0);
 		}
 
@@ -245,6 +239,7 @@ void SceneLevel2::loser(const char* ch_losetoContinue) {
 		App->fonts->BlitText(56, 90, WhiteFont, "start");
 		App->fonts->BlitText(62, 105, WhiteFont, "to");
 		App->fonts->BlitText(43, 122, WhiteFont, "continue");
+		App->fonts->BlitText(74, 187, WhiteFont, ch_losetoContinue);
 
 		if (losercount % 50 == 0)
 		{
@@ -254,8 +249,7 @@ void SceneLevel2::loser(const char* ch_losetoContinue) {
 		if (t_losetoContinue == 0)
 		{
 			gameover = false;
-			//App->points->Reset();
-			App->fade->FadeToBlack(this, (Module*)App->sceneIntro);
+			App->fade->FadeToBlack(this, (Module*)App->sceneIntro, 0);
 		}
 	}
 
@@ -310,7 +304,7 @@ void SceneLevel2::winner() {
 	if (winnerCount == 604) {
 		currentAnimationCurtain->speed = 0;
 		gameover = false;
-		//App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1);
+		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_3);
 		//App->sceneIntro->Enable();
 	}
 

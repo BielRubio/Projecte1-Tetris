@@ -110,8 +110,7 @@ ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 	lineAnim.PushBack({ 3 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 4 * 8, 9 * 8, 8, 8 });
 	lineAnim.PushBack({ 5 * 8, 9 * 8, 8, 8 });
-	lineAnim.loop = false;
-	lineAnim.speed = 0.5f;
+	lineAnim.loop = true;
 }
 
 
@@ -126,6 +125,7 @@ bool ModuleTetromino::Start() {
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
+	lineFX = App->audio->LoadFx("Assets/Fx/tetris_line_completed.wav");
 
 	currentAnimation = &lineAnim;
 
@@ -182,7 +182,7 @@ Update_Status ModuleTetromino::Update() {
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
 		frameCount += 10;
 	}
-	if (App->input->keys[SDL_SCANCODE_F6] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {
 
 		bool stop = false;
 
@@ -203,12 +203,355 @@ Update_Status ModuleTetromino::Update() {
 			}
 		}
 	}
-	if (App->input->keys[SDL_SCANCODE_F7] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN) {
 		if (godMode) {
 			godMode = false;
 		}
 		else {
 			godMode = true;
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F5] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 0;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F6] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 1;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F7] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 2;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F8] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 3;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F9] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 4;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F10] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 5;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F11] == Key_State::KEY_DOWN) {
+
+		int n = currentBlock[0]->spriteY;
+
+		int newN = 6;
+
+		for (int i = 0; i < 4; i++) {
+			if (currentRotation == 1) {
+				currentBlock[i]->x -= tetrominoes1[n][i][0];
+				currentBlock[i]->y -= tetrominoes1[n][i][1];
+
+				currentBlock[i]->x += tetrominoes1[newN][i][0];
+				currentBlock[i]->y += tetrominoes1[newN][i][1];
+
+				currentBlock[i]->spriteX = sX1[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 2) {
+				currentBlock[i]->x -= tetrominoes2[n][i][0];
+				currentBlock[i]->y -= tetrominoes2[n][i][1];
+
+				currentBlock[i]->x += tetrominoes2[newN][i][0];
+				currentBlock[i]->y += tetrominoes2[newN][i][1];
+
+				currentBlock[i]->spriteX = sX2[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 3) {
+				currentBlock[i]->x -= tetrominoes3[n][i][0];
+				currentBlock[i]->y -= tetrominoes3[n][i][1];
+
+				currentBlock[i]->x += tetrominoes3[newN][i][0];
+				currentBlock[i]->y += tetrominoes3[newN][i][1];
+
+				currentBlock[i]->spriteX = sX3[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
+			if (currentRotation == 4) {
+				currentBlock[i]->x -= tetrominoes4[n][i][0];
+				currentBlock[i]->y -= tetrominoes4[n][i][1];
+
+				currentBlock[i]->x += tetrominoes4[newN][i][0];
+				currentBlock[i]->y += tetrominoes4[newN][i][1];
+
+				currentBlock[i]->spriteX = sX4[newN][i];
+				currentBlock[i]->spriteY = newN;
+			}
 		}
 	}
 
@@ -217,16 +560,30 @@ Update_Status ModuleTetromino::Update() {
 		frameCount = 0;
 	}
 
-	frameCount++;
+	frameCount++;	
 
-	lineAnim.Update();
+	if (fileToDelete != 0) {
 
-	fileToDelete = checkLines(); //Delete line
-	if (lineAnim.HasFinished()) {
+		if (fileCount <= 10) {
 
-		lowerLines(fileToDelete);
-		lineAnim.Reset();
-		fileToDelete = 0;
+			animateLines = true;
+			lineAnim.Update();
+		}
+		else {
+
+			animateLines = false;
+			lowerLines(fileToDelete);
+			fileToDelete = 0;
+			lineAnim.Reset();
+			fileCount = 0;
+			App->audio->PlayFx(lineFX);
+		}
+
+		fileCount++;
+	}
+	else {
+
+		fileToDelete = checkLines(); //Delete line
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -256,7 +613,8 @@ Update_Status ModuleTetromino::PostUpdate() {
 		App->render->Blit(blocks, xOffset + (nextBlock[i].x * 8), yOffset + (nextBlock[i].y * 8), &rect);
 	}
 
-	if (fileToDelete != 0) {
+	//Print line animation
+	if (animateLines) {
 
 		for (int i = 1; i < mapLength - 1; i++) {
 			SDL_Rect rectLines = currentAnimation->GetCurrentFrame();
@@ -264,6 +622,7 @@ Update_Status ModuleTetromino::PostUpdate() {
 		}
 	}
 
+	//Print debug matrix
 	if (godMode) {
 		for (int i = 1; i < mapLength - 1; i++) {
 			for (int j = 1; j < mapHeight -1; j++) {
@@ -497,16 +856,18 @@ void ModuleTetromino::lowerLines(int y) {
 	}
 }
 
-//bool ModuleTetromino::checkLoss() {
-//
-//	for (int i = 0; i < mapLength; i++) {
-//		if (map[i][2] == 1) {
-//			return true;
-//		}
-//	}
-//	return false;
-//
-//}
+bool ModuleTetromino::checkLoss() {
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 1; j < mapLength - 1; j++) {
+			if (map[j][i] != nullptr) {
+				return true;
+			}
+		}
+	}
+	return false;
+
+}
 
 int ModuleTetromino::getSpriteX(Tile* t) {
 

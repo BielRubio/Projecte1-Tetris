@@ -1,5 +1,5 @@
-#ifndef __SCENE_LEVEL1_H__
-#define __SCENE_LEVEL1_H__
+#ifndef __SCENE_LEVEL3_H__
+#define __SCENE_LEVEL3_H__
 
 #include "Module.h"
 #include "Animation.h"
@@ -8,14 +8,14 @@ using namespace std;
 
 struct SDL_Texture;
 
-class SceneLevel1 : public Module
+class SceneLevel3 : public Module
 {
 public:
 	//Constructor
-	SceneLevel1(bool startEnabled);
+	SceneLevel3(bool startEnabled);
 
 	//Destructor
-	~SceneLevel1();
+	~SceneLevel3();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the map background
@@ -38,19 +38,13 @@ public:
 
 	void Score(int score);
 
-	void Lines();
-
-	void LinesLeft(int linesleft);
-
 	int StrToInt(string x);
-
-	int ConstChartoInt(const char* x);
 
 	// Disables pieces
 	bool CleanUp();
 
 public:
-	
+
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
 	SDL_Texture* curtainTexture = nullptr;
@@ -68,8 +62,6 @@ public:
 
 	//Fonts and score
 	const char* AuxCount = "0";
-	const char* LinesCount = "0";
-	const char* LinesLeftCount = "5";
 	string Aux2Count;
 	uint score = 000;
 	bool gameover = false;
@@ -92,7 +84,7 @@ public:
 	int linesObj;
 
 	int points;
-	
+
 	//Timers
 	int t_points;
 	int t_message = 0;

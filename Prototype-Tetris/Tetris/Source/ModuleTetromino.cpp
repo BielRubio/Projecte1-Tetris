@@ -102,11 +102,15 @@ const int ModuleTetromino::sX4[7][4]{
 
 ModuleTetromino::ModuleTetromino(bool startEnabled) : Module(startEnabled)
 {
-	for (int i = 0; i < 6; i++) {
-		lineAnim.PushBack({ i * 8, 9 * 8, 8, 8 });
-	}
+	
+	lineAnim.PushBack({ 0 * 8, 9 * 8, 8, 8 });
+	lineAnim.PushBack({ 1 * 8, 9 * 8, 8, 8 });
+	lineAnim.PushBack({ 2 * 8, 9 * 8, 8, 8 });
+	lineAnim.PushBack({ 3 * 8, 9 * 8, 8, 8 });
+	lineAnim.PushBack({ 4 * 8, 9 * 8, 8, 8 });
+	lineAnim.PushBack({ 5 * 8, 9 * 8, 8, 8 });
 	lineAnim.loop = false;
-	lineAnim.speed = 0.05f;
+	lineAnim.speed = 0.5f;
 }
 
 
@@ -177,6 +181,35 @@ Update_Status ModuleTetromino::Update() {
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
 		frameCount += 10;
 	}
+	if (App->input->keys[SDL_SCANCODE_F6] == Key_State::KEY_DOWN) {
+
+		bool stop = false;
+
+		for (int j = mapHeight - 1; j > 0; j--) {
+			for (int i = 1; i < mapLength - 1; i++) {
+				if (map[i][j] == nullptr && i != 5) {
+					map[i][j] = new Tile;
+					map[i][j]->x = i;
+					map[i][j]->y = j;
+					map[i][j]->id = -2;
+					map[i][j]->spriteY = 7;
+
+					stop = true;
+				}
+			}
+			if (stop) {
+				break;
+			}
+		}
+	}
+	if (App->input->keys[SDL_SCANCODE_F7] == Key_State::KEY_DOWN) {
+		if (godMode) {
+			godMode = false;
+		}
+		else {
+			godMode = true;
+		}
+	}
 
 	if (frameCount >= 50) {
 		fall();
@@ -185,7 +218,15 @@ Update_Status ModuleTetromino::Update() {
 
 	frameCount++;
 
-	checkLines();
+	lineAnim.Update();
+
+	fileToDelete = checkLines(); //Delete line
+	if (lineAnim.HasFinished()) {
+
+		lowerLines(fileToDelete);
+		lineAnim.Reset();
+		fileToDelete = 0;
+	}
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -214,6 +255,25 @@ Update_Status ModuleTetromino::PostUpdate() {
 		App->render->Blit(blocks, xOffset + (nextBlock[i].x * 8), yOffset + (nextBlock[i].y * 8), &rect);
 	}
 
+	if (fileToDelete != 0) {
+
+		for (int i = 1; i < mapLength - 1; i++) {
+			SDL_Rect rectLines = currentAnimation->GetCurrentFrame();
+			App->render->Blit(blocks, xOffset + (i * 8), yOffset + (fileToDelete * 8), &rectLines);
+		}
+	}
+
+	if (godMode) {
+		for (int i = 1; i < mapLength - 1; i++) {
+			for (int j = 1; j < mapHeight -1; j++) {
+				if (map[i][j] == nullptr) {
+					SDL_Rect rect = { 15 * 8, 9 * 8, 8,8 };
+					App->render->Blit(blocks, xOffset + (i * 8), yOffset + (j * 8), &rect);
+				}
+			}
+		}
+	}
+	
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -246,10 +306,6 @@ bool ModuleTetromino::allowMovement(Tile* t) {
 	if (t == nullptr) {
 		
 		return true;
-	}
-	else if (t->x <= 0 || t->x >= mapLength - 1) {
-
-		return false;
 	}
 	else {
 		if (t->id == currentId) {
@@ -409,7 +465,9 @@ int ModuleTetromino::checkLines() {
 			}
 			return j;
 		}
+		allTiles = true;
 	}
+	return 0;
 }
 
 void ModuleTetromino::animLines(int y) {
@@ -418,13 +476,19 @@ void ModuleTetromino::animLines(int y) {
 		SDL_Rect rectLines = currentAnimation->GetCurrentFrame();
 		App->render->Blit(blocks, xOffset + (i * 8), yOffset + (y * 8), &rectLines);
 	}
-	if (currentAnimation->HasFinished()) {
-		for (int j = 1; j < y; j++) {
-			for (int i = 1; i < mapLength - 1; i++) {
-				map[i][j] = map[i][j - 1];
+}
+
+void ModuleTetromino::lowerLines(int y) {
+
+	for (int i = 1; i < mapLength - 1; i++) {
+		for (int j = y; j > 1; j--) {
+			
+			map[i][j] = map[i][j - 1];
+
+			if (map[i][j - 1] != nullptr) {
+				map[i][j]->y++;
 			}
 		}
-		currentAnimation->Reset();
 	}
 }
 
@@ -476,7 +540,7 @@ int ModuleTetromino::getSpriteX(Tile* t) {
 	for (int i = 0; i < 4; i++) {
 		n += bits[i] * pow(2, i);
 	}
-
+	
 	return n;
 }
 

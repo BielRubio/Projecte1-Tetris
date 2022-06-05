@@ -203,6 +203,7 @@ bool SceneLevel1_3::Start()
 
 Update_Status SceneLevel1_3::Update()
 {
+	GamePad& pad = App->input->pads[0];
 	currentAnimationCurtainOpen->Update();
 
 	currentAnimationDoor->Update();
@@ -226,7 +227,7 @@ Update_Status SceneLevel1_3::Update()
 		TetroLines = 0;
 	}
 
-	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN || pad.l2)
 	{
 		gameover = true;
 		losercount = 0;
@@ -241,6 +242,7 @@ Update_Status SceneLevel1_3::Update()
 // Update: draw background
 Update_Status SceneLevel1_3::PostUpdate()
 {
+	GamePad& pad = App->input->pads[0];
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
@@ -336,7 +338,7 @@ Update_Status SceneLevel1_3::PostUpdate()
 		win = true;
 	}
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.r2)
 	{
 		App->tetromino->Disable();
 		win = true;

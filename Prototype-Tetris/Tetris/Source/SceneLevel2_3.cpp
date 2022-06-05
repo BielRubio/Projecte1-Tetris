@@ -188,7 +188,7 @@ bool SceneLevel2_3::Start()
 	currentAnimationCurtainClose = &closeCurtainAnim;
 	currentAnimationDoor = &doorAnim;
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
-	doorTexture = App->textures->Load("Assets/Sprites/door.png");
+	doorTexture = App->textures->Load("Assets/Sprites/door2.png");
 
 	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
 
@@ -203,6 +203,7 @@ bool SceneLevel2_3::Start()
 
 Update_Status SceneLevel2_3::Update()
 {
+	GamePad& pad = App->input->pads[0];
 	currentAnimationCurtainOpen->Update();
 	Score(0);
 
@@ -227,7 +228,7 @@ Update_Status SceneLevel2_3::Update()
 		TetroLines = 0;
 	}
 
-	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN|| pad.l2)
 	{
 		gameover = true;
 		losercount = 0;
@@ -242,6 +243,7 @@ Update_Status SceneLevel2_3::Update()
 // Update: draw background
 Update_Status SceneLevel2_3::PostUpdate()
 {
+	GamePad& pad = App->input->pads[0];
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
@@ -254,6 +256,11 @@ Update_Status SceneLevel2_3::PostUpdate()
 		App->render->Blit(curtainTexture, 128, 96, &rectC);
 
 		currentAnimationCurtainClose->Update();
+	}
+
+	if (win == true || linesleft == 0) {
+		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
+		App->render->Blit(doorTexture, 135, 50, &rectDoor);
 	}
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
@@ -331,11 +338,12 @@ Update_Status SceneLevel2_3::PostUpdate()
 		win = true;
 	}
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.r2)
 	{
 		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
+		App->tetromino->Disable();
 	}
 	if (win == true)
 	{
@@ -445,8 +453,6 @@ void SceneLevel1::winnerRound() {
 
 //Makes the player win the game after 3 rounds
 void SceneLevel2_3::winner() {
-
-	
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{

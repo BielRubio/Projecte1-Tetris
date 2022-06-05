@@ -240,21 +240,21 @@ Update_Status ModuleTetromino::Update() {
 
 	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN || pad.left || pad.left_x < 0.0f) {
 		delayM += 10;
-		if (!(pad.left || pad.left_x < 0.0f) || delayM == 80) {
+		if (!(pad.left || pad.left_x < 0.0f) || delayM >= 80) {
 			move(-1);
 			delayM = 0;
 		}
 	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN || pad.right || pad.left_x > 0.0f) {
 		delayM += 10;
-		if (!(pad.right || pad.left_x > 0.0f) || delayM == 80) {
+		if (!(pad.right || pad.left_x > 0.0f) || delayM >= 80) {
 			move(1);
 			delayM = 0;
 		}
 	}
 	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN || pad.r1) {
 		delayR += 10; 
-		if (!pad.r1 || delayR == 80) {
+		if (!pad.r1 || delayR >= 80) {
 			rotate();
 			delayR = 0; 
 		}
@@ -263,33 +263,42 @@ Update_Status ModuleTetromino::Update() {
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT || pad.down || pad.left_y > 0.0f) {
 		frameCount += 10;
 	}
-	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN || pad.up) {
+		delayR += 10;
 
-		bool stop = false;
+		if (!pad.up || delayR >= 80) {
+			bool stop = false;
 
-		for (int j = mapHeight - 1; j > 0; j--) {
-			for (int i = 1; i < mapLength - 1; i++) {
-				if (map[i][j] == nullptr && i != 5) {
-					map[i][j] = new Tile;
-					map[i][j]->x = i;
-					map[i][j]->y = j;
-					map[i][j]->id = -2;
-					map[i][j]->spriteY = 7;
+			for (int j = mapHeight - 1; j > 0; j--) {
+				for (int i = 1; i < mapLength - 1; i++) {
+					if (map[i][j] == nullptr && i != 5) {
+						map[i][j] = new Tile;
+						map[i][j]->x = i;
+						map[i][j]->y = j;
+						map[i][j]->id = -2;
+						map[i][j]->spriteY = 7;
 
-					stop = true;
+						stop = true;
+					}
+				}
+				if (stop) {
+					break;
 				}
 			}
-			if (stop) {
-				break;
-			}
+			delayR = 0; 
 		}
+
 	}
-	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN) {
-		if (godMode) {
-			godMode = false;
-		}
-		else {
-			godMode = true;
+	if (App->input->keys[SDL_SCANCODE_F3] == Key_State::KEY_DOWN || pad.l1) {
+		delayR += 10; 
+		if (!pad.l1 || delayR >=80) {
+			if (godMode) {
+				godMode = false;
+			}
+			else {
+				godMode = true;
+			}
+			delayR = 0;
 		}
 	}
 	if (App->input->keys[SDL_SCANCODE_F5] == Key_State::KEY_DOWN) {

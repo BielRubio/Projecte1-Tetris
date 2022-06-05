@@ -323,7 +323,7 @@ Update_Status SceneLevel1::PostUpdate()
 
 
 	if (linesleft == 0) {
-		App->audio->PauseMusic();
+
 		SceneLevel1::winner();
 	}
 
@@ -348,7 +348,6 @@ Update_Status SceneLevel1::PostUpdate()
 	}
 	if(win == true)
 	{
-		App->audio->PauseMusic();
 		SceneLevel1::winner();
 	}
 
@@ -457,9 +456,9 @@ void SceneLevel1::winner() {
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
-		else { 
-			App->audio->PauseMusic(); 
+		if (winnerCount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
 		}
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");

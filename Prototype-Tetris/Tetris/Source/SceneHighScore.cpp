@@ -35,6 +35,8 @@ bool SceneHighScore::Start()
 
 	bool ret = true;
 
+	App->audio->PauseMusic();
+
 	bgTexture = App->textures->Load("Assets/Sprites/high_score.png");
 
 	App->particles->AddParticle(App->particles->firework1, 233, 27, Collider::Type::NONE, 0);

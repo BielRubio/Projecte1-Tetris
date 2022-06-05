@@ -247,7 +247,7 @@ Update_Status SceneLevel1_3::Update()
 		gameover = true;
 	}
 
-	if (App->tetromino->linesToWin <= 0) {
+	if (App->tetromino->linesToWin <= 0 || win == true) {
 		win = true;
 		currentAnimationDoor->Update();
 	}

@@ -244,7 +244,7 @@ Update_Status SceneLevel3_3::Update()
 		return Update_Status::UPDATE_STOP;
 	}
 
-	if (App->tetromino->linesToWin <= 0) {
+	if (App->tetromino->linesToWin <= 0 || win == true) {
 		win = true;
 		currentAnimationDoor->Update();
 	}
@@ -357,7 +357,6 @@ Update_Status SceneLevel3_3::PostUpdate()
 	
 	if (win == true)
 	{
-		
 		SceneLevel3_3::winner();
 	}
 
@@ -469,7 +468,6 @@ void SceneLevel3_3::winner() {
 	}
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}

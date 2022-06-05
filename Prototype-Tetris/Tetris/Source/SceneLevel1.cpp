@@ -1,4 +1,5 @@
 #include "SceneLevel1.h"
+#include "SceneLevel2.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -183,8 +184,7 @@ bool SceneLevel1::Start()
 
 Update_Status SceneLevel1::Update()
 {
-	closeCurtainAnim.Update();
-	openCurtainAnim.Update();
+	currentAnimationCurtainOpen->Update();
 	
 	currentAnimationDoor->Update();
 
@@ -209,12 +209,11 @@ Update_Status SceneLevel1::PostUpdate()
 	SDL_Rect rect = currentAnimationCurtainOpen->GetCurrentFrame();
 	App->render->Blit(curtainTexture, 128, 96, &rect);
 
-
-	if (win == true) {
-
-		//Close curtain animation
-		SDL_Rect rect = currentAnimationCurtainClose->GetCurrentFrame();
-		App->render->Blit(curtainTexture, 128, 96, &rect);
+	if (closeCurtain) {
+		SDL_Rect rectC = currentAnimationCurtainClose->GetCurrentFrame();
+		App->render->Blit(curtainTexture, 128, 96, &rectC);
+		
+		currentAnimationCurtainClose->Update();
 	}
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
@@ -250,7 +249,7 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(175, 210, BlueFont, "1");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 
-	if (frameCount >= 100) {
+	if (frameCount >= 100 && !win) {
 		App->fonts->BlitText(152, 129, WhiteFont, "lines");
 		App->fonts->BlitText(152, 145, WhiteFont, "left");
 		App->fonts->BlitText(136, 113, RedFont, LinesLeftCountChar);
@@ -397,7 +396,7 @@ void SceneLevel1::winnerRound() {
 //Makes the player win the game after 3 rounds
 void SceneLevel1::winner() {
 
-	//App->tetromino->Disable();
+	App->tetromino->Disable();
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
@@ -418,18 +417,16 @@ void SceneLevel1::winner() {
 	}
 
 	if (winnerCount >= 574 ) {
-		if (openCurtainAnim.GetLoopCount() == 1) {
-			App->render->Blit(curtainTexture, 128, 96, &(closeCurtainAnim.GetCurrentFrame()), 0.85f);
-		}
-		closeCurtainAnim.Update();
+		
+		closeCurtain = true;
 	}
 		
-	if (winnerCount == 604) {
-		closeCurtainAnim.speed = 0;
+	/*if (winnerCount == 604) {
+
 		gameover = false;
-		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
-		//App->sceneIntro->Enable();
-	}
+		this->Disable();
+		App->sceneLevel_2->Enable();
+	}*/
 	winnerCount++;
 }
 

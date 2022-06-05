@@ -113,6 +113,8 @@ public:
 	int losercount;
 	int frameCount;
 
+	bool closeCurtain = false;
+
 	int lines;
 	int linesleft;
 	int linesObj;

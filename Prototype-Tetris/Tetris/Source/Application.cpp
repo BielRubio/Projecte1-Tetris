@@ -48,9 +48,9 @@ Application::Application()
 	modules[8] =	sceneIntro =  new SceneIntro(false);
 	modules[9] =   sceneDifficulty = new SceneDifficultyMenu(false);
 
-	modules[10] =	sceneLevel_1 =	new SceneLevel1(false);		
+	modules[10] =	sceneLevel_1 =	new SceneLevel1(true);		
 	modules[11] =	sceneLevel_1_2 = new SceneLevel1_2(false);
-	modules[12] =	sceneLevel_1_3 = new SceneLevel1_3(true);
+	modules[12] =	sceneLevel_1_3 = new SceneLevel1_3(false);
 	modules[13] =	sceneLevel_2 = new SceneLevel2(false);
 	modules[14] =	sceneLevel_2_2 = new SceneLevel2_2(false);
 	modules[15] =	sceneLevel_2_3 = new SceneLevel2_3(false);

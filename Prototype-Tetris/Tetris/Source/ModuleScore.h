@@ -24,9 +24,7 @@ public:
 	// Performs the render call of a black rectangle with transparency
 	Update_Status PostUpdate() override;
 
-private:
-
-	int arr[10];
+	int PrimalData[10];
 
 };
 

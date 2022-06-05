@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include "ModuleScore.h"
 
 struct SDL_Texture;
 
@@ -38,7 +39,7 @@ public:
 	uint fireworkFx = 0;
 
 	int frameCount = 0;
-
+	int WhiteFont = -1;
 };
 
 #endif

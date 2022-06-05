@@ -332,11 +332,13 @@ Update_Status SceneLevel2_2::PostUpdate()
 	//Winner hotkey
 	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
+		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
 	}
 	if (win == true)
 	{
+		
 		App->audio->PauseMusic();
 		SceneLevel2_2::winner();
 	}
@@ -443,7 +445,7 @@ void SceneLevel1::winnerRound() {
 //Makes the player win the game after 3 rounds
 void SceneLevel2_2::winner() {
 
-	App->tetromino->Disable();
+	
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{

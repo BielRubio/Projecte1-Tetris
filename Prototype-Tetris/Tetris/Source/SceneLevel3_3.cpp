@@ -332,12 +332,13 @@ Update_Status SceneLevel3_3::PostUpdate()
 	//Winner hotkey
 	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
+		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
 	}
 	if (win == true)
 	{
-		App->tetromino->Disable();
+		
 		App->audio->PauseMusic();
 		SceneLevel3_3::winner();
 	}

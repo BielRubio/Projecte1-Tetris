@@ -332,7 +332,6 @@ Update_Status SceneLevel3::PostUpdate()
 		string str_losetoContinue = to_string(t_losetoContinue);
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
-		App->audio->PauseMusic();
 		SceneLevel3::loser(ch_losetoContinue);
 	}
 	if (App->tetromino->linesToWin <= 0) {
@@ -398,8 +397,13 @@ void SceneLevel3::loser(const char* ch_losetoContinue) {
 
 	if (losercount >= 0 && losercount < 200)
 	{
-		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		if (losercount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 

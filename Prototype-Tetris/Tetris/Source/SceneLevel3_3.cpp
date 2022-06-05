@@ -351,7 +351,6 @@ Update_Status SceneLevel3_3::PostUpdate()
 		string str_losetoContinue = to_string(t_losetoContinue);
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
-		App->audio->PauseMusic();
 		SceneLevel3_3::loser(ch_losetoContinue);
 	}
 	
@@ -408,8 +407,13 @@ void SceneLevel3_3::loser(const char* ch_losetoContinue) {
 
 	if (losercount >= 0 && losercount < 200)
 	{
-		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		if (losercount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -465,6 +469,9 @@ void SceneLevel3_3::winner() {
 	if (winnerCount == 0) {
 		App->audio->cleanTrack();
 		App->audio->PlayMusic("Assets/Music/04_-_Tetris_Atari_-_ARC_-_Hopak_(Round_3).ogg", 1.0f);
+	}
+	if (winnerCount == 133) {
+		App->audio->PauseMusic();
 	}
 	if (winnerCount >= 0 && winnerCount < 250)
 	{

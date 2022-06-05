@@ -56,22 +56,32 @@ bool SceneDifficultyMenu::Start()
 
 Update_Status SceneDifficultyMenu::Update()
 {
+	GamePad& pad = App->input->pads[0];
 	frameCount++;
-	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 100 || SelectAux == true)
+	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 100 || SelectAux == true || (pad.a && frameCount >=100))
 	{
 		SecondFrameCount++;
 		SelectAux = true;
 		App->audio->PlayFx(Select);
 	}
-	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 2)
+	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 2 || pad.right && frameCount >= 100 && Selection != 2 || pad.left_x > 0.0f && frameCount >= 100 && Selection != 2)
 	{
-		Selection++;
-		App->audio->PlayFx(Switch);
+		delay += 10; 
+		if (!(pad.right || pad.left_x > 0.0f) || delay ==80) {
+			Selection++;
+			App->audio->PlayFx(Switch);
+			delay = 0; 
+		}
+		
 	}
-	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 0)
+	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 0 || pad.left && frameCount >= 100 && Selection != 0 || pad.left_x < 0.0f && frameCount >= 100 && Selection != 0)
 	{
-		Selection--;
-		App->audio->PlayFx(Switch);
+		delay += 10;
+		if (!(pad.left || pad.left_x < 0.0f) || delay == 80) {
+			Selection--;
+			App->audio->PlayFx(Switch);
+			delay = 0;
+		}
 	}
 
 	if (SecondFrameCount >= 60 && Selection == 0) {

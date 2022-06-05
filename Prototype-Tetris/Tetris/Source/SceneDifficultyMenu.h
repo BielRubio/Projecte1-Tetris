@@ -36,6 +36,7 @@ public:
 	SDL_Texture* ALTexture = nullptr;
 
 	int frameCount = 0, SecondFrameCount = 0;
+	int delay = 0; 
 	//FX sounds
 	uint Select = 0;
 	uint Switch = 0;

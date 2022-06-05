@@ -239,13 +239,26 @@ Update_Status ModuleTetromino::Update() {
 	GamePad& pad = App->input->pads[0];
 
 	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN || pad.left || pad.left_x < 0.0f) {
-		move(-1);
+		delayM += 10;
+		if (!(pad.left || pad.left_x < 0.0f) || delayM == 80) {
+			move(-1);
+			delayM = 0;
+		}
 	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN || pad.right || pad.left_x > 0.0f) {
-		move(1);
+		delayM += 10;
+		if (!(pad.right || pad.left_x > 0.0f) || delayM == 80) {
+			move(1);
+			delayM = 0;
+		}
 	}
 	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN || pad.r1) {
-		rotate();
+		delayR += 10; 
+		if (!pad.r1 || delayR == 80) {
+			rotate();
+			delayR = 0; 
+		}
+			
 	}
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT || pad.down || pad.left_y > 0.0f) {
 		frameCount += 10;

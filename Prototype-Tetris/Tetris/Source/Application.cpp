@@ -49,10 +49,10 @@ Application::Application()
 
 	modules[10] =	sceneLevel_1 =	new SceneLevel1(false);		
 	modules[11] =	sceneLevel_1_2 = new SceneLevel1_2(false);
-	modules[12] =	sceneLevel_1_3 = new SceneLevel1_3(false);
+	modules[12] =	sceneLevel_1_3 = new SceneLevel1_3(true);
 	modules[13] =	sceneLevel_2 = new SceneLevel2(false);
 	modules[14] =	sceneLevel_2_2 = new SceneLevel2_2(false);
-	modules[15] =	sceneLevel_2_3 = new SceneLevel2_3(true);
+	modules[15] =	sceneLevel_2_3 = new SceneLevel2_3(false);
 	modules[16] =	sceneLevel_3 = new SceneLevel3(false);
 	modules[17] =	sceneLevel_3_2 = new SceneLevel3_2(false);
 	modules[18] =	sceneLevel_3_3 = new SceneLevel3_3(false);

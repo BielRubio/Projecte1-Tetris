@@ -333,7 +333,6 @@ Update_Status SceneLevel2_3::PostUpdate()
 
 
 	if (linesleft == 0) {
-		App->audio->PauseMusic();
 		SceneLevel2_3::winner();
 	}
 
@@ -360,7 +359,6 @@ Update_Status SceneLevel2_3::PostUpdate()
 
 	if (win == true)
 	{
-		App->audio->PauseMusic();
 		SceneLevel2_3::winner();
 	}
 
@@ -467,12 +465,13 @@ void SceneLevel1::winnerRound() {
 //Makes the player win the game after 3 rounds
 void SceneLevel2_3::winner() {
 
+	if (winnerCount == 0) {
+		App->audio->cleanTrack();
+		App->audio->PlayMusic("Assets/Music/04_-_Tetris_Atari_-_ARC_-_Hopak_(Round_3).ogg", 1.0f);
+	}
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
 		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
-		else {
-			App->audio->PauseMusic();
-		}
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}

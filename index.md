@@ -19,7 +19,24 @@ There are three base levels made up of three rounds each when you pass these rou
 
 ```markdown
 
-(Aqui van los controles)
+* Tetromino controls: 
+- Rotate: R
+- Quick fall: S
+- Move Right: D
+- Move Left: A
+
+* Debug keys:
+- Win round: F1
+- Lose round: F2
+- Show grid: F3
+- Setup line: F4
+- Change piece (I): F5
+- Change piece (T): F6
+- Change piece (O): F7
+- Change piece (J): F8
+- Change piece (L): F9
+- Change piece (S): F10
+- Change piece (Z): F11
 
 ```
 
@@ -33,18 +50,13 @@ There are three base levels made up of three rounds each when you pass these rou
 
 **Javier Valencia**
 
-* Design
+* Design/Code
 * Github: [JaviVP](https://github.com/JaviVP)
 
 **Biel Rubio**
 
-* Art
+* Art/Code
 * Github: [BielRubio](https://github.com/BielRubio)
-
-**Sergi Rubio**
-
-* Code
-* Github: [SergiRubio156](https://github.com/SergiRubio156)
 
 **Nacho Moreno**
 

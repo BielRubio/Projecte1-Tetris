@@ -192,17 +192,19 @@ bool ModuleTetromino::Start() {
 }
 
 Update_Status ModuleTetromino::Update() {
+	GamePad& pad = App->input->pads[0];
 
-	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN || pad.left || pad.left_x < 0.0f) {
 		move(-1);
 	}
-	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN || pad.right || pad.left_x > 0.0f) {
 		move(1);
 	}
-	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN || pad.r1) {
 		rotate();
 	}
-	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT) {
+	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT || pad.down || pad.left_y > 0.0f) {
+		//App->sceneLevel_1->AddPlayer("MAR", 12);
 		frameCount += 10;
 	}
 	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {

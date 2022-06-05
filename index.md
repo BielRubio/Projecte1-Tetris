@@ -57,8 +57,8 @@ There are three base levels made up of three rounds each when you pass these rou
 * Github: [Maksym203](https://github.com/Maksym203)
 
 #### For more information visit our Wiki: [HERE](https://github.com/BielRubio/Projecte1-Tetris/wiki)
-#### Download the Latest version of the game : [HERE](https://github.com/BielRubio/Projecte1-Tetris/releases) 
-#### Check our Github repository [HERE](https://github.com/BielRubio/Projecte1-Tetris)
+#### Download the Latest version of the game: [HERE](https://github.com/BielRubio/Projecte1-Tetris/releases) 
+#### Check our Github repository: [HERE](https://github.com/BielRubio/Projecte1-Tetris)
 
 _Tribute by Olvidona Studios_
 

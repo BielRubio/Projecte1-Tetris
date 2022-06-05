@@ -8,9 +8,13 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "SceneIntro.h"
+#include <iostream>
+#include <fstream>
 #include "ModuleParticles.h"
 
 #include<string>
+
+using namespace std;
 
 SceneHighScore::SceneHighScore(bool startEnabled) : Module(startEnabled)
 {
@@ -53,7 +57,7 @@ Update_Status SceneHighScore::Update()
 	}
 
 	frameCount++;
-
+	DataCleaner();
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -64,6 +68,15 @@ Update_Status SceneHighScore::PostUpdate()
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
 	return Update_Status::UPDATE_CONTINUE;
+}
+
+void SceneHighScore::DataCleaner() {
+	fstream Score;
+	Score.open("Score.txt", ios::out);
+	if (Score.is_open()) {
+		Score << 0 << "\n";
+		Score.close();
+	}
 }
 
 bool SceneHighScore::CleanUp()

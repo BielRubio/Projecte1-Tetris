@@ -207,8 +207,6 @@ Update_Status SceneLevel1_3::Update()
 	currentAnimationCurtainOpen->Update();
 	Score(0);
 
-	currentAnimationDoor->Update();
-
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
 	ss << linesLeftCount;
@@ -228,13 +226,35 @@ Update_Status SceneLevel1_3::Update()
 		TetroLines = 0;
 	}
 
+	//Winner hotkey
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	{
+		App->tetromino->Disable();
+		win = true;
+		winnerCount = 0;
+	}
+
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
+
 	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN || pad.l2)
+
 	{
 		gameover = true;
 		losercount = 0;
 	}
 	if (App->tetromino->checkLoss()) {
 		gameover = true;
+	}
+
+	if (App->tetromino->linesToWin <= 0) {
+		win = true;
+		currentAnimationDoor->Update();
+	}
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	{
+		win = true;
+		winnerCount = 0;
+		App->tetromino->Disable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -263,7 +283,6 @@ Update_Status SceneLevel1_3::PostUpdate()
 		App->render->Blit(doorTexture, 135, 50, &rectDoor);
 	}
 
-	
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
 		App->fonts->BlitText(136, 105, WhiteFont, "complete");
@@ -335,20 +354,14 @@ Update_Status SceneLevel1_3::PostUpdate()
 		App->audio->PauseMusic();
 		SceneLevel1_3::loser(ch_losetoContinue);
 	}
+
 	if (App->tetromino->linesToWin <= 0) {
 		win = true;
 	}
+
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.r2)
-	{
-		App->tetromino->Disable();
-		win = true;
-		winnerCount = 0;
-		App->tetromino->Disable();
-	}
 	if (win == true)
 	{
-		
 		App->audio->PauseMusic();
 		SceneLevel1_3::winner();
 	}
@@ -410,7 +423,8 @@ void SceneLevel1_3::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this-> Disable();
+			App->sceneLevel_1_3->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

@@ -1,4 +1,4 @@
-![Logo](https://upload.wikimedia.org/wikipedia/en/b/b0/The_Tetris_Company_logo.png)
+<img align="center" src="images/tetrisimage.png">
 
 # Link
 
@@ -17,7 +17,7 @@
 
 ## Members
 
-![olvidonalogo](https://github.com/BielRubio/Projecte1-Tetris/blob/main/Olvidona_Studios_logo.png)
+<img align="center" src="images/Olvidona_Studios_logo.png">
 
 **Javier Valencia**
 

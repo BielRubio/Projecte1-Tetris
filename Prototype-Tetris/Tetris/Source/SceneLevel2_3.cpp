@@ -255,6 +255,11 @@ Update_Status SceneLevel2_3::PostUpdate()
 		currentAnimationCurtainClose->Update();
 	}
 
+	if (win == true || linesleft == 0) {
+		SDL_Rect rectDoor = currentAnimationDoor->GetCurrentFrame();
+		App->render->Blit(doorTexture, 135, 50, &rectDoor);
+	}
+
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
 		App->fonts->BlitText(136, 105, WhiteFont, "complete");
@@ -334,9 +339,11 @@ Update_Status SceneLevel2_3::PostUpdate()
 	{
 		win = true;
 		winnerCount = 0;
+		App->tetromino->Disable();
 	}
 	if (win == true)
 	{
+		
 		App->audio->PauseMusic();
 		SceneLevel2_3::winner();
 	}
@@ -442,8 +449,6 @@ void SceneLevel1::winnerRound() {
 
 //Makes the player win the game after 3 rounds
 void SceneLevel2_3::winner() {
-
-	App->tetromino->Disable();
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{

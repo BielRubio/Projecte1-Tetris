@@ -93,6 +93,7 @@ public:
 	SDL_Texture* bigBlock = nullptr; 
 
 	SDL_Texture* lineDTexture = nullptr;
+	SDL_Texture* lineNumbers = nullptr;
 
 	Animation* currentAnimation = nullptr;
 
@@ -109,6 +110,8 @@ public:
 	int lineDOffset = 0;
 
 	int frameCount = 0;
+
+	int lineNumbersCount = 0;
 
 	int linesToWin = 2;
 

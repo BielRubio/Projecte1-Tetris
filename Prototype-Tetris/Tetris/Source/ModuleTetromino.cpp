@@ -134,6 +134,51 @@ ModuleTetromino::~ModuleTetromino()
 
 //Load the textures
 bool ModuleTetromino::Start() {
+
+	//Init variables-----------------------
+	blocks = nullptr;
+	bigBlock = nullptr;
+
+	lineDTexture = nullptr;
+	lineNumbers = nullptr;
+
+	currentAnimation = nullptr;
+
+	currentLineD = nullptr;
+	currentColor = nullptr;
+
+	Score = 0;
+	line = 0;
+	passScore = false;
+	passLine = false;
+
+	//Matrix containing the map
+	for (int i = 0; i < mapLength; i++) {
+		for (int j = 0; j < mapHeight; j++) {
+			map[i][j] = nullptr;
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		currentBlock[i] = nullptr;
+		//nextBlock[i] = nullptr;
+	}
+
+	currentId = 0;
+	currentRotation = 1;
+	fileToDelete = 0;
+	animateLines = false;
+
+	fileCount = 0;
+
+	lineDOffset = 0;
+	frameCount = 0;
+	lineNumbersCount = 0;
+
+	canCheckLines = true;
+	godMode = false;
+	hasPlayed = true;
+	//-----------------------------------
+
 	LOG("Loading Tetrominoes_textures");
 	
 	blocks = App->textures->Load("Assets/Sprites/block_tiles.png");
@@ -1073,6 +1118,16 @@ int ModuleTetromino::getSpriteX(Tile* t) {
 	}
 	
 	return n;
+}
+
+bool ModuleTetromino::CleanUp() {
+
+	App->textures->Unload(blocks);
+	App->textures->Unload(bigBlock);
+	App->textures->Unload(lineDTexture);
+	App->textures->Unload(lineNumbers);
+
+	return true;
 }
 
 

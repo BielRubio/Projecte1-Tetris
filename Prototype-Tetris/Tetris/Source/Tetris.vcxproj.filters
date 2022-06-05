@@ -85,6 +85,9 @@
     <ClCompile Include="SceneHighScore.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLevel1_2.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -175,6 +178,9 @@
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="SceneHighScore.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel1_2.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

@@ -232,7 +232,7 @@ void SceneLevel2::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2, 0);
+			//App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2, 0);
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

@@ -1,5 +1,5 @@
-#ifndef __SCENE_LEVEL1_H__
-#define __SCENE_LEVEL1_H__
+#ifndef __SCENE_LEVEL1_2_H__
+#define __SCENE_LEVEL1_2_H__
 
 #include "Module.h"
 #include "Animation.h"
@@ -8,14 +8,14 @@ using namespace std;
 
 struct SDL_Texture;
 
-class SceneLevel1 : public Module
+class SceneLevel1_2 : public Module
 {
 public:
 	//Constructor
-	SceneLevel1(bool startEnabled);
+	SceneLevel1_2(bool startEnabled);
 
 	//Destructor
-	~SceneLevel1();
+	~SceneLevel1_2();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the map background
@@ -58,7 +58,7 @@ public:
 	bool CleanUp();
 
 public:
-	
+
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
 	SDL_Texture* curtainTexture = nullptr;
@@ -111,13 +111,13 @@ public:
 	char LightBlueFontText[10] = { "\0" };
 
 	int winnerCount = 0;
-	int losercount  = 0;
+	int losercount = 0;
 	int frameCount = 0;
 
 	bool closeCurtain = false;
 
 	int lines = 0;
-	int linesleft = 5;
+	int linesleft = 10;
 	int linesObj;
 
 	int t_message = 0;

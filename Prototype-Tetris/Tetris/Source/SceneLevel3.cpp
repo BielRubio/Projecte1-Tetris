@@ -318,7 +318,7 @@ void SceneLevel3::winner() {
 	if (winnerCount == 604) {
 		currentAnimationCurtain->speed = 0;
 		gameover = false;
-		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
+		//App->fade->FadeToBlack(this, (Module*)App->sceneLevel_2);
 		//App->sceneIntro->Enable();
 	}
 	winnerCount++;

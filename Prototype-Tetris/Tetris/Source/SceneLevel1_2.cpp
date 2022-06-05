@@ -1,5 +1,5 @@
-#include "SceneLevel1.h"
 #include "SceneLevel1_2.h"
+//#include "SceneLevel1_3.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -19,7 +19,7 @@
 #include <sstream>
 using namespace std;
 
-SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
+SceneLevel1_2::SceneLevel1_2(bool startEnabled) : Module(startEnabled)
 {
 	//Curtain anim
 
@@ -115,22 +115,31 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 
 }
 
-SceneLevel1::~SceneLevel1()
+SceneLevel1_2::~SceneLevel1_2()
 {
 
 }
 
 // Load assets
-bool SceneLevel1::Start()
+bool SceneLevel1_2::Start()
 {
 	App->tetromino->Enable();
 
 	//Init variables--------------------
+	bgTexture = nullptr;
+	curtainTexture = nullptr;
+	doorTexture = nullptr;
+	loserSprite = nullptr;
+	speedTexture = nullptr;
+
+	currentAnimationCurtainOpen = nullptr;
+	currentAnimationCurtainClose = nullptr;
+	currentAnimationDoor = nullptr;
+
 	inserCoinCount = 0;
 
 	AuxCount = "0";
 	LinesCount = "0";
-	linesLeftCount = 5;
 	gameover = false;
 	win = false;
 	IsZero = false;
@@ -157,17 +166,18 @@ bool SceneLevel1::Start()
 
 	closeCurtain = false;
 
-	linesObj = 5;
+	linesObj = 10;
 	linesleft = linesObj;
+	linesLeftCount = linesObj;
 
-	App->tetromino->speed = App->tetromino->speed1;
+	App->tetromino->speed = App->tetromino->speed2;
 
 	t_message = 0;
 	t_losetoContinue = 9;
 	//---------------------------------------
 
 	App->tetromino->linesToWin = linesLeftCount;
-	
+
 	LOG("Loading background assets");
 
 	bool ret = true;
@@ -176,8 +186,9 @@ bool SceneLevel1::Start()
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
 	LOG("Loading sound effects")
-	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
+
+	/*fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
+	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");*/
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -197,10 +208,10 @@ bool SceneLevel1::Start()
 	return ret;
 }
 
-Update_Status SceneLevel1::Update()
+Update_Status SceneLevel1_2::Update()
 {
 	currentAnimationCurtainOpen->Update();
-	
+
 	currentAnimationDoor->Update();
 
 	linesLeftCount = App->tetromino->linesToWin;
@@ -208,7 +219,7 @@ Update_Status SceneLevel1::Update()
 	ss << linesLeftCount;
 	Aux2222Count = ss.str();
 	LinesLeftCountChar = Aux2222Count.c_str();
-	 
+
 	frameCount++;
 	TetroScore = App->tetromino->ReturnScore();
 	TetroLines = App->tetromino->ReturnLines();
@@ -235,7 +246,7 @@ Update_Status SceneLevel1::Update()
 }
 
 // Update: draw background
-Update_Status SceneLevel1::PostUpdate()
+Update_Status SceneLevel1_2::PostUpdate()
 {
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
@@ -247,13 +258,13 @@ Update_Status SceneLevel1::PostUpdate()
 	if (closeCurtain) {
 		SDL_Rect rectC = currentAnimationCurtainClose->GetCurrentFrame();
 		App->render->Blit(curtainTexture, 128, 96, &rectC);
-		
+
 		currentAnimationCurtainClose->Update();
 	}
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
-		App->fonts->BlitText(136, 105, WhiteFont,"complete");
+		App->fonts->BlitText(136, 105, WhiteFont, "complete");
 		App->fonts->BlitText(136, 121, WhiteFont, LinesLeftCountChar);
 		App->fonts->BlitText(160, 121, WhiteFont, "lines");
 		App->fonts->BlitText(136, 137, WhiteFont, "to go to");
@@ -266,7 +277,7 @@ Update_Status SceneLevel1::PostUpdate()
 		App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 		//App->tetromino->Enable();
 	}
-	
+
 	t_message++;
 
 	// Draw UI (score) --------------------------------------
@@ -310,7 +321,7 @@ Update_Status SceneLevel1::PostUpdate()
 
 	if (linesleft == 0) {
 		App->audio->PauseMusic();
-		SceneLevel1::winner();
+		SceneLevel1_2::winner();
 	}
 
 	//Loser hotkey
@@ -320,10 +331,10 @@ Update_Status SceneLevel1::PostUpdate()
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
 		App->audio->PauseMusic();
-		SceneLevel1::loser(ch_losetoContinue);
+		SceneLevel1_2::loser(ch_losetoContinue);
 	}
 	if (App->tetromino->linesToWin <= 0) {
-		win = true; 
+		win = true;
 	}
 	//Winner hotkey
 	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
@@ -331,10 +342,10 @@ Update_Status SceneLevel1::PostUpdate()
 		win = true;
 		winnerCount = 0;
 	}
-	if(win == true)
+	if (win == true)
 	{
 		App->audio->PauseMusic();
-		SceneLevel1::winner();
+		SceneLevel1_2::winner();
 	}
 
 	//Speed meter
@@ -374,12 +385,12 @@ Update_Status SceneLevel1::PostUpdate()
 		SDL_Rect rect = { 0,0,8,2 };
 		App->render->Blit(speedTexture, 8, 214, &rect);
 	}
-	
+
 	return Update_Status::UPDATE_CONTINUE;
 }
 
 //Makes the player lose the game
-void SceneLevel1::loser(const char* ch_losetoContinue){
+void SceneLevel1_2::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
 
@@ -402,7 +413,7 @@ void SceneLevel1::loser(const char* ch_losetoContinue){
 		App->fonts->BlitText(62, 105, WhiteFont, "to");
 		App->fonts->BlitText(43, 122, WhiteFont, "continue");
 		App->fonts->BlitText(74, 187, WhiteFont, ch_losetoContinue);
-		
+
 		if (losercount % 50 == 0)
 		{
 			t_losetoContinue--;
@@ -437,20 +448,20 @@ void SceneLevel1::winnerRound() {
 */
 
 //Makes the player win the game after 3 rounds
-void SceneLevel1::winner() {
+void SceneLevel1_2::winner() {
 
 	//App->tetromino->Disable();
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
 		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
-		else { 
-			App->audio->PauseMusic(); 
+		else {
+			App->audio->PauseMusic();
 		}
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}
-	
+
 	if (winnerCount >= 250 && winnerCount < 574)
 	{
 		//Bonus
@@ -459,21 +470,21 @@ void SceneLevel1::winner() {
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
 	}
 
-	if (winnerCount >= 574 ) {
-		
+	if (winnerCount >= 574) {
+
 		closeCurtain = true;
 	}
-		
+
 	if (winnerCount == 604) {
 
 		gameover = false;
 		this->Disable();
-		App->sceneLevel_1_2->Enable();
+		//App->sceneLevel_2->Enable();
 	}
 	winnerCount++;
 }
 
-int SceneLevel1::ConstChartoInt(const char* x) { // Function that converts const char* to int
+int SceneLevel1_2::ConstChartoInt(const char* x) { // Function that converts const char* to int
 	stringstream strValue;
 	strValue << x;
 
@@ -482,7 +493,7 @@ int SceneLevel1::ConstChartoInt(const char* x) { // Function that converts const
 	return intValue;
 }
 
-int SceneLevel1::StrToInt(string x) { // Function that converts string to int
+int SceneLevel1_2::StrToInt(string x) { // Function that converts string to int
 	int temp = 0;
 	for (int i = 0; i < x.length(); i++) {
 		temp = temp * 10 + (x[i] - '0');
@@ -490,7 +501,7 @@ int SceneLevel1::StrToInt(string x) { // Function that converts string to int
 	return temp;
 }
 
-void SceneLevel1::Lines() {
+void SceneLevel1_2::Lines() {
 	const char* CurrentLines = LinesCount;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -505,7 +516,7 @@ void SceneLevel1::Lines() {
 	LinesCount = Aux22Count.c_str();
 }
 
-void SceneLevel1::RedScore(int value) {
+void SceneLevel1_2::RedScore(int value) {
 	const char* CurrentLines = AuxCount;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -519,7 +530,7 @@ void SceneLevel1::RedScore(int value) {
 	AuxCount = Aux2Count.c_str();
 }
 
-void SceneLevel1::LinesLeft() {
+void SceneLevel1_2::LinesLeft() {
 	const char* CurrentLines = LinesLeftCountChar;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -539,7 +550,7 @@ void SceneLevel1::LinesLeft() {
 	}
 }
 
-void SceneLevel1::AddPlayer(string P, int score) {
+void SceneLevel1_2::AddPlayer(string P, int score) {
 	bool isEmpty = false;
 	fstream ScoreSave;
 	ScoreSave.open("ScoreN.txt", ios::in);
@@ -572,7 +583,7 @@ void SceneLevel1::AddPlayer(string P, int score) {
 	SortPlayers();
 }
 
-void SceneLevel1::SortPlayers() {
+void SceneLevel1_2::SortPlayers() {
 	fstream ScoreSave;
 	int o = 0;
 	ScoreSave.open("ScoreN.txt", ios::in);
@@ -631,11 +642,11 @@ void SceneLevel1::SortPlayers() {
 	//AuxCount = Player4.c_str();
 }
 
-string SceneLevel1::Sorter(string Player1) {
+string SceneLevel1_2::Sorter(string Player1) {
 	int ACF = Currentpos;
 	int CF = 0;
 	for (int i = 0; i < 16; i++) {
-		if (Arr[0][i+ACF] == 'z' || Arr[0][i+ACF] == '\0') {
+		if (Arr[0][i + ACF] == 'z' || Arr[0][i + ACF] == '\0') {
 			if (Arr[0][i + ACF] == 'z' && Arr[0][i + ACF + 1] != '\0') {
 				Players += 1;
 			}
@@ -646,7 +657,7 @@ string SceneLevel1::Sorter(string Player1) {
 	int X = 0;
 	while (X != CF) {
 		if (X == 0) {
-			Player1[11] = Arr[0][0+Currentpos];
+			Player1[11] = Arr[0][0 + Currentpos];
 		}
 		if (X == 1) {
 			Player1[10] = Arr[0][0 + Currentpos];
@@ -710,7 +721,7 @@ string SceneLevel1::Sorter(string Player1) {
 		}
 		X++;
 	}
-	Currentpos += CF+1;
+	Currentpos += CF + 1;
 	return Player1;
 }
 
@@ -737,22 +748,12 @@ string SceneLevel1::Sorter(string Player1) {
 //	AuxCount = Aux2Count.c_str();
 //}
 
-bool SceneLevel1::CleanUp()
+bool SceneLevel1_2::CleanUp()
 {
 	if (App->tetromino->IsEnabled()) {
 
 		App->tetromino->Disable();
 	}
 
-	App->fonts->UnLoad(WhiteFont);
-	App->fonts->UnLoad(BlueFont);
-	App->fonts->UnLoad(RedFont);
-	App->fonts->UnLoad(LightBlueFont);
-
-	App->textures->Unload(bgTexture);
-	App->textures->Unload(speedTexture);
-	App->textures->Unload(loserSprite);
-	App->textures->Unload(doorTexture);
-	
 	return true;
 }

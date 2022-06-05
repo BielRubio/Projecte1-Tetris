@@ -80,6 +80,7 @@
     <ClInclude Include="SceneDescription.h" />
     <ClInclude Include="SceneDetails.h" />
     <ClInclude Include="SceneHighScore.h" />
+    <ClInclude Include="SceneLevel1_2.h" />
     <ClInclude Include="SceneLevel2.h" />
     <ClInclude Include="SceneLevel3.h" />
     <ClInclude Include="SceneLogo.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="SceneDetails.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="SceneHighScore.cpp" />
+    <ClCompile Include="SceneLevel1_2.cpp" />
     <ClCompile Include="SceneLevel2.cpp" />
     <ClCompile Include="SceneLevel3.cpp" />
     <ClCompile Include="SceneLogo.cpp" />

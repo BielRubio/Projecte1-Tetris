@@ -58,6 +58,8 @@ public:
 
 	int ReturnLines();
 
+	bool CleanUp();
+
 
 public:
 	struct Tile {

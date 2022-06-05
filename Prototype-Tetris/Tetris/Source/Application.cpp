@@ -12,7 +12,7 @@
 #include "SceneMembers.h";
 #include "SceneIntro.h"
 #include "SceneLevel1.h"
-#include "SceneLevel2.h"
+#include "SceneLevel1_2.h"
 #include "SceneLevel3.h";
 #include "ModuleParticles.h"
 #include "ModuleCollisions.h"
@@ -41,7 +41,7 @@ Application::Application()
 	modules[8] =	sceneIntro =  new SceneIntro(false);
 	modules[9] =   sceneDifficulty = new SceneDifficultyMenu(false);
 	modules[10] =	sceneLevel_1 =	new SceneLevel1(true);		//Gameplay scene starts disabled
-	modules[11] =	sceneLevel_2 = new SceneLevel2(false);
+	modules[11] =	sceneLevel_1_2 = new SceneLevel1_2(false);
 	modules[12] =	sceneLevel_3 = new SceneLevel3(false);
 	modules[13] =	sceneHighScore = new SceneHighScore(false);
 	modules[14] =	player =		new ModulePlayer(false);	//Player starts disabled

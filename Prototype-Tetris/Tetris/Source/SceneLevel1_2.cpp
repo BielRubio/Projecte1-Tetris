@@ -217,6 +217,7 @@ Update_Status SceneLevel1_2::Update()
 
 	currentAnimationCurtainOpen->Update();
 	Score(0);
+	Lines(0);
 
 	currentAnimationDoor->Update();
 
@@ -235,7 +236,7 @@ Update_Status SceneLevel1_2::Update()
 		TetroScore = 0;
 	}
 	if (App->tetromino->passLine) {
-		Lines();
+		Lines(1);
 		TetroLines = 0;
 	}
 
@@ -513,17 +514,37 @@ int SceneLevel1_2::StrToInt(string x) { // Function that converts string to int
 	return temp;
 }
 
-void SceneLevel1_2::Lines() {
-	const char* CurrentLines = LinesCount;
-	stringstream strValue;
-	strValue << CurrentLines;
+void SceneLevel1_2::Lines(int lines) {
+	//const char* CurrentLines = LinesCount;
+	//stringstream strValue;
+	//strValue << CurrentLines;
 
-	unsigned int intValue;
-	strValue >> intValue;
-	intValue++;
+	//unsigned int intValue;
+	//strValue >> intValue;
+	//intValue++;
 
+	//stringstream ss;
+	//ss << intValue;
+	//Aux22Count = ss.str();
+	//LinesCount = Aux22Count.c_str();
+	fstream Score;
+	int i = 0;
+	Score.open("Lines.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + lines;
+	Score.open("Lines.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
 	stringstream ss;
-	ss << intValue;
+	ss << ScoreCount;
 	Aux22Count = ss.str();
 	LinesCount = Aux22Count.c_str();
 }

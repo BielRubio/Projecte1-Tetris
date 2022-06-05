@@ -38,7 +38,7 @@ public:
 
 	void Score(int score);
 
-	void Lines();
+	void Lines(int lines);
 
 	void LinesLeft();
 

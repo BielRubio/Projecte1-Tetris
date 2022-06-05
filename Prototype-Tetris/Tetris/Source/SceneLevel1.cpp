@@ -198,6 +198,8 @@ bool SceneLevel1::Start()
 	RedFont = App->fonts->Load("Assets/Fonts/TetrisFontRed.png", lookupTable, 1);
 	LightBlueFont = App->fonts->Load("Assets/Fonts/TetrisFontLightBlue.png", lookupTable, 1);
 
+	DataCleaner();
+
 	return ret;
 }
 
@@ -224,7 +226,7 @@ Update_Status SceneLevel1::Update()
 		TetroScore = 0;
 	}
 	if (App->tetromino->passLine) {
-		Lines();
+		Lines(1);
 		TetroLines = 0;
 	}
 
@@ -484,6 +486,21 @@ void SceneLevel1::winner() {
 	winnerCount++;
 }
 
+void SceneLevel1::DataCleaner() {
+	fstream Score;
+	Score.open("Score.txt", ios::out);
+	if (Score.is_open()) {
+		Score << 0 << "\n";
+		Score.close();
+	}
+	fstream Lines;
+	Lines.open("Lines.txt", ios::out);
+	if (Lines.is_open()) {
+		Lines << 0 << "\n";
+		Lines.close();
+	}
+}
+
 int SceneLevel1::ConstChartoInt(const char* x) { // Function that converts const char* to int
 	stringstream strValue;
 	strValue << x;
@@ -501,17 +518,37 @@ int SceneLevel1::StrToInt(string x) { // Function that converts string to int
 	return temp;
 }
 
-void SceneLevel1::Lines() {
-	const char* CurrentLines = LinesCount;
-	stringstream strValue;
-	strValue << CurrentLines;
+void SceneLevel1::Lines(int lines) {
+	//const char* CurrentLines = LinesCount;
+	//stringstream strValue;
+	//strValue << CurrentLines;
 
-	unsigned int intValue;
-	strValue >> intValue;
-	intValue++;
+	//unsigned int intValue;
+	//strValue >> intValue;
+	//intValue++;
 
+	//stringstream ss;
+	//ss << intValue;
+	//Aux22Count = ss.str();
+	//LinesCount = Aux22Count.c_str();
+	fstream Score;
+	int i = 0;
+	Score.open("Lines.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + lines;
+	Score.open("Lines.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
 	stringstream ss;
-	ss << intValue;
+	ss << ScoreCount;
 	Aux22Count = ss.str();
 	LinesCount = Aux22Count.c_str();
 }

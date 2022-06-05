@@ -124,6 +124,30 @@ SceneLevel2::~SceneLevel2()
 bool SceneLevel2::Start()
 {
 	App->tetromino->Enable();
+	
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			if (i == 0 || i == 12 - 1 || j == 24 - 1) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -1;
+			}
+			else if ((j > 14 && i == 1 ) || (i == 10 && j > 14)) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -(i + j);
+				map[i][j]->spriteY = rand() % 7; 
+			}
+		}
+	}
+	
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			App->tetromino->map[i][j] = map[i][j];
+		}
+	}
 
 	//Init variables--------------------
 	inserCoinCount = 0;
@@ -144,6 +168,8 @@ bool SceneLevel2::Start()
 	TetroScore = 0;
 	TetroLines = 0;
 
+
+	
 	/*char WhiteFontText[10] = { "\0" };
 	char BlueFontText[10] = { "\0" };
 	char RedFontText[10] = { "\0" };

@@ -1,6 +1,7 @@
 #ifndef __SCENE_LEVEL2_H__
 #define __SCENE_LEVEL2_H__
 
+#include "ModuleTetromino.h"
 #include "Module.h"
 #include "Animation.h"
 #include <string>
@@ -59,6 +60,8 @@ public:
 
 public:
 
+	Tile* map[12][24] = { 0 };
+	
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;
 	SDL_Texture* curtainTexture = nullptr;
@@ -120,7 +123,7 @@ public:
 	int linesleft = 5;
 	int linesObj;
 
-	int t_message = 0;
+	int t_message = 0; 
 
 	int t_losetoContinue;
 };

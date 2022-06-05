@@ -180,7 +180,7 @@ bool SceneLevel2_2::Start()
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
 	LOG("Loading background music: Loginska");
-	App->audio->PlayMusic("Assets/Music/07_-_Tetris_Atari_-_ARC_-_Troika.ogg", 1.0f);
+	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 	//App->tetromino->Enable();
 
 	//Animations
@@ -409,7 +409,8 @@ void SceneLevel2_2::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable();
+			App->sceneLevel_2_2->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

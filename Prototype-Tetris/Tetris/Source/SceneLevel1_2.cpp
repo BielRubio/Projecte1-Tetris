@@ -187,8 +187,8 @@ bool SceneLevel1_2::Start()
 
 	LOG("Loading sound effects")
 
-	LOG("Loading background music: Loginska");
-	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+	LOG("Loading background music: Brandinsky");
+	App->audio->PlayMusic("Assets/Music/03_-_Tetris_Atari_-_ARC_-_Bradinsky.ogg", 1.0f);
 
 	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
@@ -420,7 +420,8 @@ void SceneLevel1_2::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable();
+			App->sceneLevel_1_2->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

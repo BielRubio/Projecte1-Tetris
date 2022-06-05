@@ -179,8 +179,8 @@ bool SceneLevel2_3::Start()
 		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
-	LOG("Loading background music: Loginska");
-	App->audio->PlayMusic("Assets/Music/07_-_Tetris_Atari_-_ARC_-_Troika.ogg", 1.0f);
+	LOG("Loading background music: Brandinsky");
+	App->audio->PlayMusic("Assets/Music/03_-_Tetris_Atari_-_ARC_-_Bradinsky.ogg", 1.0f);
 	//App->tetromino->Enable();
 
 	//Animations
@@ -208,7 +208,6 @@ Update_Status SceneLevel2_3::Update()
 	Score(0);
 	Lines(0);
 
-	currentAnimationDoor->Update();
 
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
@@ -236,6 +235,19 @@ Update_Status SceneLevel2_3::Update()
 	}
 	if (App->tetromino->checkLoss()) {
 		gameover = true;
+	}
+
+	if (App->tetromino->linesToWin <= 0) {
+		win = true;
+		currentAnimationDoor->Update();
+	}
+	//Winner hotkey
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	{
+		App->tetromino->Disable();
+		win = true;
+		winnerCount = 0;
+		App->tetromino->Disable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -335,20 +347,20 @@ Update_Status SceneLevel2_3::PostUpdate()
 		App->audio->PauseMusic();
 		SceneLevel2_3::loser(ch_losetoContinue);
 	}
+
 	if (App->tetromino->linesToWin <= 0) {
 		win = true;
 	}
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.r2)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
 		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
-		App->tetromino->Disable();
 	}
+
 	if (win == true)
 	{
-		
 		App->audio->PauseMusic();
 		SceneLevel2_3::winner();
 	}
@@ -402,7 +414,7 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 	if (losercount >= 0 && losercount < 200)
 	{
 		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		else{ App->audio->PauseMusic(); }
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -410,7 +422,8 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable();
+			App->sceneLevel_2_3->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

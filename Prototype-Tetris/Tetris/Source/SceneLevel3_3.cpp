@@ -180,7 +180,7 @@ bool SceneLevel3_3::Start()
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
 	LOG("Loading background music: Loginska");
-	App->audio->PlayMusic("Assets/Music/05_-_Tetris_Atari_-_ARC_-_Karinka", 1.0f);
+	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
 	//App->tetromino->Enable();
 
 	//Animations
@@ -209,7 +209,7 @@ Update_Status SceneLevel3_3::Update()
 	Score(0);
 	Lines(0);
 
-	currentAnimationDoor->Update();
+	
 
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
@@ -242,6 +242,19 @@ Update_Status SceneLevel3_3::Update()
 	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
 
 		return Update_Status::UPDATE_STOP;
+	}
+
+	if (App->tetromino->linesToWin <= 0) {
+		win = true;
+		currentAnimationDoor->Update();
+	}
+	//Winner hotkey
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	{
+		App->tetromino->Disable();
+		win = true;
+		winnerCount = 0;
+		App->tetromino->Disable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -346,16 +359,15 @@ Update_Status SceneLevel3_3::PostUpdate()
 		win = true;
 	}
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.r2)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
 		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
-		App->tetromino->Disable();
 	}
+
 	if (win == true)
 	{
-		
 		App->audio->PauseMusic();
 		SceneLevel3_3::winner();
 	}
@@ -417,7 +429,8 @@ void SceneLevel3_3::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable();
+			App->sceneLevel_3_3->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

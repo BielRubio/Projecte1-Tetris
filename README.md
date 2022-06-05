@@ -1,18 +1,18 @@
 # Projecte1-Tetris
 
-## Link TetrisTeam
-  (https://github.com/BielRubio/Projecte1-Tetris)
+## Link TetrisTeam Web
+  (https://bielrubio.github.io/Projecte1-Tetris/)
   
 ## Members
 
 **Javier Valencia**
 
-* Design
+* Design/Code
 * Github: [JaviVP](https://github.com/JaviVP)
 
 **Biel Rubio**
 
-* Art
+* Art/Code
 * Github: [BielRubio](https://github.com/BielRubio)
 
 **Sergi Rubio**

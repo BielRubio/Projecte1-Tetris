@@ -12,7 +12,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
-#include <string>
+#include <iterator>
+#include <string.h> 
+#include <cstring>
 #include <sstream>
 using namespace std;
 
@@ -235,13 +237,13 @@ Update_Status SceneLevel1::PostUpdate()
 	// Draw UI (score) --------------------------------------
 	App->fonts->BlitText(24, 217, RedFont, "score");
 
-	App->fonts->BlitText(72, 217, WhiteFont, AuxCount);
+	//App->fonts->BlitText(72, 217, WhiteFont, AuxCount);
 
-	App->fonts->BlitText(65, 217, RedFont, AuxCount);
+	App->fonts->BlitText(72, 217, RedFont, AuxCount);
 
 	App->fonts->BlitText(10, 12, RedFont, "next");
 	App->fonts->BlitText(24, 225, RedFont, "lines");
-	App->fonts->BlitText(65, 225, RedFont, LinesCount);
+	App->fonts->BlitText(72, 225, RedFont, LinesCount);
 	App->fonts->BlitText(135, 110, RedFont, LinesLeftCount);
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
@@ -480,13 +482,10 @@ void SceneLevel1::LinesLeft() {
 	}
 }
 
-
-
-// Just a test
 void SceneLevel1::AddPlayer(string P, int score) {
 	bool isEmpty = false;
 	fstream ScoreSave;
-	ScoreSave.open("ScoreTest.txt", ios::in);
+	ScoreSave.open("ScoreN.txt", ios::in);
 	if (ScoreSave.is_open()) {
 		string Line;
 		while (getline(ScoreSave, Line)) {
@@ -497,85 +496,223 @@ void SceneLevel1::AddPlayer(string P, int score) {
 		ScoreSave.close();
 	}
 	if (isEmpty == true) {
-		ScoreSave.open("ScoreTest.txt", ios::out);
+		ScoreSave.open("ScoreN.txt", ios::out);
 		if (ScoreSave.is_open()) {
-			ScoreSave << P << "*" << score << "-";
+			ScoreSave << score << "z";
 			ScoreSave.close();
 		}
 	}
 	if (isEmpty == false) {
 		bool isThere = false;
-		ScoreSave.open("ScoreTest.txt", ios::in);
-		if (ScoreSave.is_open()) {
-			string Line;
-			while (getline(ScoreSave, Line)) {
-				for (int i = 0; i < sizeof(Line); i++) {
-					if (Line.find(P) != string::npos) {
-						isThere = true;
-					}
-				}
-			}
-			ScoreSave.close();
-		}
+		//ScoreSave.open("ScoreTest.txt", ios::in);
+		//if (ScoreSave.is_open()) {
+		//	string Line;
+		//	while (getline(ScoreSave, Line)) {
+		//		for (int i = 0; i < sizeof(Line); i++) {
+		//			if (Line.find(P) != string::npos) {
+		//				isThere = true;
+		//			}
+		//		}
+		//	}
+		//	ScoreSave.close();
+		//}
 		if (isThere == false) {
-			ScoreSave.open("ScoreTest.txt", ios::app);
+			ScoreSave.open("ScoreN.txt", ios::app);
 			if (ScoreSave.is_open()) {
-				ScoreSave << P << "*" << score << "-";
+				ScoreSave << score << "z";
 				ScoreSave.close();
 			}
 		}
 	}
+	SortPlayers();
 }
 
-//void SceneLevel1::SortPlayers() {
-//	Players Player[16];
+// Just a test
+//void SceneLevel1::AddPlayer(string P, int score) {
+//	bool isEmpty = false;
 //	fstream ScoreSave;
-//	bool mode = true;
 //	ScoreSave.open("ScoreTest.txt", ios::in);
 //	if (ScoreSave.is_open()) {
 //		string Line;
 //		while (getline(ScoreSave, Line)) {
-//			New = Line;
+//			if (Line[0] == '\0') {
+//				isEmpty = true;
+//			}
 //		}
 //		ScoreSave.close();
 //	}
-//	int counter = 0;
-//	int aux = 0;
-//	for (int i = 0; i < 16; i++) {
-//		for (int j = 0; j < 30; j++) {
-//			if (j + counter < sizeof(New)) {
-//				if (New[j + counter] == '\0') {
-//					break;
-//				}
-//				if (New[j + counter] != '*') {
-//					Player[i].name[j] = New[j + counter];
-//					Player[i].position = 1;
-//				}
-//				else {
-//					break;
-//				}
-//			}
-//		}
-//		counter += 4;
-//		for (int k = 0; k < 50; k++) {
-//			if (k + counter < sizeof(New)) {
-//				if (New[k + counter] == '\0') {
-//					break;
-//				}
-//				if (New[k + counter] != '-') {
-//					Player[i].score[k] = New[k + counter];
-//					aux++;
-//				}
-//				else {
-//					break;
-//				}
-//			}
-//			counter += aux;
-//			aux = 0;
+//	if (isEmpty == true) {
+//		ScoreSave.open("ScoreTest.txt", ios::out);
+//		if (ScoreSave.is_open()) {
+//			ScoreSave << P << "*" << score << "-";
+//			ScoreSave.close();
 //		}
 //	}
-//	LOG("%d", Player[1].name);
+//	if (isEmpty == false) {
+//		bool isThere = false;
+//		ScoreSave.open("ScoreTest.txt", ios::in);
+//		if (ScoreSave.is_open()) {
+//			string Line;
+//			while (getline(ScoreSave, Line)) {
+//				for (int i = 0; i < sizeof(Line); i++) {
+//					if (Line.find(P) != string::npos) {
+//						isThere = true;
+//					}
+//				}
+//			}
+//			ScoreSave.close();
+//		}
+//		if (isThere == false) {
+//			ScoreSave.open("ScoreTest.txt", ios::app);
+//			if (ScoreSave.is_open()) {
+//				ScoreSave << P << "*" << score << "-";
+//				ScoreSave.close();
+//			}
+//		}
+//	}
 //}
+
+void SceneLevel1::SortPlayers() {
+	fstream ScoreSave;
+	int o = 0;
+	ScoreSave.open("ScoreN.txt", ios::in);
+	if (ScoreSave.is_open()) {
+		string Line;
+		while (getline(ScoreSave, Line)) {
+			Arr[o] = Line;
+			o++;
+		}
+		ScoreSave.close();
+	}
+	if (P1 == false && Players >= 1) {
+		Player1 = Sorter(Player1);
+		P1 = true;
+	}
+	if (P2 == false && Players >= 2) {
+		Player2 = Sorter(Player2);
+		P2 = true;
+	}
+	if (P3 == false && Players >= 3) {
+		Player3 = Sorter(Player3);
+		P3 = true;
+	}
+	if (P4 == false && Players >= 4) {
+		Player4 = Sorter(Player4);
+		P4 = true;
+	}
+	if (P5 == false && Players >= 5) {
+		Player5 = Sorter(Player5);
+		P5 = true;
+	}
+	if (P6 == false && Players >= 6) {
+		Player6 = Sorter(Player6);
+		P6 = true;
+	}
+	if (P7 == false && Players >= 7) {
+		Player7 = Sorter(Player7);
+		P7 = true;
+	}
+	if (P8 == false && Players >= 8) {
+		Player8 = Sorter(Player8);
+		P8 = true;
+	}
+	if (P9 == false && Players >= 9) {
+		Player9 = Sorter(Player9);
+		P9 = true;
+	}
+	if (P10 == false && Players >= 10) {
+		Player10 = Sorter(Player10);
+		P10 = true;
+	}
+	Currentpos = 0;
+	Players = 0;
+	//LinesLeftCount = Player1.c_str();
+	//LinesCount = Player2.c_str();
+	//AuxCount = Player4.c_str();
+}
+
+string SceneLevel1::Sorter(string Player1) {
+	int ACF = Currentpos;
+	int CF = 0;
+	for (int i = 0; i < 16; i++) {
+		if (Arr[0][i+ACF] == 'z' || Arr[0][i+ACF] == '\0') {
+			if (Arr[0][i + ACF] == 'z' && Arr[0][i + ACF + 1] != '\0') {
+				Players += 1;
+			}
+			break;
+		}
+		CF++;
+	}
+	int X = 0;
+	while (X != CF) {
+		if (X == 0) {
+			Player1[11] = Arr[0][0+Currentpos];
+		}
+		if (X == 1) {
+			Player1[10] = Arr[0][0 + Currentpos];
+			Player1[11] = Arr[0][1 + Currentpos];
+		}
+		if (X == 2) {
+			Player1[9] = Arr[0][0 + Currentpos];
+			Player1[10] = Arr[0][1 + Currentpos];
+			Player1[11] = Arr[0][2 + Currentpos];
+		}
+		if (X == 3) {
+			Player1[8] = Arr[0][0 + Currentpos];
+			Player1[9] = Arr[0][1 + Currentpos];
+			Player1[10] = Arr[0][2 + Currentpos];
+			Player1[11] = Arr[0][3 + Currentpos];
+		}
+		if (X == 4) {
+			Player1[7] = Arr[0][0 + Currentpos];
+			Player1[8] = Arr[0][1 + Currentpos];
+			Player1[9] = Arr[0][2 + Currentpos];
+			Player1[10] = Arr[0][3 + Currentpos];
+			Player1[11] = Arr[0][4 + Currentpos];
+		}
+		if (X == 5) {
+			Player1[6] = Arr[0][0 + Currentpos];
+			Player1[7] = Arr[0][1 + Currentpos];
+			Player1[8] = Arr[0][2 + Currentpos];
+			Player1[9] = Arr[0][3 + Currentpos];
+			Player1[10] = Arr[0][4 + Currentpos];
+			Player1[11] = Arr[0][5 + Currentpos];
+		}
+		if (X == 6) {
+			Player1[5] = Arr[0][0 + Currentpos];
+			Player1[6] = Arr[0][1 + Currentpos];
+			Player1[7] = Arr[0][2 + Currentpos];
+			Player1[8] = Arr[0][3 + Currentpos];
+			Player1[9] = Arr[0][4 + Currentpos];
+			Player1[10] = Arr[0][5 + Currentpos];
+			Player1[11] = Arr[0][6 + Currentpos];
+		}
+		if (X == 7) {
+			Player1[4] = Arr[0][0 + Currentpos];
+			Player1[5] = Arr[0][1 + Currentpos];
+			Player1[6] = Arr[0][2 + Currentpos];
+			Player1[7] = Arr[0][3 + Currentpos];
+			Player1[8] = Arr[0][4 + Currentpos];
+			Player1[9] = Arr[0][5 + Currentpos];
+			Player1[10] = Arr[0][6 + Currentpos];
+			Player1[11] = Arr[0][7 + Currentpos];
+		}
+		if (X == 8) {
+			Player1[3] = Arr[0][0 + Currentpos];
+			Player1[4] = Arr[0][1 + Currentpos];
+			Player1[5] = Arr[0][2 + Currentpos];
+			Player1[6] = Arr[0][3 + Currentpos];
+			Player1[7] = Arr[0][4 + Currentpos];
+			Player1[8] = Arr[0][5 + Currentpos];
+			Player1[9] = Arr[0][6 + Currentpos];
+			Player1[10] = Arr[0][7 + Currentpos];
+			Player1[11] = Arr[0][8 + Currentpos];
+		}
+		X++;
+	}
+	Currentpos += CF+1;
+	return Player1;
+}
 
 void SceneLevel1::Score(int score) {
 	fstream Score;

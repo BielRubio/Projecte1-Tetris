@@ -196,11 +196,9 @@ Update_Status ModuleTetromino::Update() {
 
 	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN || pad.left || pad.left_x < 0.0f) {
 		move(-1);
-		//App->sceneLevel_1->AddPlayer("RES", 145);
 	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN || pad.right || pad.left_x > 0.0f) {
 		move(1);
-		//App->sceneLevel_1->AddPlayer("OME", 2907);
 	}
 	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN || pad.r1) {
 		rotate();

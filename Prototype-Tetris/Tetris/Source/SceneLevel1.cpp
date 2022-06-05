@@ -14,9 +14,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <charconv>
 using namespace std;
-
 
 SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 {
@@ -481,6 +479,103 @@ void SceneLevel1::LinesLeft() {
 		IsZero = true;
 	}
 }
+
+
+
+// Just a test
+void SceneLevel1::AddPlayer(string P, int score) {
+	bool isEmpty = false;
+	fstream ScoreSave;
+	ScoreSave.open("ScoreTest.txt", ios::in);
+	if (ScoreSave.is_open()) {
+		string Line;
+		while (getline(ScoreSave, Line)) {
+			if (Line[0] == '\0') {
+				isEmpty = true;
+			}
+		}
+		ScoreSave.close();
+	}
+	if (isEmpty == true) {
+		ScoreSave.open("ScoreTest.txt", ios::out);
+		if (ScoreSave.is_open()) {
+			ScoreSave << P << "*" << score << "-";
+			ScoreSave.close();
+		}
+	}
+	if (isEmpty == false) {
+		bool isThere = false;
+		ScoreSave.open("ScoreTest.txt", ios::in);
+		if (ScoreSave.is_open()) {
+			string Line;
+			while (getline(ScoreSave, Line)) {
+				for (int i = 0; i < sizeof(Line); i++) {
+					if (Line.find(P) != string::npos) {
+						isThere = true;
+					}
+				}
+			}
+			ScoreSave.close();
+		}
+		if (isThere == false) {
+			ScoreSave.open("ScoreTest.txt", ios::app);
+			if (ScoreSave.is_open()) {
+				ScoreSave << P << "*" << score << "-";
+				ScoreSave.close();
+			}
+		}
+	}
+}
+
+//void SceneLevel1::SortPlayers() {
+//	Players Player[16];
+//	fstream ScoreSave;
+//	bool mode = true;
+//	ScoreSave.open("ScoreTest.txt", ios::in);
+//	if (ScoreSave.is_open()) {
+//		string Line;
+//		while (getline(ScoreSave, Line)) {
+//			New = Line;
+//		}
+//		ScoreSave.close();
+//	}
+//	int counter = 0;
+//	int aux = 0;
+//	for (int i = 0; i < 16; i++) {
+//		for (int j = 0; j < 30; j++) {
+//			if (j + counter < sizeof(New)) {
+//				if (New[j + counter] == '\0') {
+//					break;
+//				}
+//				if (New[j + counter] != '*') {
+//					Player[i].name[j] = New[j + counter];
+//					Player[i].position = 1;
+//				}
+//				else {
+//					break;
+//				}
+//			}
+//		}
+//		counter += 4;
+//		for (int k = 0; k < 50; k++) {
+//			if (k + counter < sizeof(New)) {
+//				if (New[k + counter] == '\0') {
+//					break;
+//				}
+//				if (New[k + counter] != '-') {
+//					Player[i].score[k] = New[k + counter];
+//					aux++;
+//				}
+//				else {
+//					break;
+//				}
+//			}
+//			counter += aux;
+//			aux = 0;
+//		}
+//	}
+//	LOG("%d", Player[1].name);
+//}
 
 void SceneLevel1::Score(int score) {
 	fstream Score;

@@ -203,7 +203,9 @@ bool SceneLevel2_3::Start()
 
 Update_Status SceneLevel2_3::Update()
 {
+	GamePad& pad = App->input->pads[0];
 	currentAnimationCurtainOpen->Update();
+	Score(0);
 
 
 	linesLeftCount = App->tetromino->linesToWin;
@@ -225,7 +227,7 @@ Update_Status SceneLevel2_3::Update()
 		TetroLines = 0;
 	}
 
-	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F2] == Key_State::KEY_DOWN|| pad.l2)
 	{
 		gameover = true;
 		losercount = 0;
@@ -253,6 +255,7 @@ Update_Status SceneLevel2_3::Update()
 // Update: draw background
 Update_Status SceneLevel2_3::PostUpdate()
 {
+	GamePad& pad = App->input->pads[0];
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
@@ -351,7 +354,7 @@ Update_Status SceneLevel2_3::PostUpdate()
 		SceneLevel2_3::winner();
 	}
 
-	//Speed meter
+	//Speed meter	
 	if (App->tetromino->speed <= App->tetromino->speed1) {
 		SDL_Rect rect = { 0,16,8,2 };
 		App->render->Blit(speedTexture, 8, 230, &rect);
@@ -518,17 +521,18 @@ void SceneLevel2_3::Lines() {
 }
 
 void SceneLevel2_3::RedScore(int value) {
-	const char* CurrentLines = AuxCount;
-	stringstream strValue;
-	strValue << CurrentLines;
+	//const char* CurrentLines = AuxCount;
+	//stringstream strValue;
+	//strValue << CurrentLines;
 
-	unsigned int intValue;
-	strValue >> intValue;
-	value = value + intValue;
-	stringstream ss;
-	ss << value;
-	Aux2Count = ss.str();
-	AuxCount = Aux2Count.c_str();
+	//unsigned int intValue;
+	//strValue >> intValue;
+	//value = value + intValue;
+	//stringstream ss;
+	//ss << value;
+	//Aux2Count = ss.str();
+	//AuxCount = Aux2Count.c_str();
+	Score(value);
 }
 
 void SceneLevel2_3::LinesLeft() {
@@ -726,28 +730,28 @@ string SceneLevel2_3::Sorter(string Player1) {
 	return Player1;
 }
 
-//void SceneLevel1::Score(int score) {
-//	fstream Score;
-//	int i = 0;
-//	Score.open("Score.txt", ios::in);
-//	if (Score.is_open()) {
-//		string Line;
-//		while (getline(Score, Line)) {
-//			i = StrToInt(Line);
-//		}
-//		Score.close();
-//	}
-//	ScoreCount = i + score;
-//	Score.open("Score.txt", ios::out);
-//	if (Score.is_open()) {
-//		Score << ScoreCount << "\n";
-//		Score.close();
-//	}
-//	stringstream ss;
-//	ss << ScoreCount;
-//	Aux2Count = ss.str();
-//	AuxCount = Aux2Count.c_str();
-//}
+void SceneLevel2_3::Score(int score) {
+	fstream Score;
+	int i = 0;
+	Score.open("Score.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + score;
+	Score.open("Score.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
+	stringstream ss;
+	ss << ScoreCount;
+	Aux2Count = ss.str();
+	AuxCount = Aux2Count.c_str();
+}
 
 bool SceneLevel2_3::CleanUp()
 {

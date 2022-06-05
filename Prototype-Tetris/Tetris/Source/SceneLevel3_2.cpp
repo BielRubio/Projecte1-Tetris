@@ -130,7 +130,6 @@ bool SceneLevel3_2::Start()
 
 	AuxCount = "0";
 	LinesCount = "0";
-	linesLeftCount = 5;
 	gameover = false;
 	win = false;
 	IsZero = false;
@@ -159,8 +158,9 @@ bool SceneLevel3_2::Start()
 
 	linesObj = 15;
 	linesleft = linesObj;
+	linesLeftCount = linesObj;
 
-	App->tetromino->speed = App->tetromino->speed1;
+	App->tetromino->speed = App->tetromino->speed8;
 
 	t_message = 0;
 	t_losetoContinue = 9;

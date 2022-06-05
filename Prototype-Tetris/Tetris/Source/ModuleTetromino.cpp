@@ -667,6 +667,13 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 	endingBlock.Update();
+
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+
+		return Update_Status::UPDATE_STOP;
+	}
+
+
 	return Update_Status::UPDATE_CONTINUE;
 }
 
@@ -819,7 +826,6 @@ Update_Status ModuleTetromino::PostUpdate() {
 			}
 		}
 	}
-	
 	
 	return Update_Status::UPDATE_CONTINUE;
 }

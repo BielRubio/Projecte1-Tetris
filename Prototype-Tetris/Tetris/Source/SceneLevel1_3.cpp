@@ -130,7 +130,6 @@ bool SceneLevel1_3::Start()
 
 	AuxCount = "0";
 	LinesCount = "0";
-	linesLeftCount = 5;
 	gameover = false;
 	win = false;
 	IsZero = false;
@@ -157,10 +156,11 @@ bool SceneLevel1_3::Start()
 
 	closeCurtain = false;
 
-	linesObj = 13;
+	linesObj = 12;
 	linesleft = linesObj;
+	linesLeftCount = linesObj;
 
-	App->tetromino->speed = App->tetromino->speed1;
+	App->tetromino->speed = App->tetromino->speed3;
 
 	t_message = 0;
 	t_losetoContinue = 9;
@@ -463,6 +463,8 @@ void SceneLevel1_3::winner() {
 		App->fonts->BlitText(135, 105, WhiteFont, "bonus for");
 		App->fonts->BlitText(157, 116, WhiteFont, "low");
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
+
+
 	}
 
 	if (winnerCount >= 574) {

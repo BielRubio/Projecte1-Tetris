@@ -179,6 +179,10 @@ bool SceneLevel1::Start()
 	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
+	LOG("Loading background music: Loginska");
+	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+	//App->tetromino->Enable();
+
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
 	currentAnimationCurtainClose = &closeCurtainAnim;
@@ -262,9 +266,9 @@ Update_Status SceneLevel1::PostUpdate()
 
 	else if (t_message == 100)
 	{
-		LOG("Loading background music: Loginska");
-		App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
-		//App->tetromino->Enable();
+		//LOG("Loading background music: Loginska");
+		//App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+		////App->tetromino->Enable();
 	}
 	
 	t_message++;
@@ -753,6 +757,8 @@ bool SceneLevel1::CleanUp()
 	App->textures->Unload(speedTexture);
 	App->textures->Unload(loserSprite);
 	App->textures->Unload(doorTexture);
+
+	App->audio->cleanTrack();
 	
 	return true;
 }

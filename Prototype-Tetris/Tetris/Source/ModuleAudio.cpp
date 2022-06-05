@@ -171,3 +171,8 @@ bool ModuleAudio::PlayFx(uint index, int repeat)
 
 	return ret;
 }
+
+void  ModuleAudio::cleanTrack() {
+	
+	music = nullptr;
+}

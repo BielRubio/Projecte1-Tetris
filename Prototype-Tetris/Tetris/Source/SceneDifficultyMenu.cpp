@@ -1,4 +1,7 @@
 #include "SceneDifficultyMenu.h"
+#include "SceneLevel1.h"
+#include "SceneLevel2.h"
+#include "SceneLevel3.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -7,7 +10,6 @@
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
-#include "SceneLevel1.h"
 #include "ModuleFonts.h"
 
 SceneDifficultyMenu::SceneDifficultyMenu(bool startEnabled) : Module(startEnabled)
@@ -61,10 +63,6 @@ Update_Status SceneDifficultyMenu::Update()
 		SelectAux = true;
 		App->audio->PlayFx(Select);
 	}
-	if (SecondFrameCount >= 60) {
-		this->Disable();
-		App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
-	}
 	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 2)
 	{
 		Selection++;
@@ -74,6 +72,19 @@ Update_Status SceneDifficultyMenu::Update()
 	{
 		Selection--;
 		App->audio->PlayFx(Switch);
+	}
+
+	if (SecondFrameCount >= 60 && Selection == 0) {
+		this->Disable();
+		App->sceneLevel_1->Enable();
+	}
+	if (SecondFrameCount >= 60 && Selection == 1) {
+		this->Disable();
+		App->sceneLevel_2->Enable();
+	}
+	if (SecondFrameCount >= 60 && Selection == 2) {
+		this->Disable();
+		App->sceneLevel_3->Enable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;

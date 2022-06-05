@@ -76,16 +76,31 @@
     <ClCompile Include="SceneDifficultyMenu.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="SceneLevel2.cpp">
+    <ClCompile Include="SceneLevel1_3.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="SceneLevel3.cpp">
+    <ClCompile Include="SceneLevel2.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="SceneHighScore.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="SceneLevel1_2.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLevel2_2.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLevel2_3.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLevel3.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLevel3_2.cpp">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLevel3_3.cpp">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
@@ -171,16 +186,31 @@
     <ClInclude Include="SceneDifficultyMenu.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="SceneLevel2.h">
+    <ClInclude Include="SceneLevel1_3.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="SceneLevel3.h">
+    <ClInclude Include="SceneLevel2.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="SceneHighScore.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="SceneLevel1_2.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel2_2.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel2_3.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel3.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel3_2.h">
+      <Filter>Sources Files\Modules\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLevel3_3.h">
       <Filter>Sources Files\Modules\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>

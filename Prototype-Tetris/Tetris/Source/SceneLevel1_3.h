@@ -1,5 +1,5 @@
-#ifndef __SCENE_LEVEL3_H__
-#define __SCENE_LEVEL3_H__
+#ifndef __SCENE_LEVEL1_3_H__
+#define __SCENE_LEVEL1_3_H__
 
 #include "Module.h"
 #include "Animation.h"
@@ -8,14 +8,14 @@ using namespace std;
 
 struct SDL_Texture;
 
-class SceneLevel3 : public Module
+class SceneLevel1_3 : public Module
 {
 public:
 	//Constructor
-	SceneLevel3(bool startEnabled);
+	SceneLevel1_3(bool startEnabled);
 
 	//Destructor
-	~SceneLevel3();
+	~SceneLevel1_3();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the map background

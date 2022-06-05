@@ -1116,7 +1116,7 @@ int ModuleTetromino::getSpriteX(Tile* t) {
 	for (int i = 0; i < 4; i++) {
 		n += bits[i] * pow(2, i);
 	}
-	
+
 	return n;
 }
 

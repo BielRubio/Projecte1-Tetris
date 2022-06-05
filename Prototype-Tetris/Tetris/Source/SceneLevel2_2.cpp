@@ -1,5 +1,5 @@
-#include "SceneLevel3.h"
-#include "SceneLevel3_2.h"
+#include "SceneLevel2_2.h"
+#include "SceneLevel2_3.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -19,7 +19,7 @@
 #include <sstream>
 using namespace std;
 
-SceneLevel3::SceneLevel3(bool startEnabled) : Module(startEnabled)
+SceneLevel2_2::SceneLevel2_2(bool startEnabled) : Module(startEnabled)
 {
 	//Curtain anim
 
@@ -115,13 +115,13 @@ SceneLevel3::SceneLevel3(bool startEnabled) : Module(startEnabled)
 
 }
 
-SceneLevel3::~SceneLevel3()
+SceneLevel2_2::~SceneLevel2_2()
 {
 
 }
 
 // Load assets
-bool SceneLevel3::Start()
+bool SceneLevel2_2::Start()
 {
 	App->tetromino->Enable();
 
@@ -157,7 +157,7 @@ bool SceneLevel3::Start()
 
 	closeCurtain = false;
 
-	linesObj = 12;
+	linesObj = 13;
 	linesleft = linesObj;
 
 	App->tetromino->speed = App->tetromino->speed1;
@@ -172,7 +172,7 @@ bool SceneLevel3::Start()
 
 	bool ret = true;
 
-	bgTexture = App->textures->Load("Assets/Sprites/level_3.png");
+	bgTexture = App->textures->Load("Assets/Sprites/level_2.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
 	LOG("Loading sound effects")
@@ -180,7 +180,7 @@ bool SceneLevel3::Start()
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
 	LOG("Loading background music: Loginska");
-	App->audio->PlayMusic("Assets/Music/05_-_Tetris_Atari_-_ARC_-_Karinka.ogg", 1.0f);
+	App->audio->PlayMusic("Assets/Music/07_-_Tetris_Atari_-_ARC_-_Troika.ogg", 1.0f);
 	//App->tetromino->Enable();
 
 	//Animations
@@ -201,7 +201,7 @@ bool SceneLevel3::Start()
 	return ret;
 }
 
-Update_Status SceneLevel3::Update()
+Update_Status SceneLevel2_2::Update()
 {
 	currentAnimationCurtainOpen->Update();
 
@@ -239,7 +239,7 @@ Update_Status SceneLevel3::Update()
 }
 
 // Update: draw background
-Update_Status SceneLevel3::PostUpdate()
+Update_Status SceneLevel2_2::PostUpdate()
 {
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
@@ -301,7 +301,7 @@ Update_Status SceneLevel3::PostUpdate()
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(140, 194, BlueFont, "10000");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
-	App->fonts->BlitText(175, 210, BlueFont, "7");
+	App->fonts->BlitText(175, 210, BlueFont, "5");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 	App->fonts->BlitText(192, 224, BlueFont, "0");
 
@@ -314,7 +314,7 @@ Update_Status SceneLevel3::PostUpdate()
 
 	if (linesleft == 0) {
 		App->audio->PauseMusic();
-		SceneLevel3::winner();
+		SceneLevel2_2::winner();
 	}
 
 	//Loser hotkey
@@ -324,7 +324,7 @@ Update_Status SceneLevel3::PostUpdate()
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
 		App->audio->PauseMusic();
-		SceneLevel3::loser(ch_losetoContinue);
+		SceneLevel2_2::loser(ch_losetoContinue);
 	}
 	if (App->tetromino->linesToWin <= 0) {
 		win = true;
@@ -338,7 +338,7 @@ Update_Status SceneLevel3::PostUpdate()
 	if (win == true)
 	{
 		App->audio->PauseMusic();
-		SceneLevel3::winner();
+		SceneLevel2_2::winner();
 	}
 
 	//Speed meter
@@ -383,7 +383,7 @@ Update_Status SceneLevel3::PostUpdate()
 }
 
 //Makes the player lose the game
-void SceneLevel3::loser(const char* ch_losetoContinue) {
+void SceneLevel2_2::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
 
@@ -441,7 +441,7 @@ void SceneLevel1::winnerRound() {
 */
 
 //Makes the player win the game after 3 rounds
-void SceneLevel3::winner() {
+void SceneLevel2_2::winner() {
 
 	App->tetromino->Disable();
 
@@ -472,12 +472,12 @@ void SceneLevel3::winner() {
 
 		gameover = false;
 		this->Disable();
-		App->sceneLevel_3_2->Enable();
+		App->sceneLevel_2_3->Enable();
 	}
 	winnerCount++;
 }
 
-int SceneLevel3::ConstChartoInt(const char* x) { // Function that converts const char* to int
+int SceneLevel2_2::ConstChartoInt(const char* x) { // Function that converts const char* to int
 	stringstream strValue;
 	strValue << x;
 
@@ -486,7 +486,7 @@ int SceneLevel3::ConstChartoInt(const char* x) { // Function that converts const
 	return intValue;
 }
 
-int SceneLevel3::StrToInt(string x) { // Function that converts string to int
+int SceneLevel2_2::StrToInt(string x) { // Function that converts string to int
 	int temp = 0;
 	for (int i = 0; i < x.length(); i++) {
 		temp = temp * 10 + (x[i] - '0');
@@ -494,7 +494,7 @@ int SceneLevel3::StrToInt(string x) { // Function that converts string to int
 	return temp;
 }
 
-void SceneLevel3::Lines() {
+void SceneLevel2_2::Lines() {
 	const char* CurrentLines = LinesCount;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -509,7 +509,7 @@ void SceneLevel3::Lines() {
 	LinesCount = Aux22Count.c_str();
 }
 
-void SceneLevel3::RedScore(int value) {
+void SceneLevel2_2::RedScore(int value) {
 	const char* CurrentLines = AuxCount;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -523,7 +523,7 @@ void SceneLevel3::RedScore(int value) {
 	AuxCount = Aux2Count.c_str();
 }
 
-void SceneLevel3::LinesLeft() {
+void SceneLevel2_2::LinesLeft() {
 	const char* CurrentLines = LinesLeftCountChar;
 	stringstream strValue;
 	strValue << CurrentLines;
@@ -543,7 +543,7 @@ void SceneLevel3::LinesLeft() {
 	}
 }
 
-void SceneLevel3::AddPlayer(string P, int score) {
+void SceneLevel2_2::AddPlayer(string P, int score) {
 	bool isEmpty = false;
 	fstream ScoreSave;
 	ScoreSave.open("ScoreN.txt", ios::in);
@@ -576,7 +576,7 @@ void SceneLevel3::AddPlayer(string P, int score) {
 	SortPlayers();
 }
 
-void SceneLevel3::SortPlayers() {
+void SceneLevel2_2::SortPlayers() {
 	fstream ScoreSave;
 	int o = 0;
 	ScoreSave.open("ScoreN.txt", ios::in);
@@ -635,7 +635,7 @@ void SceneLevel3::SortPlayers() {
 	//AuxCount = Player4.c_str();
 }
 
-string SceneLevel3::Sorter(string Player1) {
+string SceneLevel2_2::Sorter(string Player1) {
 	int ACF = Currentpos;
 	int CF = 0;
 	for (int i = 0; i < 16; i++) {
@@ -741,7 +741,7 @@ string SceneLevel3::Sorter(string Player1) {
 //	AuxCount = Aux2Count.c_str();
 //}
 
-bool SceneLevel3::CleanUp()
+bool SceneLevel2_2::CleanUp()
 {
 	if (App->tetromino->IsEnabled()) {
 

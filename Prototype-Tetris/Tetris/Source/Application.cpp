@@ -13,7 +13,13 @@
 #include "SceneIntro.h"
 #include "SceneLevel1.h"
 #include "SceneLevel1_2.h"
-#include "SceneLevel3.h";
+#include "SceneLevel1_3.h";
+#include "SceneLevel2.h"
+#include "SceneLevel2_2.h"
+#include "SceneLevel2_3.h";
+#include "SceneLevel3.h"
+#include "SceneLevel3_2.h"
+#include "SceneLevel3_3.h";
 #include "ModuleParticles.h"
 #include "ModuleCollisions.h"
 #include "ModuleFadeToBlack.h"
@@ -34,24 +40,32 @@ Application::Application()
 	modules[2] =	textures =		new ModuleTextures(true);
 	modules[3] =	audio =			new ModuleAudio(true);
 
-	modules[4] =	sceneLogo = new SceneLogo(false);
+	modules[4] =	sceneLogo = new SceneLogo(true);
 	modules[5] =	sceneDescription = new SceneDescription(false);
 	modules[6] =	sceneDetails = new SceneDetails(false);
 	modules[7] =	sceneMembers = new SceneMembers(false);
 	modules[8] =	sceneIntro =  new SceneIntro(false);
 	modules[9] =   sceneDifficulty = new SceneDifficultyMenu(false);
-	modules[10] =	sceneLevel_1 =	new SceneLevel1(true);		//Gameplay scene starts disabled
-	modules[11] =	sceneLevel_1_2 = new SceneLevel1_2(false);
-	modules[12] =	sceneLevel_3 = new SceneLevel3(false);
-	modules[13] =	sceneHighScore = new SceneHighScore(false);
-	modules[14] =	player =		new ModulePlayer(false);	//Player starts disabled
-	modules[15]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
-	modules[16] =	particles =		new ModuleParticles(false);	
 
-	modules[17] =	collisions =	new ModuleCollisions(true);
-	modules[18] =	fade =			new ModuleFadeToBlack(true);
-	modules[19] =	fonts =			new ModuleFonts(true);
-	modules[20] =	render =		new ModuleRender(true);
+	modules[10] =	sceneLevel_1 =	new SceneLevel1(false);		
+	modules[11] =	sceneLevel_1_2 = new SceneLevel1_2(false);
+	modules[12] =	sceneLevel_1_3 = new SceneLevel1_3(false);
+	modules[13] =	sceneLevel_2 = new SceneLevel2(false);
+	modules[14] =	sceneLevel_2_2 = new SceneLevel2_2(false);
+	modules[15] =	sceneLevel_2_3 = new SceneLevel2_3(false);
+	modules[16] =	sceneLevel_3 = new SceneLevel3(false);
+	modules[17] =	sceneLevel_3_2 = new SceneLevel3_2(false);
+	modules[18] =	sceneLevel_3_3 = new SceneLevel3_3(false);
+
+	modules[19] =	sceneHighScore = new SceneHighScore(false);
+	modules[20] =	player =		new ModulePlayer(false);	//Player starts disabled
+	modules[21]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
+	modules[22] =	particles =		new ModuleParticles(false);	
+
+	modules[23] =	collisions =	new ModuleCollisions(true);
+	modules[24] =	fade =			new ModuleFadeToBlack(true);
+	modules[24] =	fonts =			new ModuleFonts(true);
+	modules[25] =	render =		new ModuleRender(true);
 }
 
 Application::~Application()

@@ -1,5 +1,5 @@
 #include "SceneLevel1_2.h"
-//#include "SceneLevel1_3.h"
+#include "SceneLevel1_3.h"
 
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -187,8 +187,11 @@ bool SceneLevel1_2::Start()
 
 	LOG("Loading sound effects")
 
-	/*fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");*/
+	LOG("Loading background music: Loginska");
+	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+
+	fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
+	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -273,9 +276,9 @@ Update_Status SceneLevel1_2::PostUpdate()
 
 	else if (t_message == 100)
 	{
-		LOG("Loading background music: Loginska");
-		App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
-		//App->tetromino->Enable();
+		//LOG("Loading background music: Loginska");
+		//App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
+		////App->tetromino->Enable();
 	}
 
 	t_message++;
@@ -308,7 +311,7 @@ Update_Status SceneLevel1_2::PostUpdate()
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
 	App->fonts->BlitText(140, 194, BlueFont, "10000");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
-	App->fonts->BlitText(175, 210, BlueFont, "1");
+	App->fonts->BlitText(175, 210, BlueFont, "2");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
 	App->fonts->BlitText(192, 224, BlueFont, "0");
 
@@ -450,7 +453,7 @@ void SceneLevel1::winnerRound() {
 //Makes the player win the game after 3 rounds
 void SceneLevel1_2::winner() {
 
-	//App->tetromino->Disable();
+	App->tetromino->Disable();
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
@@ -479,7 +482,7 @@ void SceneLevel1_2::winner() {
 
 		gameover = false;
 		this->Disable();
-		//App->sceneLevel_2->Enable();
+		App->sceneLevel_1_3->Enable();
 	}
 	winnerCount++;
 }
@@ -754,6 +757,17 @@ bool SceneLevel1_2::CleanUp()
 
 		App->tetromino->Disable();
 	}
+	App->fonts->UnLoad(WhiteFont);
+	App->fonts->UnLoad(BlueFont);
+	App->fonts->UnLoad(RedFont);
+	App->fonts->UnLoad(LightBlueFont);
+
+	App->textures->Unload(bgTexture);
+	App->textures->Unload(speedTexture);
+	App->textures->Unload(loserSprite);
+	App->textures->Unload(doorTexture);
+
+	App->audio->cleanTrack();
 
 	return true;
 }

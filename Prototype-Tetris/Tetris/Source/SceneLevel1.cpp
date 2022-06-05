@@ -509,17 +509,18 @@ void SceneLevel1::Lines() {
 }
 
 void SceneLevel1::RedScore(int value) {
-	const char* CurrentLines = AuxCount;
-	stringstream strValue;
-	strValue << CurrentLines;
+	//const char* CurrentLines = AuxCount;
+	//stringstream strValue;
+	//strValue << CurrentLines;
 
-	unsigned int intValue;
-	strValue >> intValue;
-	value = value + intValue;
-	stringstream ss;
-	ss << value;
-	Aux2Count = ss.str();
-	AuxCount = Aux2Count.c_str();
+	//unsigned int intValue;
+	//strValue >> intValue;
+	//value = value + intValue;
+	//stringstream ss;
+	//ss << value;
+	//Aux2Count = ss.str();
+	//AuxCount = Aux2Count.c_str();
+	Score(value);
 }
 
 void SceneLevel1::LinesLeft() {
@@ -717,28 +718,28 @@ string SceneLevel1::Sorter(string Player1) {
 	return Player1;
 }
 
-//void SceneLevel1::Score(int score) {
-//	fstream Score;
-//	int i = 0;
-//	Score.open("Score.txt", ios::in);
-//	if (Score.is_open()) {
-//		string Line;
-//		while (getline(Score, Line)) {
-//			i = StrToInt(Line);
-//		}
-//		Score.close();
-//	}
-//	ScoreCount = i + score;
-//	Score.open("Score.txt", ios::out);
-//	if (Score.is_open()) {
-//		Score << ScoreCount << "\n";
-//		Score.close();
-//	}
-//	stringstream ss;
-//	ss << ScoreCount;
-//	Aux2Count = ss.str();
-//	AuxCount = Aux2Count.c_str();
-//}
+void SceneLevel1::Score(int score) {
+	fstream Score;
+	int i = 0;
+	Score.open("Score.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + score;
+	Score.open("Score.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
+	stringstream ss;
+	ss << ScoreCount;
+	Aux2Count = ss.str();
+	AuxCount = Aux2Count.c_str();
+}
 
 bool SceneLevel1::CleanUp()
 {

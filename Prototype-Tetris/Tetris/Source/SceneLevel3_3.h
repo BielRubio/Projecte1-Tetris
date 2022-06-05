@@ -36,7 +36,7 @@ public:
 
 	//void winnerRound();
 
-	//void Score(int score);
+	void Score(int score);
 
 	void Lines();
 

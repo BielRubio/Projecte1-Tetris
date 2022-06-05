@@ -130,7 +130,6 @@ bool SceneLevel3::Start()
 
 	AuxCount = "0";
 	LinesCount = "0";
-	linesLeftCount = 5;
 	gameover = false;
 	win = false;
 	IsZero = false;
@@ -159,8 +158,9 @@ bool SceneLevel3::Start()
 
 	linesObj = 12;
 	linesleft = linesObj;
+	linesLeftCount = linesObj;
 
-	App->tetromino->speed = App->tetromino->speed1;
+	App->tetromino->speed = App->tetromino->speed7;
 
 	t_message = 0;
 	t_losetoContinue = 9;
@@ -332,11 +332,13 @@ Update_Status SceneLevel3::PostUpdate()
 	//Winner hotkey
 	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
+		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
 	}
 	if (win == true)
 	{
+		
 		App->audio->PauseMusic();
 		SceneLevel3::winner();
 	}
@@ -443,7 +445,7 @@ void SceneLevel1::winnerRound() {
 //Makes the player win the game after 3 rounds
 void SceneLevel3::winner() {
 
-	App->tetromino->Disable();
+	
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{

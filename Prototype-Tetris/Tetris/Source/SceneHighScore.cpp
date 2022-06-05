@@ -56,6 +56,11 @@ Update_Status SceneHighScore::Update()
 		App->sceneIntro->Enable();
 	}
 
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+
+		return Update_Status::UPDATE_STOP;
+	}
+
 	frameCount++;
 	DataCleaner();
 	return Update_Status::UPDATE_CONTINUE;

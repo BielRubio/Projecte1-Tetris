@@ -404,10 +404,46 @@ Update_Status SceneLevel1_3::PostUpdate()
 	return Update_Status::UPDATE_CONTINUE;
 }
 
+void SceneLevel1_3::MinMaxSort(int a[], int n) {
+	int i, j, min, temp;
+	for (i = 0; i < n - 1; i++) {
+		min = i;
+		for (j = i + 1; j < n; j++)
+			if (a[j] < a[min])
+				min = j;
+		temp = a[i];
+		a[i] = a[min];
+		a[min] = temp;
+	}
+}
+
 //Makes the player lose the game
 void SceneLevel1_3::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
+	//Saving data
+	if (HasBE == false) {
+		int R = 0;
+		stringstream s(AuxCount);
+		s >> R;
+		AddPlayer("rrr", R);
+		PlayerArr[0] = StrToInt(Player1);
+		PlayerArr[1] = StrToInt(Player2);
+		PlayerArr[2] = StrToInt(Player3);
+		PlayerArr[3] = StrToInt(Player4);
+		PlayerArr[4] = StrToInt(Player5);
+		PlayerArr[5] = StrToInt(Player6);
+		PlayerArr[6] = StrToInt(Player7);
+		PlayerArr[7] = StrToInt(Player8);
+		PlayerArr[8] = StrToInt(Player9);
+		PlayerArr[9] = StrToInt(Player10);
+		MinMaxSort(PlayerArr, 10);
+		for (int i = 0; i < 10; i++) {
+			App->score->PrimalData[i] = PlayerArr[i];
+		}
+		HasBE = true;
+	}
+	//Saving data
 
 	if (losercount >= 0 && losercount < 200)
 	{

@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include "ModuleScore.h"
 #include <string>
 using namespace std;
 
@@ -52,6 +53,8 @@ public:
 
 	void SortPlayers();
 
+	void MinMaxSort(int a[], int n);
+
 	string Sorter(string Player1);
 
 	// Disables pieces
@@ -90,11 +93,13 @@ public:
 	bool gameover = false;
 	bool win = false;
 	bool IsZero = false;
+	bool HasBE = false;
 	bool P1 = false, P2 = false, P3 = false, P4 = false, P5 = false, P6 = false, P7 = false, P8 = false, P9 = false, P10 = false;
 
 	string Arr[2];
 	char Test[300];
 	string Player1 = "000000000000", Player2 = "000000000000", Player3 = "000000000000", Player4 = "000000000000", Player5 = "000000000000", Player6 = "000000000000", Player7 = "000000000000", Player8 = "000000000000", Player9 = "000000000000", Player10 = "000000000000";
+	int PlayerArr[10];
 	int ScoreCount = 0;
 	int WhiteFont = -1;
 	int BlueFont = 0;

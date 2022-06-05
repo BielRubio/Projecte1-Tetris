@@ -38,13 +38,13 @@ Tetris is a puzzle video game created by the Russian scientist [Alexey Pajitnov]
 
 ## Controls
 
-Tetromino controls:
+**Tetromino controls:**
 - Rotate: R
 - Quick fall: S
 - Move Right: D
 - Move Left: A
 
-Debug keys:
+**Debug keys:**
 - Win round: F1
 - Lose round: F2
 - Show grid: F3

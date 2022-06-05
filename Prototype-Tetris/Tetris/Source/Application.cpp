@@ -28,6 +28,7 @@
 #include "ModuleTetromino.h"
 #include "SceneDifficultyMenu.h"
 #include "SceneHighScore.h"
+#include "ModuleScore.h"
 
 Application::Application()
 {
@@ -66,6 +67,7 @@ Application::Application()
 	modules[24] =	fade =			new ModuleFadeToBlack(true);
 	modules[24] =	fonts =			new ModuleFonts(true);
 	modules[25] =	render =		new ModuleRender(true);
+	modules[26] =	score =			new ModuleScore(true);
 }
 
 Application::~Application()

@@ -203,7 +203,7 @@ Update_Status ModuleTetromino::Update() {
 	if (App->input->keys[SDL_SCANCODE_R] == Key_State::KEY_DOWN || pad.r1) {
 		rotate();
 	}
-	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT || pad.down) {
+	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT || pad.down || pad.left_y > 0.0f) {
 		//App->sceneLevel_1->AddPlayer("MAR", 12);
 		frameCount += 10;
 	}

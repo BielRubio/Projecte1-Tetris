@@ -36,11 +36,13 @@ public:
 
 	//void winnerRound();
 
-	void Score(int score);
+	//void Score(int score);
 
 	void Lines();
 
 	void LinesLeft();
+
+	void RedScore(int value);
 
 	int StrToInt(string x);
 
@@ -76,18 +78,12 @@ public:
 	Animation doorAnim;
 
 	//Fonts and score
-	//struct Players {
-	//public:
-	//	char name[3] = {""};
-	//	char score[200] = { "" };
-	//	int position = 0;
-	//};
 
 	const char* AuxCount = "0";
 	const char* LinesCount = "0";
 	int linesLeftCount = 5;
 	const char* LinesLeftCountChar;
-	string Aux2Count, Aux22Count, Aux222Count;
+	string Aux2Count, Aux22Count, Aux222Count, Aux2222Count;
 	string New;
 	uint score = 000;
 	bool gameover = false;
@@ -104,6 +100,8 @@ public:
 	int RedFont = 1;
 	int Currentpos = 0;
 	int Players = 1;
+	int TetroScore = 0;
+	int TetroLines = 0;
 
 	char WhiteFontText[10] = { "\0" };
 	char BlueFontText[10] = { "\0" };

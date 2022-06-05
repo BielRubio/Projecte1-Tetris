@@ -8,7 +8,6 @@
 #include "ModuleCollisions.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleFonts.h"
-#include "SceneLevel1.h"
 #include<time.h>
 
 #include <stdio.h>
@@ -204,7 +203,6 @@ Update_Status ModuleTetromino::Update() {
 		rotate();
 	}
 	if (App->input->keys[SDL_SCANCODE_S] == Key_State::KEY_REPEAT || pad.down || pad.left_y > 0.0f) {
-		//App->sceneLevel_1->AddPlayer("MAR", 12);
 		frameCount += 10;
 	}
 	if (App->input->keys[SDL_SCANCODE_F4] == Key_State::KEY_DOWN) {
@@ -580,6 +578,9 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 
+	passLine = false;
+	passScore = false;
+
 	if (linesToWin <= 0 && hasPlayed == false) {
 		int tileCount = 0; 
 		hasPlayed = true; 
@@ -778,6 +779,18 @@ Update_Status ModuleTetromino::PostUpdate() {
 	return Update_Status::UPDATE_CONTINUE;
 }
 
+//Scores and lines functions
+
+int ModuleTetromino::ReturnScore() {
+	return Score;
+	Score = 0;
+}
+
+int ModuleTetromino::ReturnLines() {
+	return line;
+	line = 0;
+}
+
 //This method picks a random number between 0 and 7 and loads a random tetromino
 void ModuleTetromino::nextTetromino() {
 
@@ -833,7 +846,8 @@ void ModuleTetromino::fall() {
 			App->audio->PlayFx(Drop);
 			currentId++;
 			nextTetromino();
-			//App->sceneLevel_1->Score(10);
+			Score = 10; // SCORE
+			passScore = true;
 			return;
 		}
 	}
@@ -965,9 +979,10 @@ int ModuleTetromino::checkLines() {
 			for (int i = 1; i < mapLength - 1; i++) {
 				map[i][j] = nullptr;
 			}
-			//App->sceneLevel_1->Score(100);
-			//App->sceneLevel_1->Lines();
-			//App->sceneLevel_1->LinesLeft();
+			Score = 100;
+			line = 1;
+			passLine = true;
+			passScore = true;
 			return j;
 		}
 		allTiles = true;

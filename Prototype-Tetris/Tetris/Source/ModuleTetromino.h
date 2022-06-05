@@ -52,6 +52,12 @@ public:
 
 	void spawnBigBlock(int line);
 
+	// Score and lines functions
+
+	int ReturnScore();
+
+	int ReturnLines();
+
 
 public:
 	struct Tile {
@@ -65,6 +71,13 @@ public:
 	int getSpriteX(Tile* t);
 
 	enum { mapLength = 10 + 2, mapHeight = 22 + 2 };
+
+	// Score variables
+
+	int Score = 0;
+	int line = 0;
+	bool passScore = false;
+	bool passLine = false;
 
 	//Matrix containing the map
 	Tile* map[mapLength][mapHeight] = { nullptr };

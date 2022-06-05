@@ -191,10 +191,20 @@ Update_Status SceneLevel1::Update()
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
 	ss << linesLeftCount;
-	Aux22Count = ss.str();
-	LinesLeftCountChar = Aux22Count.c_str();
+	Aux2222Count = ss.str();
+	LinesLeftCountChar = Aux2222Count.c_str();
 	 
 	frameCount++;
+	TetroScore = App->tetromino->ReturnScore();
+	TetroLines = App->tetromino->ReturnLines();
+	if (App->tetromino->passScore) {
+		RedScore(TetroScore);
+		TetroScore = 0;
+	}
+	if (App->tetromino->passLine) {
+		Lines();
+		TetroLines = 0;
+	}
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -465,6 +475,20 @@ void SceneLevel1::Lines() {
 	LinesCount = Aux22Count.c_str();
 }
 
+void SceneLevel1::RedScore(int value) {
+	const char* CurrentLines = AuxCount;
+	stringstream strValue;
+	strValue << CurrentLines;
+
+	unsigned int intValue;
+	strValue >> intValue;
+	value = value + intValue;
+	stringstream ss;
+	ss << value;
+	Aux2Count = ss.str();
+	AuxCount = Aux2Count.c_str();
+}
+
 void SceneLevel1::LinesLeft() {
 	const char* CurrentLines = LinesLeftCountChar;
 	stringstream strValue;
@@ -479,7 +503,7 @@ void SceneLevel1::LinesLeft() {
 		Aux222Count = ss.str();
 		LinesLeftCountChar = Aux222Count.c_str();
 	}
-	if (intValue == 0) {
+	if (intValue >= 0) {
 		LinesLeftCountChar = "0";
 		IsZero = true;
 	}
@@ -507,18 +531,6 @@ void SceneLevel1::AddPlayer(string P, int score) {
 	}
 	if (isEmpty == false) {
 		bool isThere = false;
-		//ScoreSave.open("ScoreTest.txt", ios::in);
-		//if (ScoreSave.is_open()) {
-		//	string Line;
-		//	while (getline(ScoreSave, Line)) {
-		//		for (int i = 0; i < sizeof(Line); i++) {
-		//			if (Line.find(P) != string::npos) {
-		//				isThere = true;
-		//			}
-		//		}
-		//	}
-		//	ScoreSave.close();
-		//}
 		if (isThere == false) {
 			ScoreSave.open("ScoreN.txt", ios::app);
 			if (ScoreSave.is_open()) {
@@ -529,51 +541,6 @@ void SceneLevel1::AddPlayer(string P, int score) {
 	}
 	SortPlayers();
 }
-
-// Just a test
-//void SceneLevel1::AddPlayer(string P, int score) {
-//	bool isEmpty = false;
-//	fstream ScoreSave;
-//	ScoreSave.open("ScoreTest.txt", ios::in);
-//	if (ScoreSave.is_open()) {
-//		string Line;
-//		while (getline(ScoreSave, Line)) {
-//			if (Line[0] == '\0') {
-//				isEmpty = true;
-//			}
-//		}
-//		ScoreSave.close();
-//	}
-//	if (isEmpty == true) {
-//		ScoreSave.open("ScoreTest.txt", ios::out);
-//		if (ScoreSave.is_open()) {
-//			ScoreSave << P << "*" << score << "-";
-//			ScoreSave.close();
-//		}
-//	}
-//	if (isEmpty == false) {
-//		bool isThere = false;
-//		ScoreSave.open("ScoreTest.txt", ios::in);
-//		if (ScoreSave.is_open()) {
-//			string Line;
-//			while (getline(ScoreSave, Line)) {
-//				for (int i = 0; i < sizeof(Line); i++) {
-//					if (Line.find(P) != string::npos) {
-//						isThere = true;
-//					}
-//				}
-//			}
-//			ScoreSave.close();
-//		}
-//		if (isThere == false) {
-//			ScoreSave.open("ScoreTest.txt", ios::app);
-//			if (ScoreSave.is_open()) {
-//				ScoreSave << P << "*" << score << "-";
-//				ScoreSave.close();
-//			}
-//		}
-//	}
-//}
 
 void SceneLevel1::SortPlayers() {
 	fstream ScoreSave;
@@ -717,28 +684,28 @@ string SceneLevel1::Sorter(string Player1) {
 	return Player1;
 }
 
-void SceneLevel1::Score(int score) {
-	fstream Score;
-	int i = 0;
-	Score.open("Score.txt", ios::in);
-	if (Score.is_open()) {
-		string Line;
-		while (getline(Score, Line)) {
-			i = StrToInt(Line);
-		}
-		Score.close();
-	}
-	ScoreCount = i + score;
-	Score.open("Score.txt", ios::out);
-	if (Score.is_open()) {
-		Score << ScoreCount << "\n";
-		Score.close();
-	}
-	stringstream ss;
-	ss << ScoreCount;
-	Aux2Count = ss.str();
-	AuxCount = Aux2Count.c_str();
-}
+//void SceneLevel1::Score(int score) {
+//	fstream Score;
+//	int i = 0;
+//	Score.open("Score.txt", ios::in);
+//	if (Score.is_open()) {
+//		string Line;
+//		while (getline(Score, Line)) {
+//			i = StrToInt(Line);
+//		}
+//		Score.close();
+//	}
+//	ScoreCount = i + score;
+//	Score.open("Score.txt", ios::out);
+//	if (Score.is_open()) {
+//		Score << ScoreCount << "\n";
+//		Score.close();
+//	}
+//	stringstream ss;
+//	ss << ScoreCount;
+//	Aux2Count = ss.str();
+//	AuxCount = Aux2Count.c_str();
+//}
 
 bool SceneLevel1::CleanUp()
 {

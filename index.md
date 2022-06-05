@@ -1,5 +1,45 @@
-## Tetris
+![Logo](https://upload.wikimedia.org/wikipedia/en/b/b0/The_Tetris_Company_logo.png)
 
-![image](https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg)
+# Link
 
-[Informacio important!!!](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+## Gameplay
+
+
+## Controls
+
+```markdown
+
+(Aqui van los controles)
+
+```
+
+
+
+## Members
+
+![olvidonalogo](https://github.com/BielRubio/Projecte1-Tetris/blob/main/Olvidona_Studios_logo.png)
+
+**Javier Valencia**
+
+* Design
+* Github: [JaviVP](https://github.com/JaviVP)
+
+**Biel Rubio**
+
+* Art
+* Github: [BielRubio](https://github.com/BielRubio)
+
+**Sergi Rubio**
+
+* Code
+* Github: [SergiRubio156](https://github.com/SergiRubio156)
+
+**Nacho Moreno**
+
+* Management/Q&A
+* Github: [NachoMoren](https://github.com/NachoMoren)
+
+**Maksym Polupan**
+
+* Code
+* Github: [Maksym203](https://github.com/Maksym203)

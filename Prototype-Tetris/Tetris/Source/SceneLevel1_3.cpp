@@ -112,7 +112,6 @@ SceneLevel1_3::SceneLevel1_3(bool startEnabled) : Module(startEnabled)
 
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
-
 }
 
 SceneLevel1_3::~SceneLevel1_3()
@@ -175,13 +174,8 @@ bool SceneLevel1_3::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Loginska");
 	App->audio->PlayMusic("Assets/Music/05_-_Tetris_Atari_-_ARC_-_Karinka.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -247,7 +241,7 @@ Update_Status SceneLevel1_3::Update()
 		gameover = true;
 	}
 
-	if (App->tetromino->linesToWin <= 0) {
+	if (App->tetromino->linesToWin <= 0 || win == true) {
 		win = true;
 		currentAnimationDoor->Update();
 	}
@@ -256,6 +250,11 @@ Update_Status SceneLevel1_3::Update()
 		win = true;
 		winnerCount = 0;
 		App->tetromino->Disable();
+	}
+
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+
+		return Update_Status::UPDATE_STOP;
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -351,7 +350,6 @@ Update_Status SceneLevel1_3::PostUpdate()
 		string str_losetoContinue = to_string(t_losetoContinue);
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
-		App->audio->PauseMusic();
 		SceneLevel1_3::loser(ch_losetoContinue);
 	}
 
@@ -413,8 +411,13 @@ void SceneLevel1_3::loser(const char* ch_losetoContinue) {
 
 	if (losercount >= 0 && losercount < 200)
 	{
-		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		if (losercount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -472,10 +475,8 @@ void SceneLevel1_3::winner() {
 		App->audio->cleanTrack();
 		App->audio->PlayMusic("Assets/Music/04_-_Tetris_Atari_-_ARC_-_Hopak_(Round_3).ogg", 1.0f);
 	}
-
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}
@@ -486,8 +487,6 @@ void SceneLevel1_3::winner() {
 		App->fonts->BlitText(135, 105, WhiteFont, "bonus for");
 		App->fonts->BlitText(157, 116, WhiteFont, "low");
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
-
-
 	}
 
 	if (winnerCount >= 574) {

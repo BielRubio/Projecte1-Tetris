@@ -15,11 +15,6 @@
 * Art/Code
 * Github: [BielRubio](https://github.com/BielRubio)
 
-**Sergi Rubio**
-
-* Code
-* Github: [SergiRubio156](https://github.com/SergiRubio156)
-
 **Nacho Moreno**
 
 * Management/Q&A

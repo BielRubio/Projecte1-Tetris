@@ -175,13 +175,8 @@ bool SceneLevel2_3::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_2.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Brandinsky");
 	App->audio->PlayMusic("Assets/Music/03_-_Tetris_Atari_-_ARC_-_Bradinsky.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -207,7 +202,6 @@ Update_Status SceneLevel2_3::Update()
 	currentAnimationCurtainOpen->Update();
 	Score(0);
 	Lines(0);
-
 
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
@@ -237,7 +231,7 @@ Update_Status SceneLevel2_3::Update()
 		gameover = true;
 	}
 
-	if (App->tetromino->linesToWin <= 0) {
+	if (App->tetromino->linesToWin <= 0 || win == true) {
 		win = true;
 		currentAnimationDoor->Update();
 	}
@@ -248,6 +242,11 @@ Update_Status SceneLevel2_3::Update()
 		win = true;
 		winnerCount = 0;
 		App->tetromino->Disable();
+	}
+
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+
+		return Update_Status::UPDATE_STOP;
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -343,7 +342,6 @@ Update_Status SceneLevel2_3::PostUpdate()
 		string str_losetoContinue = to_string(t_losetoContinue);
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
-		App->audio->PauseMusic();
 		SceneLevel2_3::loser(ch_losetoContinue);
 	}
 
@@ -411,8 +409,13 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 
 	if (losercount >= 0 && losercount < 200)
 	{
-		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else{ App->audio->PauseMusic(); }
+		if (losercount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -472,7 +475,6 @@ void SceneLevel2_3::winner() {
 	}
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}

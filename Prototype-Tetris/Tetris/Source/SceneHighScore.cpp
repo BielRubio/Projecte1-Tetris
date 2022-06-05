@@ -37,6 +37,8 @@ bool SceneHighScore::Start()
 
 	bool ret = true;
 
+	App->audio->PauseMusic();
+
 	bgTexture = App->textures->Load("Assets/Sprites/high_score.png");
 
 	App->particles->AddParticle(App->particles->firework1, 233, 27, Collider::Type::NONE, 0);
@@ -59,6 +61,11 @@ Update_Status SceneHighScore::Update()
 	{
 		this->Disable();
 		App->sceneIntro->Enable();
+	}
+
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+
+		return Update_Status::UPDATE_STOP;
 	}
 
 	frameCount++;

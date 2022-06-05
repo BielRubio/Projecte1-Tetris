@@ -340,11 +340,9 @@ Update_Status SceneLevel2_3::PostUpdate()
 		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
-		App->tetromino->Disable();
 	}
 	if (win == true)
 	{
-		
 		App->audio->PauseMusic();
 		SceneLevel2_3::winner();
 	}
@@ -398,7 +396,7 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 	if (losercount >= 0 && losercount < 200)
 	{
 		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		else{ App->audio->PauseMusic(); }
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -406,7 +404,8 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable();
+			App->sceneLevel_2_3->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

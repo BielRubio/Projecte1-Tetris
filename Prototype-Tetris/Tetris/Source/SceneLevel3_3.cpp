@@ -345,11 +345,9 @@ Update_Status SceneLevel3_3::PostUpdate()
 		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
-		App->tetromino->Disable();
 	}
 	if (win == true)
 	{
-		
 		App->audio->PauseMusic();
 		SceneLevel3_3::winner();
 	}
@@ -411,7 +409,8 @@ void SceneLevel3_3::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable();
+			App->sceneLevel_3_3->Enable();
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

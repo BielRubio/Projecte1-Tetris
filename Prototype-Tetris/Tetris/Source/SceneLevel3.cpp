@@ -179,7 +179,7 @@ bool SceneLevel3::Start()
 		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
-	LOG("Loading background music: Loginska");
+	LOG("Loading background music: Karinka");
 	App->audio->PlayMusic("Assets/Music/05_-_Tetris_Atari_-_ARC_-_Karinka.ogg", 1.0f);
 	//App->tetromino->Enable();
 

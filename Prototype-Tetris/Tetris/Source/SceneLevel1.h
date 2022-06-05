@@ -67,7 +67,8 @@ public:
 	uint fxgameOver = 0;
 	uint fxWinner = 0;
 
-	//Animation* currentAnimationCurtain = nullptr;
+	Animation* currentAnimationCurtainOpen = nullptr;
+	Animation* currentAnimationCurtainClose = nullptr;
 	Animation* currentAnimationDoor = nullptr;
 
 	Animation openCurtainAnim;
@@ -84,7 +85,8 @@ public:
 
 	const char* AuxCount = "0";
 	const char* LinesCount = "0";
-	const char* LinesLeftCount = "5";
+	int linesLeftCount = 5;
+	const char* LinesLeftCountChar;
 	string Aux2Count, Aux22Count, Aux222Count;
 	string New;
 	uint score = 000;
@@ -109,6 +111,7 @@ public:
 
 	int winnerCount;
 	int losercount;
+	int frameCount;
 
 	int lines;
 	int linesleft;

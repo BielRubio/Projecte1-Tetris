@@ -28,8 +28,8 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 	openCurtainAnim.PushBack({ 80 * 3,0,80,64 });
 	openCurtainAnim.PushBack({ 80 * 4,0,80,64 });
 	openCurtainAnim.PushBack({ 80 * 5,0,80,64 });
-	openCurtainAnim.loop = true;
-	//openCurtainAnim.speed = 0.2f;
+	openCurtainAnim.loop = false;
+	openCurtainAnim.speed = 0.2f;
 
 	closeCurtainAnim.PushBack({ 80 * 5,0,80,64 });
 	closeCurtainAnim.PushBack({ 80 * 4,0,80,64 });
@@ -37,8 +37,8 @@ SceneLevel1::SceneLevel1(bool startEnabled) : Module(startEnabled)
 	closeCurtainAnim.PushBack({ 80 * 2,0,80,64 });
 	closeCurtainAnim.PushBack({ 80 * 1,0,80,64 });
 	closeCurtainAnim.PushBack({ 80 * 0,0,80,64 });
-	closeCurtainAnim.loop = true;
-	//closeCurtainAnim.speed = 0.2f;
+	closeCurtainAnim.loop = false;
+	closeCurtainAnim.speed = 0.2f;
 
 	//Open door
 	doorAnim.PushBack({ 32 * 0,0,32,40 });
@@ -124,6 +124,8 @@ bool SceneLevel1::Start()
 {
 
 	App->tetromino->Enable();
+
+	App->tetromino->linesToWin = linesLeftCount;
 	
 	LOG("Loading background assets");
 
@@ -147,10 +149,13 @@ bool SceneLevel1::Start()
 
 	App->tetromino->speed = App->tetromino->speed1;
 
-	//currentAnimationCurtain = &curtainAnim;
+	//Animations
+	currentAnimationCurtainOpen = &openCurtainAnim;
+	currentAnimationCurtainClose = &closeCurtainAnim;
 	currentAnimationDoor = &doorAnim;
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
 	doorTexture = App->textures->Load("Assets/Sprites/door.png");
+
 	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
 
 	char lookupTable[] = { "0123456789$<% ?abcdefghijklmnopqrstuvwxyz" };
@@ -173,31 +178,23 @@ bool SceneLevel1::Start()
 	losercount = 0;
 	t_message = 0;
 
-	//currentAnimationCurtain = &curtainAnim;
-	openCurtainAnim.loopCount = 0;
-	openCurtainAnim.speed = 0.2f;
-
-	closeCurtainAnim.loopCount = 0;
-	closeCurtainAnim.speed = 0.2f;
-
-	currentAnimationDoor = &doorAnim;
-
 	return ret;
 }
 
 Update_Status SceneLevel1::Update()
 {
-
-	if (openCurtainAnim.GetLoopCount() == 1) {
-		openCurtainAnim.speed = 0;
-	}
-	else
-	{
-		openCurtainAnim.Update();
-	}
-
-	//openCurtainAnim.Update();
+	closeCurtainAnim.Update();
+	openCurtainAnim.Update();
+	
 	currentAnimationDoor->Update();
+
+	linesLeftCount = App->tetromino->linesToWin;
+	stringstream ss;
+	ss << linesLeftCount;
+	Aux22Count = ss.str();
+	LinesLeftCountChar = Aux22Count.c_str();
+	 
+	frameCount++;
 
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -208,21 +205,25 @@ Update_Status SceneLevel1::PostUpdate()
 	// Draw everything --------------------------------------
 	App->render->Blit(bgTexture, 0, 0, NULL);
 
+	//Close curtain animation
+	SDL_Rect rect = currentAnimationCurtainOpen->GetCurrentFrame();
+	App->render->Blit(curtainTexture, 128, 96, &rect);
+
+
 	if (win == true) {
-		//Curtain animation
-		if (openCurtainAnim.GetLoopCount() == 0)
-		{
-		App->render->Blit(curtainTexture, 128, 96, &(openCurtainAnim.GetCurrentFrame()), 0.85f);
-		}
+
+		//Close curtain animation
+		SDL_Rect rect = currentAnimationCurtainClose->GetCurrentFrame();
+		App->render->Blit(curtainTexture, 128, 96, &rect);
 	}
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
-		App->fonts->BlitText(136, 104, WhiteFont,"complete");
-		App->fonts->BlitText(136, 116, WhiteFont, LinesCount);
-		App->fonts->BlitText(154, 121, WhiteFont, "lines");
-		App->fonts->BlitText(136, 140, WhiteFont, "to go to");
-		App->fonts->BlitText(129, 151, WhiteFont, "next round");
+		App->fonts->BlitText(136, 105, WhiteFont,"complete");
+		App->fonts->BlitText(136, 121, WhiteFont, LinesLeftCountChar);
+		App->fonts->BlitText(160, 121, WhiteFont, "lines");
+		App->fonts->BlitText(136, 137, WhiteFont, "to go to");
+		App->fonts->BlitText(128, 153, WhiteFont, "next round");
 	}
 
 	else if (t_message == 100)
@@ -238,20 +239,22 @@ Update_Status SceneLevel1::PostUpdate()
 	App->fonts->BlitText(24, 217, RedFont, "score");
 
 	//App->fonts->BlitText(72, 217, WhiteFont, AuxCount);
-
 	App->fonts->BlitText(65, 217, RedFont, AuxCount);
 
 	App->fonts->BlitText(10, 12, RedFont, "next");
 	App->fonts->BlitText(24, 225, RedFont, "lines");
 	App->fonts->BlitText(65, 225, RedFont, LinesCount);
-	App->fonts->BlitText(135, 110, RedFont, LinesLeftCount);
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");
 	App->fonts->BlitText(125, 185, BlueFont, "high score");
-	App->fonts->BlitText(155, 125, WhiteFont, "lines");
-	App->fonts->BlitText(155, 140, WhiteFont, "left");
 	App->fonts->BlitText(125, 210, BlueFont, "round");
 	App->fonts->BlitText(175, 210, BlueFont, "1");
 	App->fonts->BlitText(125, 224, BlueFont, "credits");
+
+	if (frameCount >= 100) {
+		App->fonts->BlitText(152, 129, WhiteFont, "lines");
+		App->fonts->BlitText(152, 145, WhiteFont, "left");
+		App->fonts->BlitText(136, 113, RedFont, LinesLeftCountChar);
+	}
 
 
 	if (linesleft == 0) {
@@ -463,7 +466,7 @@ void SceneLevel1::Lines() {
 }
 
 void SceneLevel1::LinesLeft() {
-	const char* CurrentLines = LinesLeftCount;
+	const char* CurrentLines = LinesLeftCountChar;
 	stringstream strValue;
 	strValue << CurrentLines;
 
@@ -474,10 +477,10 @@ void SceneLevel1::LinesLeft() {
 		stringstream ss;
 		ss << intValue;
 		Aux222Count = ss.str();
-		LinesLeftCount = Aux222Count.c_str();
+		LinesLeftCountChar = Aux222Count.c_str();
 	}
 	if (intValue == 0) {
-		LinesLeftCount = "0";
+		LinesLeftCountChar = "0";
 		IsZero = true;
 	}
 }

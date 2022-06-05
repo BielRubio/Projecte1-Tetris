@@ -831,7 +831,7 @@ void ModuleTetromino::fall() {
 			App->audio->PlayFx(Drop);
 			currentId++;
 			nextTetromino();
-			App->sceneLevel_1->Score(10);
+			//App->sceneLevel_1->Score(10);
 			return;
 		}
 	}
@@ -963,9 +963,9 @@ int ModuleTetromino::checkLines() {
 			for (int i = 1; i < mapLength - 1; i++) {
 				map[i][j] = nullptr;
 			}
-			App->sceneLevel_1->Score(100);
-			App->sceneLevel_1->Lines();
-			App->sceneLevel_1->LinesLeft();
+			//App->sceneLevel_1->Score(100);
+			//App->sceneLevel_1->Lines();
+			//App->sceneLevel_1->LinesLeft();
 			return j;
 		}
 		allTiles = true;

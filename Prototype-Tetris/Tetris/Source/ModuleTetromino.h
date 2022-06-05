@@ -113,7 +113,7 @@ public:
 
 	int lineNumbersCount = 0;
 
-	int linesToWin = 2;
+	int linesToWin = 5;
 
 	int speed = 50;
 

@@ -205,7 +205,7 @@ Update_Status SceneLevel3_3::Update()
 {
 	currentAnimationCurtainOpen->Update();
 
-	currentAnimationDoor->Update();
+	
 
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
@@ -238,6 +238,19 @@ Update_Status SceneLevel3_3::Update()
 	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
 
 		return Update_Status::UPDATE_STOP;
+	}
+
+	if (App->tetromino->linesToWin <= 0) {
+		win = true;
+		currentAnimationDoor->Update();
+	}
+	//Winner hotkey
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	{
+		App->tetromino->Disable();
+		win = true;
+		winnerCount = 0;
+		App->tetromino->Disable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -336,17 +349,7 @@ Update_Status SceneLevel3_3::PostUpdate()
 		App->audio->PauseMusic();
 		SceneLevel3_3::loser(ch_losetoContinue);
 	}
-	if (App->tetromino->linesToWin <= 0) {
-		win = true;
-	}
-	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
-	{
-		App->tetromino->Disable();
-		win = true;
-		winnerCount = 0;
-		App->tetromino->Disable();
-	}
+	
 	if (win == true)
 	{
 		

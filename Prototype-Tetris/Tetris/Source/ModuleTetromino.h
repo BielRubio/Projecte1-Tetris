@@ -133,6 +133,8 @@ public:
 	int speed = 50;
 
 	enum {speed1 = 50, speed2 = 45, speed3 = 40, speed4 = 35, speed5 = 30, speed6 = 25, speed7 = 20, speed8 = 15, speed9 = 10};
+
+	int delayR = 0, delayM = 0; 
 	
 	//the matrix containing the info or the 7 different tetrominoes
 	static const int tetrominoes1[7][4][2]; 

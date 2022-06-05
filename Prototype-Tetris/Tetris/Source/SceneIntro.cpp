@@ -48,6 +48,8 @@ bool SceneIntro::Start()
 
 Update_Status SceneIntro::Update()
 {
+	GamePad& pad = App->input->pads[0];
+
 	if (frameCount >= 100 && bgIndex < 10) {
 
 		frameCount -= 10;
@@ -56,7 +58,7 @@ Update_Status SceneIntro::Update()
 		bgTexture = App->textures->Load(bgFile[bgIndex]);
 	}
 	
-	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 120)
+	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 120 || pad.a && frameCount >=120)
 	{
 		this->Disable();
 		App->sceneDifficulty->Enable();

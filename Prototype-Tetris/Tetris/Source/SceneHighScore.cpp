@@ -44,8 +44,9 @@ bool SceneHighScore::Start()
 
 Update_Status SceneHighScore::Update()
 {
-	
-	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 120)
+	GamePad& pad = App->input->pads[0];
+
+	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 120 || pad.a && frameCount >= 120)
 	{
 		this->Disable();
 		App->sceneIntro->Enable();

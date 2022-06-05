@@ -19,13 +19,13 @@ There are three base levels made up of three rounds each when you pass these rou
 
 ```markdown
 
-* Tetromino controls: 
+**Tetromino controls:**
 - Rotate: R
 - Quick fall: S
 - Move Right: D
 - Move Left: A
 
-* Debug keys:
+**Debug keys:**
 - Win round: F1
 - Lose round: F2
 - Show grid: F3

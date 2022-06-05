@@ -1,4 +1,4 @@
-<p align="center>
+<p align="center">
   <img src="images/tetrisimage.png">
 </p>
 
@@ -25,7 +25,7 @@ There are three base levels made up of three rounds each when you pass these rou
 
 ## Olvidona Studios - Our Team
 
-<p>
+<p align="center">
   <img src="images/Olvidona_Studios_logo.png">
 </p>
                                              

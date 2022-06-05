@@ -1,5 +1,6 @@
-<img align="center" src="images/tetrisimage.png">
-
+<p align="center>
+  <img src="images/tetrisimage.png">
+</p>
 
 ## Our Project
 We’re going to replicate the 899 Tetris game arcade version developed by Alexey Pajitnov and published by Atari as a tribute to the game. This project has been done by four catalan students of CITM - UPC (Terrasa, Spain).
@@ -14,7 +15,6 @@ There are three base levels made up of three rounds each when you pass these rou
 (Aqui va el video)
 
 ```
-
 ## Controls
 
 ```markdown
@@ -25,8 +25,10 @@ There are three base levels made up of three rounds each when you pass these rou
 
 ## Olvidona Studios - Our Team
 
-<img align="center" src="images/Olvidona_Studios_logo.png">
-
+<p>
+  <img src="images/Olvidona_Studios_logo.png">
+</p>
+                                             
 ## Members
 
 **Javier Valencia**

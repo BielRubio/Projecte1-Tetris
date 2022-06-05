@@ -3,7 +3,7 @@
 
 #include "Globals.h"
 
-#define NUM_MODULES 26
+#define NUM_MODULES 27
 
 class Module;
 class ModuleWindow;
@@ -33,6 +33,7 @@ class ModuleFonts;
 class ModuleRender;
 class ModuleTetromino; 
 class SceneHighScore;
+class ModuleScore;
 
 
 class Application
@@ -97,6 +98,8 @@ public:
 	ModuleTetromino* tetromino = nullptr;
 
 	ModuleRender* render = nullptr;
+
+	ModuleScore* score = nullptr;
 };
 
 // Global var made extern for Application ---

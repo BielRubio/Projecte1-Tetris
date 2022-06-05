@@ -175,13 +175,8 @@ bool SceneLevel3::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_3.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Karinka");
 	App->audio->PlayMusic("Assets/Music/05_-_Tetris_Atari_-_ARC_-_Karinka.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -207,6 +202,7 @@ Update_Status SceneLevel3::Update()
 
 	currentAnimationCurtainOpen->Update();
 	Score(0);
+	Lines(0);
 
 	currentAnimationDoor->Update();
 
@@ -225,7 +221,7 @@ Update_Status SceneLevel3::Update()
 		TetroScore = 0;
 	}
 	if (App->tetromino->passLine) {
-		Lines();
+		Lines(1);
 		TetroLines = 0;
 	}
 
@@ -322,7 +318,6 @@ Update_Status SceneLevel3::PostUpdate()
 
 
 	if (linesleft == 0) {
-		App->audio->PauseMusic();
 		SceneLevel3::winner();
 	}
 
@@ -332,7 +327,6 @@ Update_Status SceneLevel3::PostUpdate()
 		string str_losetoContinue = to_string(t_losetoContinue);
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
-		App->audio->PauseMusic();
 		SceneLevel3::loser(ch_losetoContinue);
 	}
 	if (App->tetromino->linesToWin <= 0) {
@@ -347,8 +341,6 @@ Update_Status SceneLevel3::PostUpdate()
 	}
 	if (win == true)
 	{
-		
-		App->audio->PauseMusic();
 		SceneLevel3::winner();
 	}
 
@@ -393,15 +385,56 @@ Update_Status SceneLevel3::PostUpdate()
 	return Update_Status::UPDATE_CONTINUE;
 }
 
+void SceneLevel3::MinMaxSort(int a[], int n) {
+	int i, j, min, temp;
+	for (i = 0; i < n - 1; i++) {
+		min = i;
+		for (j = i + 1; j < n; j++)
+			if (a[j] < a[min])
+				min = j;
+		temp = a[i];
+		a[i] = a[min];
+		a[min] = temp;
+	}
+}
+
 //Makes the player lose the game
 void SceneLevel3::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
+	//Saving data
+	if (HasBE == false) {
+		int R = 0;
+		stringstream s(AuxCount);
+		s >> R;
+		AddPlayer("rrr", R);
+		PlayerArr[0] = StrToInt(Player1);
+		PlayerArr[1] = StrToInt(Player2);
+		PlayerArr[2] = StrToInt(Player3);
+		PlayerArr[3] = StrToInt(Player4);
+		PlayerArr[4] = StrToInt(Player5);
+		PlayerArr[5] = StrToInt(Player6);
+		PlayerArr[6] = StrToInt(Player7);
+		PlayerArr[7] = StrToInt(Player8);
+		PlayerArr[8] = StrToInt(Player9);
+		PlayerArr[9] = StrToInt(Player10);
+		MinMaxSort(PlayerArr, 10);
+		for (int i = 0; i < 10; i++) {
+			App->score->PrimalData[i] = PlayerArr[i];
+		}
+		HasBE = true;
+	}
+	//Saving data
 
 	if (losercount >= 0 && losercount < 200)
 	{
-		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		if (losercount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -459,8 +492,11 @@ void SceneLevel3::winner() {
 
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
-		else {
+		if (winnerCount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
+		}
+		if (winnerCount == 145) {
 			App->audio->PauseMusic();
 		}
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
@@ -506,17 +542,37 @@ int SceneLevel3::StrToInt(string x) { // Function that converts string to int
 	return temp;
 }
 
-void SceneLevel3::Lines() {
-	const char* CurrentLines = LinesCount;
-	stringstream strValue;
-	strValue << CurrentLines;
+void SceneLevel3::Lines(int lines) {
+	//const char* CurrentLines = LinesCount;
+	//stringstream strValue;
+	//strValue << CurrentLines;
 
-	unsigned int intValue;
-	strValue >> intValue;
-	intValue++;
+	//unsigned int intValue;
+	//strValue >> intValue;
+	//intValue++;
 
+	//stringstream ss;
+	//ss << intValue;
+	//Aux22Count = ss.str();
+	//LinesCount = Aux22Count.c_str();
+	fstream Score;
+	int i = 0;
+	Score.open("Lines.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + lines;
+	Score.open("Lines.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
 	stringstream ss;
-	ss << intValue;
+	ss << ScoreCount;
 	Aux22Count = ss.str();
 	LinesCount = Aux22Count.c_str();
 }

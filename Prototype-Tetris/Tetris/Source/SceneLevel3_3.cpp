@@ -188,7 +188,7 @@ bool SceneLevel3_3::Start()
 	currentAnimationCurtainClose = &closeCurtainAnim;
 	currentAnimationDoor = &doorAnim;
 	curtainTexture = App->textures->Load("Assets/Sprites/curtain.png");
-	doorTexture = App->textures->Load("Assets/Sprites/door.png");
+	doorTexture = App->textures->Load("Assets/Sprites/door3.png");
 
 	loserSprite = App->textures->Load("Assets/Sprites/game_over.png");
 

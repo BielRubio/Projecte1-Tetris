@@ -38,7 +38,7 @@ public:
 
 	void Score(int score);
 
-	void Lines();
+	void Lines(int lines);
 
 	void LinesLeft();
 
@@ -51,6 +51,8 @@ public:
 	void AddPlayer(string P, int score);
 
 	void SortPlayers();
+
+	void DataCleaner();
 
 	string Sorter(string Player1);
 

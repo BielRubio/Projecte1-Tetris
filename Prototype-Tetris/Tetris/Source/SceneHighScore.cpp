@@ -77,6 +77,12 @@ void SceneHighScore::DataCleaner() {
 		Score << 0 << "\n";
 		Score.close();
 	}
+	fstream Lines;
+	Lines.open("Lines.txt", ios::out);
+	if (Lines.is_open()) {
+		Lines << 0 << "\n";
+		Lines.close();
+	}
 }
 
 bool SceneHighScore::CleanUp()

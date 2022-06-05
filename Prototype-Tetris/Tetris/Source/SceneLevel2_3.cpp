@@ -179,8 +179,8 @@ bool SceneLevel2_3::Start()
 		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
 	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
 
-	LOG("Loading background music: Loginska");
-	App->audio->PlayMusic("Assets/Music/07_-_Tetris_Atari_-_ARC_-_Troika.ogg", 1.0f);
+	LOG("Loading background music: Brandinsky");
+	App->audio->PlayMusic("Assets/Music/03_-_Tetris_Atari_-_ARC_-_Bradinsky.ogg", 1.0f);
 	//App->tetromino->Enable();
 
 	//Animations
@@ -206,6 +206,7 @@ Update_Status SceneLevel2_3::Update()
 	GamePad& pad = App->input->pads[0];
 	currentAnimationCurtainOpen->Update();
 	Score(0);
+	Lines(0);
 
 
 	linesLeftCount = App->tetromino->linesToWin;
@@ -223,7 +224,7 @@ Update_Status SceneLevel2_3::Update()
 		TetroScore = 0;
 	}
 	if (App->tetromino->passLine) {
-		Lines();
+		Lines(1);
 		TetroLines = 0;
 	}
 
@@ -515,17 +516,37 @@ int SceneLevel2_3::StrToInt(string x) { // Function that converts string to int
 	return temp;
 }
 
-void SceneLevel2_3::Lines() {
-	const char* CurrentLines = LinesCount;
-	stringstream strValue;
-	strValue << CurrentLines;
+void SceneLevel2_3::Lines(int lines) {
+	//const char* CurrentLines = LinesCount;
+	//stringstream strValue;
+	//strValue << CurrentLines;
 
-	unsigned int intValue;
-	strValue >> intValue;
-	intValue++;
+	//unsigned int intValue;
+	//strValue >> intValue;
+	//intValue++;
 
+	//stringstream ss;
+	//ss << intValue;
+	//Aux22Count = ss.str();
+	//LinesCount = Aux22Count.c_str();
+	fstream Score;
+	int i = 0;
+	Score.open("Lines.txt", ios::in);
+	if (Score.is_open()) {
+		string Line;
+		while (getline(Score, Line)) {
+			i = StrToInt(Line);
+		}
+		Score.close();
+	}
+	ScoreCount = i + lines;
+	Score.open("Lines.txt", ios::out);
+	if (Score.is_open()) {
+		Score << ScoreCount << "\n";
+		Score.close();
+	}
 	stringstream ss;
-	ss << intValue;
+	ss << ScoreCount;
 	Aux22Count = ss.str();
 	LinesCount = Aux22Count.c_str();
 }

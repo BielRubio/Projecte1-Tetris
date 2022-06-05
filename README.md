@@ -1,18 +1,18 @@
 # Projecte1-Tetris
 
-## Link TetrisTeam
-  (https://github.com/BielRubio/Projecte1-Tetris)
+## Link TetrisTeam Web
+  (https://bielrubio.github.io/Projecte1-Tetris/)
   
 ## Members
 
 **Javier Valencia**
 
-* Design
+* Design/Code
 * Github: [JaviVP](https://github.com/JaviVP)
 
 **Biel Rubio**
 
-* Art
+* Art/Code
 * Github: [BielRubio](https://github.com/BielRubio)
 
 **Sergi Rubio**
@@ -38,8 +38,24 @@ Tetris is a puzzle video game created by the Russian scientist [Alexey Pajitnov]
 
 ## Controls
 
-Tetris controls are simple.
-To be able to control the pieces we will use **A**(move to the left), **D**(move to the right), **R** (Rotate the piece) and finally **S**(Lower the piece with greater speed). The functionality controls are **F1** God_mode(Select one tile), **F3**Win(The player won the game) **F4** Game_Over(The game ends).
+**Tetromino controls:**
+- Rotate: R
+- Quick fall: S
+- Move Right: D
+- Move Left: A
+
+**Debug keys:**
+- Win round: F1
+- Lose round: F2
+- Show grid: F3
+- Setup line: F4
+- Change piece (I): F5
+- Change piece (T): F6
+- Change piece (O): F7
+- Change piece (J): F8
+- Change piece (L): F9
+- Change piece (S): F10
+- Change piece (Z): F11
 
 
 

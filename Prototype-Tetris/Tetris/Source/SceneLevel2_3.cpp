@@ -175,13 +175,8 @@ bool SceneLevel2_3::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_2.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Brandinsky");
 	App->audio->PlayMusic("Assets/Music/03_-_Tetris_Atari_-_ARC_-_Bradinsky.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -207,7 +202,6 @@ Update_Status SceneLevel2_3::Update()
 	currentAnimationCurtainOpen->Update();
 	Score(0);
 	Lines(0);
-
 
 	linesLeftCount = App->tetromino->linesToWin;
 	stringstream ss;
@@ -481,7 +475,6 @@ void SceneLevel2_3::winner() {
 	}
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}

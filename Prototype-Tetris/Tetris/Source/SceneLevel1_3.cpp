@@ -112,7 +112,6 @@ SceneLevel1_3::SceneLevel1_3(bool startEnabled) : Module(startEnabled)
 
 	doorAnim.loop = false;
 	doorAnim.speed = 0.1f;
-
 }
 
 SceneLevel1_3::~SceneLevel1_3()
@@ -175,13 +174,8 @@ bool SceneLevel1_3::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_1.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Loginska");
 	App->audio->PlayMusic("Assets/Music/05_-_Tetris_Atari_-_ARC_-_Karinka.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -481,10 +475,8 @@ void SceneLevel1_3::winner() {
 		App->audio->cleanTrack();
 		App->audio->PlayMusic("Assets/Music/04_-_Tetris_Atari_-_ARC_-_Hopak_(Round_3).ogg", 1.0f);
 	}
-
 	if (winnerCount >= 0 && winnerCount < 250)
 	{
-		if (winnerCount == 0) App->audio->PlayFx(fxWinner);
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}
@@ -495,8 +487,6 @@ void SceneLevel1_3::winner() {
 		App->fonts->BlitText(135, 105, WhiteFont, "bonus for");
 		App->fonts->BlitText(157, 116, WhiteFont, "low");
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
-
-
 	}
 
 	if (winnerCount >= 574) {

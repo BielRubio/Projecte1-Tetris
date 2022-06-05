@@ -175,13 +175,8 @@ bool SceneLevel3_3::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_3.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Loginska");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -254,7 +249,6 @@ Update_Status SceneLevel3_3::Update()
 		App->tetromino->Disable();
 		win = true;
 		winnerCount = 0;
-		App->tetromino->Disable();
 	}
 
 	return Update_Status::UPDATE_CONTINUE;
@@ -411,9 +405,6 @@ void SceneLevel3_3::loser(const char* ch_losetoContinue) {
 			App->audio->cleanTrack();
 			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
 		}
-		if (losercount == 133) {
-			App->audio->PauseMusic();
-		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -470,7 +461,7 @@ void SceneLevel3_3::winner() {
 		App->audio->cleanTrack();
 		App->audio->PlayMusic("Assets/Music/04_-_Tetris_Atari_-_ARC_-_Hopak_(Round_3).ogg", 1.0f);
 	}
-	if (winnerCount == 133) {
+	if (winnerCount == 145) {
 		App->audio->PauseMusic();
 	}
 	if (winnerCount >= 0 && winnerCount < 250)

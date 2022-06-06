@@ -83,7 +83,7 @@ Debug keys:
 
 **Maksym Polupan**
 
-<img src="images/maksimimg.png" width="250" height="300">
+<img src="images/maksimimg.png" width="230" height="300">
 
 * Code
 * Github: [Maksym203](https://github.com/Maksym203)

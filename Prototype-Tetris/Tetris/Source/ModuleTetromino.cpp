@@ -180,6 +180,7 @@ bool ModuleTetromino::Start() {
 	lineDTexture = App->textures->Load("Assets/Sprites/linesDetails.png");
 	bigBlock = App->textures->Load("Assets/Sprites/EndStage.png");
 	lineNumbers = App->textures->Load("Assets/Sprites/lines_numbers.png");
+	collTexture = App->textures->Load("Assets/Sprites/collOff.png");
 
 	Drop = App->audio->LoadFx("Assets/Fx/tetris_tetromino_drop.wav");
 	lineFX = App->audio->LoadFx("Assets/Fx/tetris_line_completed.wav");
@@ -842,6 +843,10 @@ Update_Status ModuleTetromino::PostUpdate() {
 			}
 		}
 	}
+
+	if (noCollisions) {
+		App->render->Blit(collTexture, 225, 100, NULL);
+	}
 	
 	return Update_Status::UPDATE_CONTINUE;
 }
@@ -1161,6 +1166,7 @@ bool ModuleTetromino::CleanUp() {
 	App->textures->Unload(bigBlock);
 	App->textures->Unload(lineDTexture);
 	App->textures->Unload(lineNumbers);
+	App->textures->Unload(collTexture);
 
 	return true;
 }

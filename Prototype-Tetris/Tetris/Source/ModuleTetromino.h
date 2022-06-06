@@ -113,6 +113,8 @@ public:
 	SDL_Texture* lineDTexture = nullptr;
 	SDL_Texture* lineNumbers = nullptr;
 
+	SDL_Texture* collTexture = nullptr;
+
 	Animation* currentAnimation = nullptr;
 
 	Animation* currentLineD = nullptr;

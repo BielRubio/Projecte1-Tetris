@@ -124,6 +124,35 @@ SceneLevel2_3::~SceneLevel2_3()
 bool SceneLevel2_3::Start()
 {
 	App->tetromino->Enable();
+	//Map Init
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			map[i][j] = nullptr;
+		}
+	}
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			if (i == 0 || i == 12 - 1 || j == 24 - 1) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -1;
+			}
+			if (j == 22 && (i != 0 && i != 3 && i !=8 && i != 11) || j == 21 && (i != 0 && i != 1 && i != 4 && i != 7 && i != 10 && i != 11) || j == 20 && (i == 3 || i == 4 || i == 7 || i == 8) || j == 19 && (i >= 4 && i <= 7) || j == 18 && (i == 5 || i == 6)) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -(i + j);
+				map[i][j]->spriteY = rand() % 7;
+			}
+		}
+	}
+
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			App->tetromino->map[i][j] = map[i][j];
+		}
+	}
 
 	//Init variables--------------------
 	inserCoinCount = 0;

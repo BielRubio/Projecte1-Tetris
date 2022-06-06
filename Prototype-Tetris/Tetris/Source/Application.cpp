@@ -41,7 +41,7 @@ Application::Application()
 	modules[2] =	textures =		new ModuleTextures(true);
 	modules[3] =	audio =			new ModuleAudio(true);
 
-	modules[4] =	sceneLogo = new SceneLogo(true);
+	modules[4] =	sceneLogo = new SceneLogo(false);
 	modules[5] =	sceneDescription = new SceneDescription(false);
 	modules[6] =	sceneDetails = new SceneDetails(false);
 	modules[7] =	sceneMembers = new SceneMembers(false);

@@ -63,7 +63,7 @@ public:
 
 public:
 
-	Tile* map[12][24] = { 0 };
+	Tile* map[12][24] = { nullptr };
 	
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* bgTexture = nullptr;

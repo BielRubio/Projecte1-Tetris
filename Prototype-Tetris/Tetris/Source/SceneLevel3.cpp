@@ -124,7 +124,27 @@ SceneLevel3::~SceneLevel3()
 bool SceneLevel3::Start()
 {
 	App->tetromino->Enable();
-
+	//Map Init
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			map[i][j] = nullptr;
+		}
+	}
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			if (i == 0 || i == 12 - 1 || j == 24 - 1) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -1;
+			}
+		}
+	}
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			App->tetromino->map[i][j] = map[i][j];
+		}
+	}
 	//Init variables--------------------
 	inserCoinCount = 0;
 

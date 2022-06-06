@@ -124,7 +124,7 @@ SceneLevel2::~SceneLevel2()
 bool SceneLevel2::Start()
 {
 	App->tetromino->Enable();
-	
+	//Map Init
 	for (int i = 0; i < 12; i++) {
 		for (int j = 0; j < 24; j++) {
 			if (i == 0 || i == 12 - 1 || j == 24 - 1) {

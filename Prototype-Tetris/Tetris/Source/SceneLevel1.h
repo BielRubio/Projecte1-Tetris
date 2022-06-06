@@ -2,6 +2,7 @@
 #define __SCENE_LEVEL1_H__
 
 #include "Module.h"
+#include "ModuleTetromino.h"
 #include "Animation.h"
 #include "ModuleScore.h"
 #include <string>
@@ -82,6 +83,8 @@ public:
 	Animation closeCurtainAnim;
 	Animation doorAnim;
 
+	//Map
+	Tile* map[12][24] = { nullptr };
 	//Fonts and score
 
 	int inserCoinCount = 0;

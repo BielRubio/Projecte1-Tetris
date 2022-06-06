@@ -74,3 +74,4 @@ Tetris is a puzzle video game created by the Russian scientist [Alexey Pajitnov]
 - Change piece (L): F9
 - Change piece (S): F10
 - Change piece (Z): F11
+- No collisions: 1

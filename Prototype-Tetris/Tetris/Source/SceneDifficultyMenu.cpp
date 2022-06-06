@@ -9,7 +9,6 @@
 #include "ModuleAudio.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-#include "ModulePlayer.h"
 #include "ModuleFonts.h"
 
 SceneDifficultyMenu::SceneDifficultyMenu(bool startEnabled) : Module(startEnabled)
@@ -58,13 +57,13 @@ Update_Status SceneDifficultyMenu::Update()
 {
 	GamePad& pad = App->input->pads[0];
 	frameCount++;
-	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 100 || SelectAux == true || (pad.a && frameCount >=100))
+	if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN && frameCount >= 30 || SelectAux == true || (pad.a && frameCount >=100))
 	{
 		SecondFrameCount++;
 		SelectAux = true;
 		App->audio->PlayFx(Select);
 	}
-	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 2 || pad.right && frameCount >= 100 && Selection != 2 || pad.left_x > 0.0f && frameCount >= 100 && Selection != 2)
+	if (App->input->keys[SDL_SCANCODE_D] == Key_State::KEY_DOWN && frameCount >= 30 && Selection != 2 || pad.right && frameCount >= 100 && Selection != 2 || pad.left_x > 0.0f && frameCount >= 100 && Selection != 2)
 	{
 		delay += 10; 
 		if (!(pad.right || pad.left_x > 0.0f) || delay ==80) {
@@ -74,7 +73,7 @@ Update_Status SceneDifficultyMenu::Update()
 		}
 		
 	}
-	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN && frameCount >= 100 && Selection != 0 || pad.left && frameCount >= 100 && Selection != 0 || pad.left_x < 0.0f && frameCount >= 100 && Selection != 0)
+	if (App->input->keys[SDL_SCANCODE_A] == Key_State::KEY_DOWN && frameCount >= 30 && Selection != 0 || pad.left && frameCount >= 100 && Selection != 0 || pad.left_x < 0.0f && frameCount >= 100 && Selection != 0)
 	{
 		delay += 10;
 		if (!(pad.left || pad.left_x < 0.0f) || delay == 80) {
@@ -112,15 +111,15 @@ Update_Status SceneDifficultyMenu::PostUpdate()
 	App->render->Blit(bgTexture, 0, 0, NULL);
 	if (Selection == 0) { // Easy mode selected
 		App->render->Blit(ARTexture, 36, 31, NULL);
-		App->render->Blit(ALTexture, 72, 31, NULL);
+		App->render->Blit(ALTexture, 75, 31, NULL);
 	}
 	if (Selection == 1) { // Medium mode selected
 		App->render->Blit(ARTexture, 140, 31, NULL);
-		App->render->Blit(ALTexture, 190, 31, NULL);
+		App->render->Blit(ALTexture, 196, 31, NULL);
 	}
 	if (Selection == 2) { // Hard mode selected
 		App->render->Blit(ARTexture, 260, 31, NULL);
-		App->render->Blit(ALTexture, 296, 31, NULL);
+		App->render->Blit(ALTexture, 300, 31, NULL);
 	}
 
 	App->fonts->BlitText(44, 32, WhiteFont, "easy");

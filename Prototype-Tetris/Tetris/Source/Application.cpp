@@ -5,7 +5,6 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
-#include "ModulePlayer.h"
 #include "SceneLogo.h";
 #include "SceneDescription.h";
 #include "SceneDetails.h";
@@ -59,12 +58,11 @@ Application::Application()
 	modules[18] =	sceneLevel_3_3 = new SceneLevel3_3(false);
 
 	modules[19] =	sceneHighScore = new SceneHighScore(false);
-	modules[20] =	player =		new ModulePlayer(false);	//Player starts disabled
-	modules[21]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
-	modules[22] =	particles =		new ModuleParticles(false);	
+	modules[20]	=	tetromino =		new ModuleTetromino(false); //Tetromino starts disabled
+	modules[21] =	particles =		new ModuleParticles(false);	
 
-	modules[23] =	collisions =	new ModuleCollisions(true);
-	modules[24] =	fade =			new ModuleFadeToBlack(true);
+	modules[22] =	collisions =	new ModuleCollisions(true);
+	modules[23] =	fade =			new ModuleFadeToBlack(true);
 	modules[24] =	fonts =			new ModuleFonts(true);
 	modules[25] =	render =		new ModuleRender(true);
 	modules[26] =	score =			new ModuleScore(true);

@@ -92,7 +92,7 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 	}
 
 	music = Mix_LoadMUS(path);
-	Mix_VolumeMusic(4);
+	Mix_VolumeMusic(30);
 
 	if(music == NULL)
 	{

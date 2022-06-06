@@ -468,6 +468,9 @@ void SceneLevel3_3::loser(const char* ch_losetoContinue) {
 			App->audio->cleanTrack();
 			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
 		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -475,7 +478,8 @@ void SceneLevel3_3::loser(const char* ch_losetoContinue) {
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
-			App->fade->FadeToBlack(this, (Module*)App->sceneLevel_1, 0);
+			this->Disable(); 
+			App->sceneLevel_3_3->Enable(); 
 		}
 
 		App->fonts->BlitText(52, 74, WhiteFont, "press");

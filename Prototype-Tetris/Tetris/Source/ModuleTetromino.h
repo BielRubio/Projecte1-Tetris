@@ -139,7 +139,7 @@ public:
 
 	int blockDelay; 
 
-	enum {speed1 = 50, speed2 = 45, speed3 = 40, speed4 = 35, speed5 = 30, speed6 = 25, speed7 = 20, speed8 = 15, speed9 = 10};
+	enum {speed1 = 50, speed2 = 45, speed3 = 40, speed4 = 35, speed5 = 30, speed6 = 25, speed7 = 20, speed8 = 15, speed9 = 12};
 
 	int delayR = 0, delayM = 0; 
 	

@@ -474,7 +474,7 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 	}
 	//Saving data
 
-	if (losercount >= 0 && losercount < 200)
+	if (losercount >= 0 && losercount < 135)
 	{
 		if (losercount == 5) {
 			App->audio->cleanTrack();
@@ -486,7 +486,7 @@ void SceneLevel2_3::loser(const char* ch_losetoContinue) {
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
-	else if (losercount > 200)
+	else if (losercount > 135)
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
@@ -538,7 +538,7 @@ void SceneLevel2_3::winner() {
 
 	if (winnerCount == 0) {
 		App->audio->cleanTrack();
-		App->audio->PlayMusic("Assets/Music/04_-_Tetris_Atari_-_ARC_-_Hopak_(Round_3).ogg", 1.0f);
+		App->audio->PlayMusic("Assets/Music/06_-_Tetris_Atari_-_ARC_-_Hopak_(Round_6).ogg", 1.0f);
 	}
 	if (winnerCount >= 0 && winnerCount < 250)
 	{

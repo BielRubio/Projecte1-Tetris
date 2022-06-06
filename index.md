@@ -64,6 +64,8 @@ Debug keys:
 
 **Nacho Moreno**
 
+<img src="images/nachoimg.png" width="250" height="300">
+
 * Management/Q&A
 * Github: [NachoMoren](https://github.com/NachoMoren)
 

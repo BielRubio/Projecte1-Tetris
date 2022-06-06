@@ -10,11 +10,8 @@ Tetris is a puzzle and strategy video game with genres that are closely related 
 There are three base levels made up of three rounds each when you pass these rounds you go to the next level
 
 ## Gameplay
-```markdown
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tMqpDxlnAkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-(Aqui va el video)
-
-```
 ## Controls
 
 ```markdown

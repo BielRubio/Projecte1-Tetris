@@ -284,11 +284,11 @@ Update_Status SceneLevel3::PostUpdate()
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
-		App->fonts->BlitText(136, 105, WhiteFont, "complete");
-		App->fonts->BlitText(136, 121, WhiteFont, LinesLeftCountChar);
-		App->fonts->BlitText(160, 121, WhiteFont, "lines");
-		App->fonts->BlitText(136, 137, WhiteFont, "to go to");
-		App->fonts->BlitText(128, 153, WhiteFont, "next round");
+		App->fonts->BlitText(128, 105, WhiteFont, "watch");
+		App->fonts->BlitText(176, 105, WhiteFont, "out");
+		App->fonts->BlitText(152, 121, WhiteFont, "for");
+		App->fonts->BlitText(144, 137, WhiteFont, "added");
+		App->fonts->BlitText(144, 153, WhiteFont, "bricks");
 	}
 
 	else if (t_message == 100)

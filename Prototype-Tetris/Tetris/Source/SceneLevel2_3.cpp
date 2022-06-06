@@ -153,7 +153,6 @@ bool SceneLevel2_3::Start()
 			App->tetromino->map[i][j] = map[i][j];
 		}
 	}
-	App->tetromino->stage3 = false;
 
 	//Init variables--------------------
 	inserCoinCount = 0;
@@ -266,7 +265,7 @@ Update_Status SceneLevel2_3::Update()
 		currentAnimationDoor->Update();
 	}
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.r2)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
 	{
 		App->tetromino->Disable();
 		win = true;
@@ -274,7 +273,7 @@ Update_Status SceneLevel2_3::Update()
 		App->tetromino->Disable();
 	}
 
-	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN || pad.start) {
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
 
 		return Update_Status::UPDATE_STOP;
 	}
@@ -307,11 +306,10 @@ Update_Status SceneLevel2_3::PostUpdate()
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
-		App->fonts->BlitText(136, 105, WhiteFont, "complete");
-		App->fonts->BlitText(136, 121, WhiteFont, LinesLeftCountChar);
-		App->fonts->BlitText(160, 121, WhiteFont, "lines");
-		App->fonts->BlitText(136, 137, WhiteFont, "to go to");
-		App->fonts->BlitText(128, 153, WhiteFont, "next round");
+		App->fonts->BlitText(136, 113, WhiteFont, "now");
+		App->fonts->BlitText(168, 113, WhiteFont, "try");
+		App->fonts->BlitText(152, 129, WhiteFont, "this");
+		App->fonts->BlitText(144, 145, WhiteFont, "round");
 	}
 
 	else if (t_message == 100)

@@ -152,12 +152,6 @@ bool ModuleTetromino::Start() {
 	passScore = false;
 	passLine = false;
 
-	//Matrix containing the map
-	/*for (int i = 0; i < mapLength; i++) {
-		for (int j = 0; j < mapHeight; j++) {
-			map[i][j] = nullptr;
-		}
-	}*/
 	for (int i = 0; i < 4; i++) {
 		currentBlock[i] = nullptr;
 		//nextBlock[i] = nullptr;
@@ -196,17 +190,7 @@ bool ModuleTetromino::Start() {
 
 	srand(time(NULL)); //Generate random seed
 
-	/*for (int i = 0; i < mapLength; i++) {
-		for (int j = 0; j < mapHeight; j++) {
-			if (i == 0 || i == mapLength - 1 || j == mapHeight - 1) {
-				map[i][j] = new Tile;
-				map[i][j]->x = i;
-				map[i][j]->y = j;
-				map[i][j]->id = -1;
-			}
-		}
-	}*/
-
+	blockCount = 0; 
 	//Create nextBlock and currentBlock
 	int n = rand() % 7;
 	for (int i = 0; i < 4; i++) {
@@ -921,6 +905,11 @@ void ModuleTetromino::fall() {
 			nextTetromino();
 			Score = 10; // SCORE
 			passScore = true;
+			blockCount++; 
+			if (blockCount >= blockDelay && stage3) {
+				spawnTile(); 
+				blockCount = 0; 
+			}
 			return;
 		}
 	}
@@ -1166,5 +1155,21 @@ bool ModuleTetromino::CleanUp() {
 	return true;
 }
 
+void ModuleTetromino::spawnTile() {
+	int x = rand() % 10 + 1;
+	int y = rand() % 17 + 6; 
+	
+	if (allowMovement(map[x][y])) {
+		map[x][y] = new Tile; 
+		map[x][y]->x = x; 
+		map[x][y]->y = y; 
+		map[x][y]->spriteY = 7; 
+		map[x][y]->id = -(x + y); 
+		return; 
+	}
+	else {
+		spawnTile(); 
+	}
+}
 
 

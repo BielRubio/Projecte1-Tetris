@@ -145,6 +145,8 @@ bool SceneLevel3::Start()
 			App->tetromino->map[i][j] = map[i][j];
 		}
 	}
+	App->tetromino->stage3 = true; 
+	App->tetromino->blockDelay = 12; 
 	//Init variables--------------------
 	inserCoinCount = 0;
 
@@ -448,7 +450,7 @@ void SceneLevel3::loser(const char* ch_losetoContinue) {
 	}
 	//Saving data
 
-	if (losercount >= 0 && losercount < 200)
+	if (losercount >= 0 && losercount < 135)
 	{
 		if (losercount == 5) {
 			App->audio->cleanTrack();
@@ -460,7 +462,7 @@ void SceneLevel3::loser(const char* ch_losetoContinue) {
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
-	else if (losercount > 200)
+	else if (losercount > 135)
 	{
 		if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN)
 		{
@@ -512,9 +514,9 @@ void SceneLevel3::winner() {
 
 	
 
-	if (winnerCount >= 0 && winnerCount < 250)
+	if (winnerCount >= 0 && winnerCount < 148)
 	{
-		if (winnerCount == 5) {
+		if (winnerCount == 0) {
 			App->audio->cleanTrack();
 			App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
 		}
@@ -525,7 +527,7 @@ void SceneLevel3::winner() {
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}
 
-	if (winnerCount >= 250 && winnerCount < 574)
+	if (winnerCount >= 148 && winnerCount < 250)
 	{
 		//Bonus
 		App->fonts->BlitText(135, 105, WhiteFont, "bonus for");
@@ -533,12 +535,12 @@ void SceneLevel3::winner() {
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
 	}
 
-	if (winnerCount >= 574) {
+	if (winnerCount >= 250) {
 
 		closeCurtain = true;
 	}
 
-	if (winnerCount == 604) {
+	if (winnerCount == 280) {
 
 		gameover = false;
 		this->Disable();

@@ -60,6 +60,8 @@ public:
 
 	void spawnBigBlock(int line);
 
+	void spawnTile();
+
 	// Score and lines functions
 
 	int ReturnScore();
@@ -133,7 +135,11 @@ public:
 
 	int speed = 50;
 
-	enum {speed1 = 50, speed2 = 45, speed3 = 40, speed4 = 35, speed5 = 30, speed6 = 25, speed7 = 20, speed8 = 15, speed9 = 10};
+	int blockCount = 0; 
+
+	int blockDelay; 
+
+	enum {speed1 = 50, speed2 = 45, speed3 = 40, speed4 = 35, speed5 = 30, speed6 = 25, speed7 = 20, speed8 = 15, speed9 = 12};
 
 	int delayR = 0, delayM = 0; 
 	
@@ -164,6 +170,9 @@ public:
 
 	bool hasPlayed = true; 
 
+	bool stage3 = false; 
+
+	
 };
 
 #endif //__MODULE_TETROMINO_H__

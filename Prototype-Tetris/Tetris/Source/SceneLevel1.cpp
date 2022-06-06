@@ -338,7 +338,7 @@ Update_Status SceneLevel1::PostUpdate()
 
 
 	if (linesleft == 0) {
-
+		winnerCount = 0;
 		SceneLevel1::winner();
 	}
 
@@ -509,7 +509,7 @@ void SceneLevel1::winnerRound() {
 //Makes the player win the game after 3 rounds
 void SceneLevel1::winner() {
 
-	if (winnerCount >= 0 && winnerCount < 250)
+	if (winnerCount >= 0 && winnerCount < 148)
 	{
 		if (winnerCount == 5) {
 			App->audio->cleanTrack();
@@ -522,7 +522,7 @@ void SceneLevel1::winner() {
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");
 	}
 	
-	if (winnerCount >= 250 && winnerCount < 574)
+	if (winnerCount >= 148 && winnerCount < 250)
 	{
 		//Bonus
 		App->fonts->BlitText(135, 105, WhiteFont, "bonus for");
@@ -530,12 +530,12 @@ void SceneLevel1::winner() {
 		App->fonts->BlitText(144, 127, WhiteFont, "puzzle");
 	}
 
-	if (winnerCount >= 574 ) {
+	if (winnerCount >= 250 ) {
 		
 		closeCurtain = true;
 	}
 		
-	if (winnerCount == 604) {
+	if (winnerCount == 280) {
 
 		gameover = false;
 		this->Disable();

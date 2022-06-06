@@ -146,6 +146,8 @@ bool SceneLevel1_3::Start()
 		}
 	}
 
+	App->tetromino->stage3 = false;
+
 	//Init variables--------------------
 	inserCoinCount = 0;
 

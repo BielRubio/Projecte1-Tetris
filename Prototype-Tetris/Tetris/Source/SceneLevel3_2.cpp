@@ -147,6 +147,8 @@ bool SceneLevel3_2::Start()
 			App->tetromino->map[i][j] = map[i][j];
 		}
 	}
+	App->tetromino->stage3 = true;
+	App->tetromino->blockDelay = 7;
 	//Init variables--------------------
 	inserCoinCount = 0;
 

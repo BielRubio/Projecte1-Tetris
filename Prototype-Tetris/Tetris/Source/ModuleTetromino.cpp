@@ -949,91 +949,99 @@ void ModuleTetromino::move(int m) {
 
 void ModuleTetromino::rotate() {
 	
-	int c = 0;
+	int tempX[4], tempY[4];
 
 	if (currentRotation == 1) {
 		for (int i = 0; i < 4; i++) {
 
-			if (allowMovement(map[currentBlock[i]->x - tetrominoes1[currentBlock[i]->spriteY][i][0] + tetrominoes2[currentBlock[i]->spriteY][i][0]][currentBlock[i]->y - tetrominoes1[currentBlock[i]->spriteY][i][1] + tetrominoes2[currentBlock[i]->spriteY][i][1]])) {
-				c++;
-			}
+			tempX[i] = currentBlock[i]->x;
+			tempY[i] = currentBlock[i]->y;
+
+			tempX[i] -= tetrominoes1[currentBlock[i]->spriteY][i][0];
+			tempY[i] -= tetrominoes1[currentBlock[i]->spriteY][i][1];
+
+			tempX[i] += tetrominoes2[currentBlock[i]->spriteY][i][0];
+			tempY[i] += tetrominoes2[currentBlock[i]->spriteY][i][1];
 		}
-		if (c == 4) {
+		if (allowMovement(map[tempX[0]][tempY[0]]) && allowMovement(map[tempX[1]][tempY[1]]) && allowMovement(map[tempX[2]][tempY[2]]) && allowMovement(map[tempX[3]][tempY[3]])) {
 			for (int i = 0; i < 4; i++) {
 
-				currentBlock[i]->x -= tetrominoes1[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y -= tetrominoes1[currentBlock[i]->spriteY][i][1];
-
-				currentBlock[i]->x += tetrominoes2[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y += tetrominoes2[currentBlock[i]->spriteY][i][1];
-
+				currentBlock[i]->x = tempX[i];
+				currentBlock[i]->y = tempY[i];
 				currentBlock[i]->spriteX = sX2[currentBlock[i]->spriteY][i];
 			}
 			currentRotation++;
+			return;
 		}
 	}
 	else if (currentRotation == 2) {
 		for (int i = 0; i < 4; i++) {
 
-			if (allowMovement(map[currentBlock[i]->x - tetrominoes1[currentBlock[i]->spriteY][i][0] + tetrominoes2[currentBlock[i]->spriteY][i][0]][currentBlock[i]->y - tetrominoes1[currentBlock[i]->spriteY][i][1] + tetrominoes2[currentBlock[i]->spriteY][i][1]])) {
-				c++;
-			}
+			tempX[i] = currentBlock[i]->x;
+			tempY[i] = currentBlock[i]->y;
+
+			tempX[i] -= tetrominoes2[currentBlock[i]->spriteY][i][0];
+			tempY[i] -= tetrominoes2[currentBlock[i]->spriteY][i][1];
+
+			tempX[i] += tetrominoes3[currentBlock[i]->spriteY][i][0];
+			tempY[i] += tetrominoes3[currentBlock[i]->spriteY][i][1];
 		}
-		if (c == 4) {
+		if (allowMovement(map[tempX[0]][tempY[0]]) && allowMovement(map[tempX[1]][tempY[1]]) && allowMovement(map[tempX[2]][tempY[2]]) && allowMovement(map[tempX[3]][tempY[3]])) {
 			for (int i = 0; i < 4; i++) {
 
-				currentBlock[i]->x -= tetrominoes2[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y -= tetrominoes2[currentBlock[i]->spriteY][i][1];
-
-				currentBlock[i]->x += tetrominoes3[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y += tetrominoes3[currentBlock[i]->spriteY][i][1];
-
+				currentBlock[i]->x = tempX[i];
+				currentBlock[i]->y = tempY[i];
 				currentBlock[i]->spriteX = sX3[currentBlock[i]->spriteY][i];
 			}
 			currentRotation++;
+			return;
 		}
 		
 	}
 	else if (currentRotation == 3) {
 		for (int i = 0; i < 4; i++) {
 
-			if (allowMovement(map[currentBlock[i]->x - tetrominoes1[currentBlock[i]->spriteY][i][0] + tetrominoes2[currentBlock[i]->spriteY][i][0]][currentBlock[i]->y - tetrominoes1[currentBlock[i]->spriteY][i][1] + tetrominoes2[currentBlock[i]->spriteY][i][1]])) {
-				c++;
-			}
+			tempX[i] = currentBlock[i]->x;
+			tempY[i] = currentBlock[i]->y;
+
+			tempX[i] -= tetrominoes3[currentBlock[i]->spriteY][i][0];
+			tempY[i] -= tetrominoes3[currentBlock[i]->spriteY][i][1];
+
+			tempX[i] += tetrominoes4[currentBlock[i]->spriteY][i][0];
+			tempY[i] += tetrominoes4[currentBlock[i]->spriteY][i][1];
 		}
-		if (c == 4) {
+		if (allowMovement(map[tempX[0]][tempY[0]]) && allowMovement(map[tempX[1]][tempY[1]]) && allowMovement(map[tempX[2]][tempY[2]]) && allowMovement(map[tempX[3]][tempY[3]])) {
 			for (int i = 0; i < 4; i++) {
 
-				currentBlock[i]->x -= tetrominoes3[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y -= tetrominoes3[currentBlock[i]->spriteY][i][1];
-
-				currentBlock[i]->x += tetrominoes4[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y += tetrominoes4[currentBlock[i]->spriteY][i][1];
-
+				currentBlock[i]->x = tempX[i];
+				currentBlock[i]->y = tempY[i];
 				currentBlock[i]->spriteX = sX4[currentBlock[i]->spriteY][i];
 			}
 			currentRotation++;
+			return;
 		}
 	}
 	else if (currentRotation == 4) {
 		for (int i = 0; i < 4; i++) {
 
-			if (allowMovement(map[currentBlock[i]->x - tetrominoes1[currentBlock[i]->spriteY][i][0] + tetrominoes2[currentBlock[i]->spriteY][i][0]][currentBlock[i]->y - tetrominoes1[currentBlock[i]->spriteY][i][1] + tetrominoes2[currentBlock[i]->spriteY][i][1]])) {
-				c++;
-			}
+			tempX[i] = currentBlock[i]->x;
+			tempY[i] = currentBlock[i]->y;
+
+			tempX[i] -= tetrominoes4[currentBlock[i]->spriteY][i][0];
+			tempY[i] -= tetrominoes4[currentBlock[i]->spriteY][i][1];
+
+			tempX[i] += tetrominoes1[currentBlock[i]->spriteY][i][0];
+			tempY[i] += tetrominoes1[currentBlock[i]->spriteY][i][1];
 		}
-		if (c == 4) {
+		if (allowMovement(map[tempX[0]][tempY[0]]) && allowMovement(map[tempX[1]][tempY[1]]) && allowMovement(map[tempX[2]][tempY[2]]) && allowMovement(map[tempX[3]][tempY[3]])) {
 			for (int i = 0; i < 4; i++) {
 
-				currentBlock[i]->x -= tetrominoes4[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y -= tetrominoes4[currentBlock[i]->spriteY][i][1];
-
-				currentBlock[i]->x += tetrominoes1[currentBlock[i]->spriteY][i][0];
-				currentBlock[i]->y += tetrominoes1[currentBlock[i]->spriteY][i][1];
-
+				currentBlock[i]->x = tempX[i];
+				currentBlock[i]->y = tempY[i];
 				currentBlock[i]->spriteX = sX1[currentBlock[i]->spriteY][i];
 			}
 			currentRotation = 1;
+			return;
 		}
 	}
 }

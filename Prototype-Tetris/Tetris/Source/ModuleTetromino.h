@@ -168,6 +168,8 @@ public:
 
 	bool godMode = false;
 
+	bool noCollisions = false;
+
 	bool hasPlayed = true; 
 
 	bool stage3 = false; 

@@ -170,6 +170,7 @@ bool ModuleTetromino::Start() {
 
 	canCheckLines = true;
 	godMode = false;
+	noCollisions = false;
 	hasPlayed = true;
 	//-----------------------------------
 
@@ -629,6 +630,15 @@ Update_Status ModuleTetromino::Update() {
 		}
 	}
 
+	if (App->input->keys[SDL_SCANCODE_1] == Key_State::KEY_DOWN) {
+		if (noCollisions) {
+			noCollisions = false;
+		}
+		else {
+			noCollisions = true;
+		}
+	}
+
 	passLine = false;
 	passScore = false;
 
@@ -879,7 +889,7 @@ bool ModuleTetromino::allowMovement(Tile* t) {
 		return true;
 	}
 	else {
-		if (t->id == currentId) {
+		if (t->id == currentId || (noCollisions && t->id != -1)) {
 			return true;
 		}
 		else {

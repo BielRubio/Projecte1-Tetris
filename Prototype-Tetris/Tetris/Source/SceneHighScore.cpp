@@ -129,18 +129,50 @@ Update_Status SceneHighScore::PostUpdate()
 	qqq << App->score->PrimalData[0];
 	Beta10 = qqq.str();
 	Alpha10 = Beta10.c_str();
+	if (Secure == false) {
+		Size[0] = App->score->PrimalData[9];
+		Size[1] = App->score->PrimalData[8];
+		Size[2] = App->score->PrimalData[7];
+		Size[3] = App->score->PrimalData[6];
+		Size[4] = App->score->PrimalData[5];
+		Size[5] = App->score->PrimalData[4];
+		Size[6] = App->score->PrimalData[3];
+		Size[7] = App->score->PrimalData[2];
+		Size[8] = App->score->PrimalData[1];
+		Size[9] = App->score->PrimalData[0];
+		Secure = true;
+		for (int i = 0; i < 10; i++) {
+			if (Size[i] >= 10) {
+				Position[i] += 8;
+			}
+			if (Size[i] >= 100) {
+				Position[i] += 8;
+			}
+			if (Size[i] >= 1000) {
+				Position[i] += 8;
+			}
+			if (Size[i] >= 10000) {
+				Position[i] += 8;
+			}
+			if (Size[i] >= 100000) {
+				Position[i] += 8;
+			}
+			if (Size[i] >= 1000000) {
+				Position[i] += 8;
+			}
+		}
+	}
 
-
-	App->fonts->BlitText(200, 88, WhiteFont, Alpha);
-	App->fonts->BlitText(200, 96, WhiteFont, Alpha2);
-	App->fonts->BlitText(200, 104, WhiteFont, Alpha3);
-	App->fonts->BlitText(200, 112, WhiteFont, Alpha4);
-	App->fonts->BlitText(200, 120, WhiteFont, Alpha5);
-	App->fonts->BlitText(200, 128, WhiteFont, Alpha6);
-	App->fonts->BlitText(200, 136, WhiteFont, Alpha7);
-	App->fonts->BlitText(200, 144, WhiteFont, Alpha8);
-	App->fonts->BlitText(200, 152, WhiteFont, Alpha9);
-	App->fonts->BlitText(200, 160, WhiteFont, Alpha10);
+	App->fonts->BlitText(200 - Position[0], 88, WhiteFont, Alpha);
+	App->fonts->BlitText(200 - Position[1], 96, WhiteFont, Alpha2);
+	App->fonts->BlitText(200 - Position[2], 104, WhiteFont, Alpha3);
+	App->fonts->BlitText(200 - Position[3], 112, WhiteFont, Alpha4);
+	App->fonts->BlitText(200 - Position[4], 120, WhiteFont, Alpha5);
+	App->fonts->BlitText(200 - Position[5], 128, WhiteFont, Alpha6);
+	App->fonts->BlitText(200 - Position[6], 136, WhiteFont, Alpha7);
+	App->fonts->BlitText(200 - Position[7], 144, WhiteFont, Alpha8);
+	App->fonts->BlitText(200 - Position[8], 152, WhiteFont, Alpha9);
+	App->fonts->BlitText(200 - Position[9], 160, WhiteFont, Alpha10);
 
 	return Update_Status::UPDATE_CONTINUE;
 }

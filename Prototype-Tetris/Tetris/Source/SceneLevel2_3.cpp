@@ -342,8 +342,10 @@ Update_Status SceneLevel2_3::PostUpdate()
 	//App->fonts->BlitText(72, 217, WhiteFont, AuxCount);
 	App->fonts->BlitText(72, 217, RedFont, AuxCount);
 
-	App->fonts->BlitText(304, 12, LightBlueFont, "next");
-	App->fonts->BlitText(10, 12, RedFont, "next");
+	if (!gameover) {
+		App->fonts->BlitText(304, 12, LightBlueFont, "next");
+		App->fonts->BlitText(10, 12, RedFont, "next");
+	}
 	App->fonts->BlitText(24, 225, RedFont, "lines");
 	App->fonts->BlitText(72, 225, RedFont, LinesCount);
 	App->fonts->BlitText(245, 55, WhiteFont, "stats");

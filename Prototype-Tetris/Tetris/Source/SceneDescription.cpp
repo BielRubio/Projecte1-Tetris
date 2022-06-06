@@ -46,7 +46,7 @@ Update_Status SceneDescription::Update()
 		App->sceneDetails->Enable();
 	}
 
-	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN || pad.start) {
 
 		return Update_Status::UPDATE_STOP;
 	}

@@ -258,7 +258,7 @@ Update_Status SceneLevel3_2::Update()
 		gameover = true;
 	}
 
-	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN || pad.start) {
 
 		return Update_Status::UPDATE_STOP;
 	}

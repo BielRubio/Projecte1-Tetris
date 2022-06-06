@@ -260,7 +260,7 @@ Update_Status SceneLevel3_3::Update()
 		gameover = true;
 	}
 
-	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN) {
+	if (App->input->keys[SDL_SCANCODE_ESCAPE] == Key_State::KEY_DOWN || pad.r2) {
 
 		return Update_Status::UPDATE_STOP;
 	}
@@ -270,7 +270,7 @@ Update_Status SceneLevel3_3::Update()
 		currentAnimationDoor->Update();
 	}
 	//Winner hotkey
-	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN)
+	if (App->input->keys[SDL_SCANCODE_F1] == Key_State::KEY_DOWN || pad.start)
 	{
 		App->tetromino->Disable();
 		win = true;

@@ -15,7 +15,7 @@ struct GamePad
 {
 	// Input data
 	bool a, r1, l1, l2, r2;
-	bool left, right, down, up;
+	bool left, right, down, up, start;
 	float left_x, left_y, right_x, right_y, left_dz, right_dz;
 
 	// Controller data

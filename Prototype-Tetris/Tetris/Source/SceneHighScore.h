@@ -38,8 +38,11 @@ public:
 
 	uint fireworkFx = 0;
 
+	bool Secure = false;
 	int frameCount = 0;
 	int WhiteFont = -1;
+	int Position[10] = { 0,0,0,0,0,0,0,0,0,0 };
+	int Size[10];
 };
 
 #endif

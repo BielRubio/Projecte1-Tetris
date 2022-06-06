@@ -514,7 +514,7 @@ void SceneLevel3::winner() {
 
 	if (winnerCount >= 0 && winnerCount < 148)
 	{
-		if (winnerCount == 5) {
+		if (winnerCount == 0) {
 			App->audio->cleanTrack();
 			App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
 		}

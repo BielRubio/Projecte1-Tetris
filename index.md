@@ -55,6 +55,8 @@ Debug keys:
 
 **Biel Rubio**
 
+<img src="images/bielimg.jpg">
+
 * Art/Code
 * Github: [BielRubio](https://github.com/BielRubio)
 

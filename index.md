@@ -48,6 +48,7 @@ Debug keys:
 - Change piece (L): F9
 - Change piece (S): F10
 - Change piece (Z): F11
+- No collisions: 1
 
 ```
 

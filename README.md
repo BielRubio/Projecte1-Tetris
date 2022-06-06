@@ -33,6 +33,18 @@ Tetris is a puzzle video game created by the Russian scientist [Alexey Pajitnov]
 
 ## Controls
 
+**Intro Scene Screen**
+- Go to difficulty selection screen -> Space
+
+**Select Difficulty Screen controls**
+- Select level movement keyboard: A/D
+- Select level movement controller: Left/Arrow/Right Arrow
+- Select level keyboard: Space
+- Select level controller: X
+
+**Loser screen**
+- Repeat the level: Space
+
 **Tetromino controls:**
 - Rotate: R
 - Quick fall: S

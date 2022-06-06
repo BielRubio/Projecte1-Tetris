@@ -289,11 +289,10 @@ Update_Status SceneLevel2_2::PostUpdate()
 
 	if (openCurtainAnim.GetLoopCount() > 0 && t_message < 100 && t_message != 0)
 	{
-		App->fonts->BlitText(136, 105, WhiteFont, "complete");
-		App->fonts->BlitText(136, 121, WhiteFont, LinesLeftCountChar);
-		App->fonts->BlitText(160, 121, WhiteFont, "lines");
-		App->fonts->BlitText(136, 137, WhiteFont, "to go to");
-		App->fonts->BlitText(128, 153, WhiteFont, "next round");
+		App->fonts->BlitText(128, 105, WhiteFont, "difficulty");
+		App->fonts->BlitText(128, 121, WhiteFont, "increasing");
+		App->fonts->BlitText(128, 145, WhiteFont, "good");
+		App->fonts->BlitText(168, 145, WhiteFont, "luck");
 	}
 
 	else if (t_message == 100)
@@ -516,8 +515,6 @@ void SceneLevel1::winnerRound() {
 
 //Makes the player win the game after 3 rounds
 void SceneLevel2_2::winner() {
-
-	
 
 	if (winnerCount >= 0 && winnerCount < 148)
 	{

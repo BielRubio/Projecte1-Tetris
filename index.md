@@ -25,6 +25,17 @@ Tetromino controls:
 - Move Right: D
 - Move Left: A
 
+Controller controls:
+- Space: X
+- Rotate: R1
+- Move Right: Right arrow/Right arrow joystick
+- Move Left: Left arrow/Left arrow joystick
+- Quick fall: Down arrow/Down arrow joystick
+- Escape: Start
+- Show grid: L1
+- Win round: R2
+- Lose round: L2
+
 Debug keys:
 - Win round: F1
 - Lose round: F2

@@ -124,7 +124,34 @@ SceneLevel2_2::~SceneLevel2_2()
 bool SceneLevel2_2::Start()
 {
 	App->tetromino->Enable();
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			map[i][j] = nullptr;
+		}
+	}
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			if (i == 0 || i == 12 - 1 || j == 24 - 1) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -1;
+			}
+			if ((j == 18 && (i == 1 || i == 5)) || (j == 19 && (i == 3 || i == 7 || i == 8)) || (j == 20 && i == 6) || (j == 21 && (i == 4 || i == 9)) || (j == 22 && (i == 2 || i == 7))) {
+				map[i][j] = new Tile;
+				map[i][j]->x = i;
+				map[i][j]->y = j;
+				map[i][j]->id = -(i + j);
+				map[i][j]->spriteY = rand() % 7;
+			}
+		}
+	}
 
+	for (int i = 0; i < 12; i++) {
+		for (int j = 0; j < 24; j++) {
+			App->tetromino->map[i][j] = map[i][j];
+		}
+	}
 	//Init variables--------------------
 	inserCoinCount = 0;
 
@@ -175,13 +202,8 @@ bool SceneLevel2_2::Start()
 	bgTexture = App->textures->Load("Assets/Sprites/level_2.png");
 	speedTexture = App->textures->Load("Assets/Sprites/speedMeter.png");
 
-	LOG("Loading sound effects")
-		fxgameOver = App->audio->LoadFx("Assets/Music/Fx/tetris_gameover.wav");
-	fxWinner = App->audio->LoadFx("tetris_you_did_it_winner.wav");
-
 	LOG("Loading background music: Loginska");
 	App->audio->PlayMusic("Assets/Music/01_-_Tetris_Atari_-_ARC_-_Loginska.ogg", 1.0f);
-	//App->tetromino->Enable();
 
 	//Animations
 	currentAnimationCurtainOpen = &openCurtainAnim;
@@ -331,7 +353,6 @@ Update_Status SceneLevel2_2::PostUpdate()
 		string str_losetoContinue = to_string(t_losetoContinue);
 		const char* ch_losetoContinue = str_losetoContinue.c_str();
 
-		App->audio->PauseMusic();
 		SceneLevel2_2::loser(ch_losetoContinue);
 	}
 	if (App->tetromino->linesToWin <= 0) {
@@ -390,15 +411,56 @@ Update_Status SceneLevel2_2::PostUpdate()
 	return Update_Status::UPDATE_CONTINUE;
 }
 
+void SceneLevel2_2::MinMaxSort(int a[], int n) {
+	int i, j, min, temp;
+	for (i = 0; i < n - 1; i++) {
+		min = i;
+		for (j = i + 1; j < n; j++)
+			if (a[j] < a[min])
+				min = j;
+		temp = a[i];
+		a[i] = a[min];
+		a[min] = temp;
+	}
+}
+
 //Makes the player lose the game
 void SceneLevel2_2::loser(const char* ch_losetoContinue) {
 
 	App->tetromino->Disable();
+	//Saving data
+	if (HasBE == false) {
+		int R = 0;
+		stringstream s(AuxCount);
+		s >> R;
+		AddPlayer("rrr", R);
+		PlayerArr[0] = StrToInt(Player1);
+		PlayerArr[1] = StrToInt(Player2);
+		PlayerArr[2] = StrToInt(Player3);
+		PlayerArr[3] = StrToInt(Player4);
+		PlayerArr[4] = StrToInt(Player5);
+		PlayerArr[5] = StrToInt(Player6);
+		PlayerArr[6] = StrToInt(Player7);
+		PlayerArr[7] = StrToInt(Player8);
+		PlayerArr[8] = StrToInt(Player9);
+		PlayerArr[9] = StrToInt(Player10);
+		MinMaxSort(PlayerArr, 10);
+		for (int i = 0; i < 10; i++) {
+			App->score->PrimalData[i] = PlayerArr[i];
+		}
+		HasBE = true;
+	}
+	//Saving data
 
 	if (losercount >= 0 && losercount < 200)
 	{
-		if (losercount == 5) App->audio->PlayFx(fxgameOver);
-		else { App->audio->PauseMusic(); }
+		if (losercount == 5) {
+			App->audio->cleanTrack();
+			App->audio->PlayMusic("Assets/Music/10_-_Tetris_Atari_-_ARC_-_Game_Over.ogg", 1.0f);
+		}
+		if (losercount == 133) {
+			App->audio->PauseMusic();
+		}
 		App->render->Blit(loserSprite, 32, 0, NULL);
 	}
 
@@ -459,6 +521,9 @@ void SceneLevel2_2::winner() {
 		if (winnerCount == 5) {
 			App->audio->cleanTrack();
 			App->audio->PlayMusic("Assets/Music/09_-_Tetris_Atari_-_ARC_-_You_Did_It_(Complete).ogg", 1.0f);
+		}
+		if (winnerCount == 145) {
+			App->audio->PauseMusic();
 		}
 		App->fonts->BlitText(152, 123, WhiteFont, "you");
 		App->fonts->BlitText(144, 135, WhiteFont, "did it");

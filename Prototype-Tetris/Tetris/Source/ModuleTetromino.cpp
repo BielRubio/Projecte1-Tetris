@@ -153,11 +153,11 @@ bool ModuleTetromino::Start() {
 	passLine = false;
 
 	//Matrix containing the map
-	for (int i = 0; i < mapLength; i++) {
+	/*for (int i = 0; i < mapLength; i++) {
 		for (int j = 0; j < mapHeight; j++) {
 			map[i][j] = nullptr;
 		}
-	}
+	}*/
 	for (int i = 0; i < 4; i++) {
 		currentBlock[i] = nullptr;
 		//nextBlock[i] = nullptr;
@@ -196,7 +196,7 @@ bool ModuleTetromino::Start() {
 
 	srand(time(NULL)); //Generate random seed
 
-	for (int i = 0; i < mapLength; i++) {
+	/*for (int i = 0; i < mapLength; i++) {
 		for (int j = 0; j < mapHeight; j++) {
 			if (i == 0 || i == mapLength - 1 || j == mapHeight - 1) {
 				map[i][j] = new Tile;
@@ -205,7 +205,7 @@ bool ModuleTetromino::Start() {
 				map[i][j]->id = -1;
 			}
 		}
-	}
+	}*/
 
 	//Create nextBlock and currentBlock
 	int n = rand() % 7;

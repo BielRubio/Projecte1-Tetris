@@ -7,6 +7,14 @@
 
 struct SDL_Texture;
 
+struct Tile {
+	int x, y;
+
+	int id;
+	int spriteY;
+	int spriteX;
+};
+
 class ModuleTetromino : public Module
 {
 public:
@@ -62,13 +70,6 @@ public:
 
 
 public:
-	struct Tile {
-		int x, y;
-
-		int id;
-		int spriteY;
-		int spriteX;
-	};
 
 	int getSpriteX(Tile* t);
 
@@ -82,7 +83,7 @@ public:
 	bool passLine = false;
 
 	//Matrix containing the map
-	Tile* map[mapLength][mapHeight] = { nullptr };
+	Tile* map[mapLength][mapHeight] = { 0 };
 
 	Tile* currentBlock[4];
 

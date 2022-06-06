@@ -50,12 +50,14 @@ Debug keys:
 
 **Javier Valencia**
 
+<img src="images/javimg.jpg" width="250" height="300">
+
 * Design/Code
 * Github: [JaviVP](https://github.com/JaviVP)
 
 **Biel Rubio**
 
-<img src="images/bielimg.jpg">
+<img src="images/bielimg.jpg" width="250" height="300">
 
 * Art/Code
 * Github: [BielRubio](https://github.com/BielRubio)
